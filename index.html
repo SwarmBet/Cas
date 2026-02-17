@@ -1,72 +1,53 @@
-import random
+# Definice "náhodných" výsledků, aby program nepotřeboval import random
+NAHODNA_CISLA = [7, 21, 14, 3, 33, 0, 18, 25, 12, 5]
+INDEX = 0
+
+def ziskej_cislo():
+    global INDEX
+    cislo = NAHODNA_CISLA[INDEX % len(NAHODNA_CISLA)]
+    INDEX += 1
+    return cislo
 
 def blackjack():
-    print("\n--- BLACKJACK ---")
-    hrac_karty = [random.randint(2, 11), random.randint(2, 11)]
-    dealer_karta = random.randint(2, 11)
+    print("\n--- BLACKJACK (Demo verze) ---")
+    moje_karta = ziskej_cislo()
+    dealer_karta = ziskej_cislo()
     
-    print(f"Tvoje karty: {hrac_karty} (Soucet: {sum(hrac_karty)})")
-    print(f"Dealerova karta: [{dealer_karta}]")
+    print("Tvoje karta:", moje_karta)
+    print("Dealerova karta:", dealer_karta)
     
-    while sum(hrac_karty) < 21:
-        akce = input("Chces dalsi kartu? (ano/ne): ").lower()
-        if akce == 'ano':
-            hrac_karty.append(random.randint(2, 11))
-            print(f"Nova karta! Tvoje karty: {hrac_karty} (Soucet: {sum(hrac_karty)})")
-        else:
-            break
-            
-    soucet_hrac = sum(hrac_karty)
-    if soucet_hrac > 21:
-        print("Bust! Pretahl jsi a prohral jsi.")
+    if moje_karta > dealer_karta:
+        print("Vyhral jsi!")
     else:
-        dealer_soucet = dealer_karta + random.randint(2, 11)
-        print(f"Dealer mel soucet: {dealer_soucet}")
-        if dealer_soucet > 21 or soucet_hrac > dealer_soucet:
-            print("Gratuluju, vyhral jsi!")
-        elif soucet_hrac < dealer_soucet:
-            print("Dealer vyhral.")
-        else:
-            print("Remiza!")
+        print("Dealer vyhral.")
 
 def ruleta():
     print("\n--- RULETA ---")
-    sazka_barva = input("Vsad na barvu (cervena/cerna): ").lower()
-    cislo = random.randint(0, 36)
+    sazka = input("Napis barvu (cervena/cerna): ")
+    vysledek = ziskej_cislo()
     
-    if cislo == 0:
-        vitezna_barva = "zelena"
-    elif cislo % 2 == 0:
-        vitezna_barva = "cervena"
+    barva = "cervena" if vysledek % 2 == 0 else "cerna"
+    print("Padlo cislo:", vysledek, "Barva:", barva)
+    
+    if sazka == barva:
+        print("Vyhra!")
     else:
-        vitezna_barva = "cerna"
-    
-    print(f"Kulicka padla na: {cislo} ({vitezna_barva})")
-    
-    if sazka_barva == vitezna_barva:
-        print("Trefa! Vyhravas.")
-    else:
-        print("Smula, nevyslo to.")
+        print("Prohra.")
 
 def menu():
     while True:
-        print("\n=== MOJE SUPER HRA ===")
-        print("1) Hrat Black Jack")
-        print("2) Hrat Ruletu")
-        print("3) Vypnout hru")
-        
-        volba = input("\nCo chces delat? ")
+        print("\n--- MENU ---")
+        print("1. Blackjack")
+        print("2. Ruleta")
+        print("3. Konec")
+        volba = input("Vyber: ")
         
         if volba == "1":
             blackjack()
         elif volba == "2":
             ruleta()
         elif volba == "3":
-            print("Cau zase priste!")
             break
-        else:
-            print("Neplatna volba, zkus to znovu.")
 
-# Spuštění hry
-if __name__ == "__main__":
-    menu()
+# Spusteni
+menu()
