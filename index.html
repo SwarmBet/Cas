@@ -30,6 +30,7 @@
             position: absolute; top: 100%; right: 0; background: #ff4444; color: white;
             border: none; padding: 8px 15px; border-radius: 5px; font-size: 12px;
             display: none; cursor: pointer; margin-top: 5px; width: 100px; font-weight: bold;
+            box-shadow: 0 4px 15px rgba(255, 68, 68, 0.3);
         }
         .user-section:hover .logout-btn { display: block; }
 
@@ -42,22 +43,26 @@
         /* Games Layout */
         .game-grid { display: grid; grid-template-columns: 200px 1fr; gap: 20px; }
         .game-sidebar { display: flex; flex-direction: column; gap: 10px; }
-        .side-btn { background: #222; border: 1px solid #333; color: white; padding: 15px; border-radius: 10px; cursor: pointer; text-align: left; font-weight: bold; }
-        .side-btn:hover { border-color: var(--orange); color: var(--orange); }
+        .side-btn { background: #222; border: 1px solid #333; color: white; padding: 15px; border-radius: 10px; cursor: pointer; text-align: left; font-weight: bold; transition: 0.2s; }
+        .side-btn:hover { border-color: var(--orange); color: var(--orange); background: #282828; }
 
         /* Mines Grid */
         .grid { display: grid; grid-template-columns: repeat(5, 60px); gap: 10px; margin: 20px auto; width: 340px; }
         .tile { width: 60px; height: 60px; background: #000; border: 1px solid #333; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 28px; transition: 0.1s; }
-        .tile:hover { border-color: var(--orange); transform: scale(1.05); }
-        .tile.rev { pointer-events: none; border-color: #444; background: #080808; }
+        .tile:hover { border-color: var(--orange); transform: scale(1.05); background: #0a0a0a; }
+        .tile.rev { pointer-events: none; border-color: #444; background: #080808; animation: pop 0.2s ease-out; }
 
-        input { background: #000; color: var(--orange); border: 1px solid #333; padding: 10px; border-radius: 8px; width: 80px; text-align: center; font-weight: bold; }
-        .btn-play { background: var(--orange); color: black; border: none; padding: 12px 25px; border-radius: 8px; font-weight: 900; cursor: pointer; }
-        .btn-play:disabled { opacity: 0.5; cursor: not-allowed; }
+        @keyframes pop { 0% { transform: scale(0.8); } 100% { transform: scale(1); } }
 
-        #status-bar { color: var(--orange); text-align: center; font-weight: bold; margin-bottom: 10px; height: 20px; text-transform: uppercase; }
+        input { background: #000; color: var(--orange); border: 1px solid #333; padding: 10px; border-radius: 8px; width: 80px; text-align: center; font-weight: bold; outline: none; }
+        input:focus { border-color: var(--orange); }
+        .btn-play { background: var(--orange); color: black; border: none; padding: 12px 25px; border-radius: 8px; font-weight: 900; cursor: pointer; transition: 0.2s; }
+        .btn-play:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255, 153, 0, 0.4); }
+        .btn-play:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
-        .discord-card { text-align: center; padding: 60px; background: #5865F2; border-radius: 20px; }
+        #status-bar { color: var(--orange); text-align: center; font-weight: bold; margin-bottom: 10px; height: 20px; text-transform: uppercase; letter-spacing: 1px; }
+
+        .discord-card { text-align: center; padding: 60px; background: #5865F2; border-radius: 20px; box-shadow: 0 10px 30px rgba(88, 101, 242, 0.3); }
     </style>
 </head>
 <body onclick="forceAudioInit()">
@@ -69,7 +74,7 @@
         <input type="text" id="user" placeholder="Jméno"><br><br>
         <input type="password" id="pass" placeholder="Heslo"><br><br>
         <button class="btn-play" onclick="auth('login')" style="width:100%">PŘIHLÁSIT SE</button>
-        <p onclick="auth('reg')" style="color:#555; cursor:pointer; font-size:12px; margin-top:15px;">Nebo si vytvoř nový účet</p>
+        <p onclick="auth('reg')" style="color:#555; cursor:pointer; font-size:12px; margin-top:15px; transition: 0.2s;">Nebo si vytvoř nový účet</p>
     </div>
 </div>
 
@@ -96,10 +101,10 @@
             <p style="color:#aaa; font-size:18px;">Tvůj aktuální stav konta je připraven na další sázky.</p>
             <hr style="border:0; border-top:1px solid #333; margin:20px 0;">
             <h3>Novinky v úlu:</h3>
-            <ul style="color:#888;">
-                <li>Přidána podpora pro zvukové efekty u kostek.</li>
-                <li>Nové černo-oranžové rozhraní "Hexagon Premium".</li>
-                <li>Opraven systém odhlašování.</li>
+            <ul style="color:#888; line-height: 1.6;">
+                <li>Přidán zvuk "UI Click" z tvého videa pro sbírání hvězd! 🔊</li>
+                <li>Vylepšená animace při odhalení pole v Mines.</li>
+                <li>Opravena hlasitost výbuchu (méně infarktů).</li>
             </ul>
         </div>
 
@@ -119,7 +124,7 @@
                             <button id="m-start" class="btn-play" onclick="startMines()">START</button>
                         </div>
                         <div class="grid" id="m-board"></div>
-                        <button id="m-cash" class="hidden" onclick="cashoutMines()" style="width:100%; padding:15px; background:#2ecc71; border:none; border-radius:10px; font-weight:bold; cursor:pointer; font-size:18px;">VYBRAT ⭐</button>
+                        <button id="m-cash" class="hidden" onclick="cashoutMines()" style="width:100%; padding:15px; background:#2ecc71; border:none; border-radius:10px; font-weight:bold; cursor:pointer; font-size:18px; color: black;">VYBRAT ⭐</button>
                     </div>
 
                     <div id="game-dice" class="hidden" style="text-align:center;">
@@ -135,8 +140,8 @@
 
         <div id="page-discord" class="hidden">
             <div class="discord-card">
-                <h1 style="margin:0;">PŘIPOJ SE K NÁM</h1>
-                <p>Komunita, giveawaye a support.</p>
+                <h1 style="margin:0; color: white;">PŘIPOJ SE K NÁM</h1>
+                <p style="color: rgba(255,255,255,0.8);">Komunita, giveawaye a support.</p>
                 <button class="btn-play" style="background:white; color:#5865F2;" onclick="window.open('https://discord.gg/TVUJ_LINK', '_blank')">VSTOUPIT NA DISCORD</button>
             </div>
         </div>
@@ -149,18 +154,23 @@
     let userData = null;
     let audioContextReady = false;
 
-    // --- SOUND SYSTEM (Zpět k funkčním zvukům) ---
+    // --- SOUND SYSTEM (Aktualizováno na zvuky z videa) ---
     const sounds = {
-        click: new Audio("https://www.myinstants.com/media/sounds/button-3.mp3"),
-        gem: new Audio("https://www.myinstants.com/media/sounds/collect-coin.mp3"),
+        click: new Audio("https://www.myinstants.com/media/sounds/roblox-cursor-click.mp3"), // Zvuk z tvého videa
+        gem: new Audio("https://www.myinstants.com/media/sounds/roblox-cursor-click.mp3"),   // Zvuk pro hvězdu (stejný jako ve videu)
         win: new Audio("https://www.myinstants.com/media/sounds/correct_2.mp3"),
-        boom: new Audio("https://www.myinstants.com/media/sounds/explosion.mp3"), // Krátký bum
-        roll: new Audio("https://www.myinstants.com/media/sounds/dice-roll.mp3") // Zvuk kostek
+        boom: new Audio("https://www.myinstants.com/media/sounds/explosion.mp3"),
+        roll: new Audio("https://www.myinstants.com/media/sounds/dice-roll.mp3")
     };
+
+    // Nastavení hlasitosti výbuchu na 40 %
+    sounds.boom.volume = 0.4;
 
     function forceAudioInit() {
         if(audioContextReady) return;
-        for(let s in sounds) { sounds[s].play().then(() => { sounds[s].pause(); sounds[s].currentTime = 0; }); }
+        for(let s in sounds) { 
+            sounds[s].play().then(() => { sounds[s].pause(); sounds[s].currentTime = 0; }).catch(()=>{}); 
+        }
         audioContextReady = true;
     }
 
@@ -184,7 +194,13 @@
     }
 
     // --- CORE ---
-    window.onload = async () => { if(currentUser) { const r = await fetch(`${DB_URL}/${currentUser}.json`); userData = await r.json(); if(userData) loginSuccess(); } };
+    window.onload = async () => { 
+        if(currentUser) { 
+            const r = await fetch(`${DB_URL}/${currentUser}.json`); 
+            userData = await r.json(); 
+            if(userData) loginSuccess(); 
+        } 
+    };
 
     async function auth(type) {
         forceAudioInit();
@@ -197,10 +213,14 @@
             if(users[u]) return alert("Jméno je zabrané!");
             userData = { password: p, chips: 500 };
             await fetch(`${DB_URL}/${u}.json`, { method: 'PUT', body: JSON.stringify(userData) });
-            alert("Včelín vytvořen! Teď se přihlas.");
+            alert("Registrace úspěšná! Přihlas se.");
         } else {
-            if(users[u] && users[u].password === p) { currentUser=u; userData=users[u]; localStorage.setItem('swarm_user', u); loginSuccess(); }
-            else alert("Špatné údaje!");
+            if(users[u] && users[u].password === p) { 
+                currentUser=u; userData=users[u]; 
+                localStorage.setItem('swarm_user', u); 
+                loginSuccess(); 
+                play('win');
+            } else alert("Špatné údaje!");
         }
     }
 
@@ -229,6 +249,8 @@
         document.getElementById('m-start').disabled = true;
         document.getElementById('m-board').innerHTML = '';
         document.getElementById('status-bar').innerText = "HLEDEJ HVĚZDY";
+        play('click');
+
         mBoard = new Array(25).fill(false);
         let m = 0; while(m < count) { let r = Math.floor(Math.random()*25); if(!mBoard[r]){mBoard[r]=true; m++;} }
         for(let i=0; i<25; i++) {
@@ -250,19 +272,21 @@
             document.getElementById('m-board').appendChild(t);
         }
     }
+
     function cashoutMines() {
         if(!mActive) return;
         let win = Math.floor(mBet * mMult); userData.chips += win; play('win');
         mActive = false; document.getElementById('m-start').disabled = false;
         document.getElementById('m-cash').classList.add('hidden'); 
-        document.getElementById('status-bar').innerText = "VYHRÁL JSI " + win + " ⭐"; updateUI();
+        document.getElementById('status-bar').innerText = "VYHRÁL JSI " + win + " ⭐"; 
+        updateUI();
     }
 
     // --- DICE LOGIC ---
     function playDice() {
         let b = parseInt(document.getElementById('d-bet').value);
         let n = parseInt(document.getElementById('d-num').value);
-        if(b > userData.chips) return;
+        if(b > userData.chips) return alert("Málo ⭐!");
         document.getElementById('d-start').disabled = true; userData.chips -= b; updateUI();
         document.getElementById('d-res').innerText = "⏳";
         play('roll');
