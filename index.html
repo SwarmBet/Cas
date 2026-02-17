@@ -1,118 +1,85 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="cs">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GitHub Casino Royale</title>
-    <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #1a1a1a; color: white; text-align: center; margin: 0; padding: 20px; }
-        .container { max-width: 600px; margin: auto; background: #2d2d2d; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        h1 { color: #f1c40f; }
-        .stats { font-size: 1.2rem; margin-bottom: 20px; color: #2ecc71; }
-        button { background: #3498db; border: none; color: white; padding: 12px 24px; margin: 10px; border-radius: 5px; cursor: pointer; font-size: 1rem; transition: 0.3s; }
-        button:hover { background: #2980b9; transform: translateY(-2px); }
-        .game-area { margin-top: 30px; padding: 20px; border-top: 2px solid #444; min-height: 150px; }
-        .log { font-family: monospace; background: #111; padding: 15px; border-radius: 5px; text-align: left; overflow-y: auto; max-height: 200px; margin-top: 15px; }
-        .red { color: #e74c3c; } .black { color: #95a5a6; } .green { color: #2ecc71; }
-    </style>
+    <title>Webové Kasino</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="container">
-    <h1>🎮 Game Menu</h1>
-    <div class="stats">Credits: <span id="balance">1000</span></div>
-    
-    <div id="menu">
-        <button onclick="startBlackjack()">Play Black Jack</button>
-        <button onclick="startRoulette()">Play Roulette</button>
+    <div class="container">
+        <header>
+            <h1>🎰 Mini Casino</h1>
+            <div class="stats">
+                <p>Žetony: <span id="chip-count">1000</span></p>
+                <button onclick="fullReset()" class="danger-btn">Reset Hry</button>
+            </div>
+            <div id="message-box" class="message">Vítejte! Vyberte si hru.</div>
+        </header>
+
+        <div class="game-selector">
+            <button onclick="showGame('blackjack')">Hrát Blackjack</button>
+            <button onclick="showGame('roulette')">Hrát Ruletu</button>
+        </div>
+
+        <hr>
+
+        <div id="blackjack-game" class="game-section hidden">
+            <h2>🃏 Blackjack</h2>
+            <div class="bet-controls">
+                <input type="number" id="bj-bet-input" placeholder="Sázka" value="50" min="10">
+                <button onclick="startBlackjack()">Rozdat karty</button>
+            </div>
+            
+            <div class="table">
+                <div class="hand">
+                    <h3>Dealer</h3>
+                    <div id="dealer-cards" class="cards-container"></div>
+                    <p>Skóre: <span id="dealer-score">0</span></p>
+                </div>
+                <div class="hand">
+                    <h3>Hráč</h3>
+                    <div id="player-cards" class="cards-container"></div>
+                    <p>Skóre: <span id="player-score">0</span></p>
+                </div>
+            </div>
+
+            <div class="controls hidden" id="bj-actions">
+                <button onclick="hit()">Karta (Hit)</button>
+                <button onclick="stand()">Stát (Stand)</button>
+            </div>
+        </div>
+
+        <div id="roulette-game" class="game-section hidden">
+            <h2>🔴⚫ Ruleta</h2>
+            
+            <div class="roulette-wheel">
+                <div id="wheel-number">0</div>
+            </div>
+
+            <div class="bet-controls-roulette">
+                <div class="bet-group">
+                    <label>Sázka na číslo (Výhra 35x):</label>
+                    <input type="number" id="roulette-number-pick" min="0" max="36" placeholder="0-36">
+                    <input type="number" id="roulette-bet-number" value="10" placeholder="Částka">
+                    <button onclick="spinRoulette('number')">Vsadit na číslo</button>
+                </div>
+                
+                <div class="bet-group">
+                    <label>Barva (Výhra 2x):</label>
+                    <select id="roulette-color-pick">
+                        <option value="red">Červená</option>
+                        <option value="black">Černá</option>
+                    </select>
+                    <input type="number" id="roulette-bet-color" value="50" placeholder="Částka">
+                    <button onclick="spinRoulette('color')">Vsadit na barvu</button>
+                </div>
+            </div>
+        </div>
+
     </div>
 
-    <div id="game-ui" style="display:none;">
-        <div class="game-area" id="display"></div>
-        <div id="controls"></div>
-        <button onclick="backToMenu()" style="background:#7f8c8d;">Back to Menu</button>
-    </div>
-
-    <div class="log" id="game-log">Welcome! Choose a game to start playing.</div>
-</div>
-
-<script>
-    let credits = 1000;
-    const logEl = document.getElementById('game-log');
-    const balanceEl = document.getElementById('balance');
-
-    function updateLog(msg) {
-        logEl.innerHTML = `> ${msg}<br>` + logEl.innerHTML;
-    }
-
-    function updateBalance(amt) {
-        credits += amt;
-        balanceEl.innerText = credits;
-    }
-
-    function backToMenu() {
-        document.getElementById('menu').style.display = 'block';
-        document.getElementById('game-ui').style.display = 'none';
-        document.getElementById('display').innerHTML = '';
-    }
-
-    // --- ROULETTE LOGIC ---
-    function startRoulette() {
-        document.getElementById('menu').style.display = 'none';
-        document.getElementById('game-ui').style.display = 'block';
-        document.getElementById('display').innerHTML = '<h3>Roulette</h3><p>Bet 100 credits on a color:</p>';
-        document.getElementById('controls').innerHTML = `
-            <button onclick="playRoulette('red')" style="background:#e74c3c;">Red</button>
-            <button onclick="playRoulette('black')" style="background:#2c3e50;">Black</button>
-        `;
-    }
-
-    function playRoulette(bet) {
-        if (credits < 100) return updateLog("Not enough credits!");
-        
-        const num = Math.floor(Math.random() * 37);
-        const winColor = num === 0 ? 'green' : (num % 2 === 0 ? 'red' : 'black');
-        
-        updateLog(`Ball landed on ${num} (${winColor})`);
-        
-        if (bet === winColor) {
-            updateBalance(100);
-            updateLog(`<span class="green">WIN! You earned 100 credits.</span>`);
-        } else {
-            updateBalance(-100);
-            updateLog(`<span class="red">LOST! 100 credits gone.</span>`);
-        }
-    }
-
-    // --- BLACKJACK LOGIC ---
-    function startBlackjack() {
-        document.getElementById('menu').style.display = 'none';
-        document.getElementById('game-ui').style.display = 'block';
-        playBlackjack();
-    }
-
-    function playBlackjack() {
-        if (credits < 100) return updateLog("Not enough credits!");
-        
-        let player = Math.floor(Math.random() * 10) + 12; // Simple version starts player at 12-21
-        let dealer = Math.floor(Math.random() * 10) + 12;
-        
-        updateLog(`Blackjack: You got ${player}, Dealer got ${dealer}`);
-        
-        if (player > dealer || dealer > 21) {
-            updateBalance(100);
-            updateLog(`<span class="green">You won the hand! (+100)</span>`);
-        } else if (player < dealer) {
-            updateBalance(-100);
-            updateLog(`<span class="red">Dealer wins. (-100)</span>`);
-        } else {
-            updateLog("Push (Tie).");
-        }
-        
-        document.getElementById('display').innerHTML = `<h3>Blackjack</h3><p>Hand finished. Play again?</p>`;
-        document.getElementById('controls').innerHTML = `<button onclick="playBlackjack()">Deal Again</button>`;
-    }
-</script>
-
+    <script src="script.js"></script>
 </body>
 </html>
