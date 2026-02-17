@@ -2,100 +2,155 @@
 <html lang="cs">
 <head>
     <meta charset="UTF-8">
-    <title>SwarmBet - All Games Star Edition</title>
+    <title>SwarmBet - Star Edition 2026</title>
     <style>
         :root { --orange: #ff9900; --dark: #0a0a0a; --panel: #151515; --green: #27ae60; --red: #e74c3c; --black: #2c3e50; }
-        body { background-color: var(--dark); color: white; font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; flex-direction: column; min-height: 100vh; }
-        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 10px 40px; background: #000; border-bottom: 2px solid var(--orange); }
+        body { 
+            background-color: var(--dark); 
+            color: white; font-family: 'Segoe UI', sans-serif; margin: 0; 
+            display: flex; flex-direction: column; min-height: 100vh;
+            background-image: radial-gradient(circle at center, rgba(255, 153, 0, 0.03) 0%, transparent 80%);
+        }
+
+        /* NAVIGATION & AUTH UI */
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 10px 40px; background: #000; border-bottom: 2px solid var(--orange); position: sticky; top: 0; z-index: 100; }
         .nav-links span { cursor: pointer; font-weight: bold; color: #888; margin-left: 20px; transition: 0.3s; }
         .nav-links span.active, .nav-links span:hover { color: var(--orange); }
-        .container { width: 950px; margin: 20px auto; flex: 1; }
-        .card { background: var(--panel); border-radius: 12px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid #222; }
+
+        .user-section { position: relative; cursor: pointer; padding: 5px 10px; }
+        .user-info { display: flex; flex-direction: column; align-items: flex-end; }
+        .user-name { font-weight: 900; color: var(--orange); }
+        .logout-btn {
+            position: absolute; top: 100%; right: 0; background: #ff4444; color: white;
+            border: none; padding: 8px 15px; border-radius: 5px; font-size: 12px;
+            display: none; cursor: pointer; margin-top: 5px; width: 100px; font-weight: bold;
+        }
+        .user-section:hover .logout-btn { display: block; }
+
+        /* CONTAINER & CARDS */
+        .container { width: 950px; margin: 30px auto; flex: 1; }
+        .card { background: var(--panel); border: 1px solid #222; border-radius: 15px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .hidden { display: none !important; }
 
-        /* MINES GRID */
+        /* MINES */
         .m-grid { display: grid; grid-template-columns: repeat(5, 60px); gap: 10px; justify-content: center; margin-top: 20px; }
         .tile { width: 60px; height: 60px; background: #000; border: 1px solid #333; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 28px; }
 
         /* ROULETTE SLIDER */
-        .r-slider-wrap { position: relative; width: 100%; height: 80px; background: #111; border: 2px solid #333; overflow: hidden; border-radius: 10px; margin-bottom: 20px; }
+        .r-slider-wrap { position: relative; width: 100%; height: 85px; background: #111; border: 2px solid #333; overflow: hidden; border-radius: 10px; margin-bottom: 20px; }
         .r-slider-inner { display: flex; position: absolute; left: 0; transition: left 4s cubic-bezier(0.1, 0, 0.1, 1); align-items: center; height: 100%; }
-        .r-num { min-width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 1px solid rgba(0,0,0,0.2); }
+        .r-num { min-width: 65px; height: 65px; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 1px solid rgba(0,0,0,0.2); font-size: 20px; }
         .r-pointer { position: absolute; left: 50%; top: 0; bottom: 0; width: 4px; background: var(--orange); z-index: 10; transform: translateX(-50%); box-shadow: 0 0 15px var(--orange); }
 
         /* ROULETTE BOARD */
         .r-grid { display: grid; grid-template-columns: 80px repeat(12, 1fr); gap: 5px; }
-        .cell { height: 50px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight: bold; border-radius: 4px; border: 2px solid transparent; }
+        .cell { height: 50px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight: bold; border-radius: 4px; border: 2px solid transparent; transition: 0.1s; }
         .cell.nula { background: var(--green); grid-row: span 3; height: 160px; font-size: 24px; }
         .cell.red { background: var(--red); }
         .cell.black { background: var(--black); }
-        .cell.active { border-color: white !important; box-shadow: 0 0 10px #fff; }
+        .cell.active { border-color: white !important; box-shadow: 0 0 12px #fff; }
         .disabled { pointer-events: none; opacity: 0.5; }
 
-        .btn-play { background: var(--orange); color: black; border: none; padding: 10px 20px; border-radius: 6px; font-weight: 900; cursor: pointer; }
-        input { background: #000; border: 1px solid #333; color: var(--orange); padding: 8px; border-radius: 6px; text-align: center; }
-        footer { text-align: center; padding: 20px; color: #555; font-size: 11px; margin-top: auto; }
+        .btn-play { background: var(--orange); color: black; border: none; padding: 12px 20px; border-radius: 8px; font-weight: 900; cursor: pointer; transition: 0.2s; }
+        .btn-play:hover { transform: scale(1.05); }
+        input { background: #000; border: 1px solid #333; color: var(--orange); padding: 10px; border-radius: 8px; text-align: center; font-weight: bold; }
+        
+        footer { text-align: center; padding: 25px; color: #444; font-size: 11px; margin-top: auto; border-top: 1px solid #111; }
     </style>
 </head>
 <body onclick="initAudio()">
 
-<div id="main-app">
+<div id="auth-screen" style="display:flex; justify-content:center; align-items:center; height: 100vh;">
+    <div class="card" style="width: 320px; text-align: center; border: 2px solid var(--orange);">
+        <h1 style="color:var(--orange); margin:0;">SWARMBET</h1>
+        <p style="color:#555; font-size:12px; margin-bottom:20px;">EST. 2026</p>
+        <input type="text" id="user" placeholder="Jméno" style="width:80%; margin-bottom:10px;"><br>
+        <input type="password" id="pass" placeholder="Heslo" style="width:80%; margin-bottom:20px;"><br>
+        <button class="btn-play" onclick="auth('login')" style="width:100%; margin-bottom:10px;">PŘIHLÁSIT</button>
+        <button class="btn-play" onclick="auth('reg')" style="width:100%; background:#222; color:white;">REGISTRACE</button>
+    </div>
+</div>
+
+<div id="main-app" class="hidden">
     <nav class="navbar">
-        <div style="font-size:24px; font-weight:900; color:var(--orange);">SWARMBET</div>
+        <div style="font-size:24px; font-weight:900; color:var(--orange);">S<span>B</span></div>
         <div class="nav-links">
-            <span onclick="selectGame('mines')">MINY</span>
-            <span onclick="selectGame('dice')">KOSTKY</span>
-            <span onclick="selectGame('roulette')">RULETA</span>
+            <span id="link-home" onclick="showPage('home')">DOMŮ</span>
+            <span id="link-games" class="active" onclick="showPage('games')">HRY</span>
+            <span onclick="window.open('https://discord.gg/yourlink','_blank')">DISCORD</span>
         </div>
-        <div style="text-align:right">
-            <div id="display-name" style="font-weight:bold; color:var(--orange);">Hráč</div>
-            <div style="color:#aaa;">⭐ <span id="display-chips">500</span></div>
+        <div class="user-section">
+            <div class="user-info">
+                <span class="user-name" id="display-name">---</span>
+                <span style="font-size:12px; color:#aaa;">⭐ <span id="display-chips">0</span></span>
+            </div>
+            <button class="logout-btn" onclick="logout()">ODHLÁSIT</button>
         </div>
     </nav>
 
     <div class="container">
-        <div id="game-mines" class="card">
-            <h2 style="text-align:center; margin-top:0;">MINY</h2>
-            <div style="text-align:center;">
-                Sázka: <input type="number" id="m-bet" value="50"> 
-                <button class="btn-play" id="m-start" onclick="startMines()">START</button>
-                <button id="m-cash" class="hidden btn-play" style="background:#2ecc71;" onclick="cashoutMines()">VYBRAT</button>
+        <div id="page-home" class="card hidden">
+            <h1>Vítej v SwarmBet! 🐝</h1>
+            <p>Tvá oblíbená platforma pro zábavu byla aktualizována.</p>
+            <div style="background:#000; padding:15px; border-radius:10px; border-left:4px solid var(--orange);">
+                <b>Novinky:</b> Opravené zvuky v Minách a nová vizuální Ruleta!
             </div>
-            <div class="m-grid" id="m-board"></div>
         </div>
 
-        <div id="game-dice" class="card hidden" style="text-align:center;">
-            <h2>KOSTKY</h2>
-            Tip (1-6): <input type="number" id="d-num" value="1" min="1" max="6">
-            Sázka: <input type="number" id="d-bet" value="50">
-            <button class="btn-play" onclick="playDice()">HODIT</button>
-            <div id="d-res" style="font-size:100px; margin:20px;">🎲</div>
-        </div>
-
-        <div id="game-roulette" class="card hidden">
-            <div id="r-status" style="text-align:center; color:var(--orange); font-weight:bold; margin-bottom:10px;">RULETA</div>
-            <div class="r-slider-wrap">
-                <div class="r-pointer"></div>
-                <div id="r-slider" class="r-slider-inner"></div>
+        <div id="page-games" style="display:flex; gap:20px;">
+            <div style="width:180px; display:flex; flex-direction:column; gap:10px;">
+                <button class="btn-play" style="background:#222; color:white;" onclick="selectGame('mines')">MINY</button>
+                <button class="btn-play" style="background:#222; color:white;" onclick="selectGame('dice')">KOSTKY</button>
+                <button class="btn-play" style="background:#222; color:white;" onclick="selectGame('roulette')">RULETA</button>
             </div>
-            <div class="r-grid" id="r-board"></div>
-            <div style="display:flex; gap:10px; margin-top:20px; justify-content:center; align-items:center;">
-                SÁZKA: <input type="number" id="r-bet" value="50">
-                <button class="btn-play" id="r-spin" onclick="spinRoulette()">SPIN</button>
+            
+            <div class="card" style="flex:1; background:#0c0c0c; min-height: 400px;">
+                <div id="game-mines">
+                    <div style="text-align:center;">
+                        Sázka: <input type="number" id="m-bet" value="50"> 
+                        <button class="btn-play" id="m-start" onclick="startMines()">START</button>
+                        <button id="m-cash" class="hidden btn-play" style="background:#2ecc71;" onclick="cashoutMines()">VYBRAT</button>
+                    </div>
+                    <div class="m-grid" id="m-board"></div>
+                </div>
+
+                <div id="game-dice" class="hidden" style="text-align:center;">
+                    <h2 style="margin-top:0;">KOSTKY (6x)</h2>
+                    Tip (1-6): <input type="number" id="d-num" value="1" min="1" max="6">
+                    Sázka: <input type="number" id="d-bet" value="50">
+                    <button class="btn-play" onclick="playDice()">HODIT</button>
+                    <div id="d-res" style="font-size:100px; margin:20px;">🎲</div>
+                </div>
+
+                <div id="game-roulette" class="hidden">
+                    <div id="r-status" style="text-align:center; color:var(--orange); font-weight:bold; margin-bottom:10px; height:20px;">PŘIPRAVTE SÁZKY</div>
+                    <div class="r-slider-wrap">
+                        <div class="r-pointer"></div>
+                        <div id="r-slider" class="r-slider-inner"></div>
+                    </div>
+                    <div class="r-grid" id="r-board"></div>
+                    <div style="display:flex; gap:10px; margin-top:20px; justify-content:center; align-items:center;">
+                        SÁZKA: <input type="number" id="r-bet" value="50">
+                        <button class="btn-play" id="r-spin" onclick="spinRoulette()">SPIN</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <footer>© 2026 Swarmbet | Terms & Conditions</footer>
+    <footer>
+        © 2026 SwarmBet Premium | Všechna práva vyhrazena<br>
+        Tato aplikace slouží pouze pro zábavu. Žádné reálné peníze.
+    </footer>
 </div>
 
 <script>
-    let chips = 500;
+    const DB_URL = "https://casbss-c75a0-default-rtdb.europe-west1.firebasedatabase.app/users";
+    let currentUser = localStorage.getItem('swarm_user');
+    let userData = null;
     let audioReady = false;
-    const rOrder = [0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30, 8, 23, 10, 5, 24, 16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7, 28, 12, 35, 3, 26];
-    let selectedRBet = null;
-    let isRSpinning = false;
 
+    // SFX SYSTEM
     const sfx = {
         star: "https://www.myinstants.com/media/sounds/super-mario-coin.mp3",
         boom: "https://www.myinstants.com/media/sounds/explosion.mp3",
@@ -106,10 +161,58 @@
     function initAudio() { audioReady = true; }
     function play(name) {
         if(!audioReady) return;
-        const a = new Audio(sfx[name]); // Pokaždé nový objekt pro 100% spolehlivost
+        const a = new Audio(sfx[name]);
         a.volume = name === 'boom' ? 0.2 : 0.4;
-        a.play();
+        a.play().catch(()=>{});
         a.onended = () => a.remove();
+    }
+
+    // AUTH
+    async function auth(type) {
+        const u = document.getElementById('user').value.trim();
+        const p = document.getElementById('pass').value;
+        if(!u || !p) return;
+        
+        const res = await fetch(DB_URL + ".json");
+        const users = await res.json() || {};
+
+        if(type === 'reg') {
+            if(users[u]) return alert("Uživatel už existuje!");
+            userData = { password: p, chips: 500 };
+            await fetch(`${DB_URL}/${u}.json`, { method: 'PUT', body: JSON.stringify(userData) });
+            alert("Registrace úspěšná!");
+        } else {
+            if(users[u] && users[u].password === p) {
+                currentUser = u; userData = users[u];
+                localStorage.setItem('swarm_user', u);
+                loginSuccess();
+            } else alert("Špatné údaje!");
+        }
+    }
+
+    function loginSuccess() {
+        document.getElementById('auth-screen').classList.add('hidden');
+        document.getElementById('main-app').classList.remove('hidden');
+        document.getElementById('display-name').innerText = currentUser;
+        updateUI();
+        buildRoulette();
+    }
+
+    function logout() { localStorage.removeItem('swarm_user'); location.reload(); }
+    function updateUI() {
+        document.getElementById('display-chips').innerText = Math.floor(userData.chips);
+        fetch(`${DB_URL}/${currentUser}.json`, { method: 'PUT', body: JSON.stringify(userData) });
+    }
+
+    // NAVIGATION
+    function showPage(p) {
+        play('click');
+        document.getElementById('page-home').classList.add('hidden');
+        document.getElementById('page-games').classList.add('hidden');
+        document.getElementById('page-'+p).classList.remove('hidden');
+        document.getElementById('link-home').classList.remove('active');
+        document.getElementById('link-games').classList.remove('active');
+        document.getElementById('link-'+p).classList.add('active');
     }
 
     function selectGame(g) {
@@ -118,12 +221,12 @@
         document.getElementById('game-'+g).classList.remove('hidden');
     }
 
-    // MINES LOGIC
+    // MINES
     let mActive = false, mMult = 1, mBet = 0, mBombs = [];
     function startMines() {
         mBet = parseInt(document.getElementById('m-bet').value);
-        if(mBet > chips) return;
-        chips -= mBet; mActive = true; mMult = 1; mBombs = [];
+        if(mBet > userData.chips || mBet <= 0) return alert("Málo ⭐!");
+        userData.chips -= mBet; mActive = true; mMult = 1; mBombs = [];
         updateUI();
         document.getElementById('m-start').disabled = true;
         const board = document.getElementById('m-board'); board.innerHTML = '';
@@ -137,7 +240,7 @@
                     document.getElementById('m-cash').classList.add('hidden');
                     document.getElementById('m-start').disabled = false;
                 } else {
-                    t.innerHTML = '⭐'; play('star'); // Teď to bude cinkat pokaždé!
+                    t.innerHTML = '⭐'; play('star'); // Opravený zvuk (vždy cinkne)
                     mMult *= 1.25; document.getElementById('m-cash').classList.remove('hidden');
                 }
             };
@@ -146,27 +249,31 @@
     }
     function cashoutMines() {
         if(!mActive) return;
-        chips += Math.floor(mBet * mMult); play('win');
+        userData.chips += Math.floor(mBet * mMult); play('win');
         mActive = false; updateUI(); document.getElementById('m-cash').classList.add('hidden');
         document.getElementById('m-start').disabled = false;
     }
 
-    // DICE LOGIC
+    // DICE
     function playDice() {
         let b = parseInt(document.getElementById('d-bet').value), n = parseInt(document.getElementById('d-num').value);
-        if(b > chips) return; chips -= b; updateUI();
+        if(b > userData.chips) return; userData.chips -= b; updateUI();
         setTimeout(() => {
             let r = Math.floor(Math.random()*6)+1; document.getElementById('d-res').innerText = r;
-            if(r === n) { chips += b*6; play('win'); } else play('boom');
+            if(r === n) { userData.chips += b*6; play('win'); } else play('boom');
             updateUI();
         }, 500);
     }
 
-    // ROULETTE LOGIC
+    // ROULETTE
+    const rOrder = [0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30, 8, 23, 10, 5, 24, 16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7, 28, 12, 35, 3, 26];
+    let selectedRBet = null;
+    let isRSpinning = false;
+
     function buildRoulette() {
         const slider = document.getElementById('r-slider');
         let slideHtml = "";
-        for(let i=0; i<12; i++) {
+        for(let i=0; i<10; i++) {
             rOrder.forEach(n => {
                 let color = n === 0 ? 'var(--green)' : (rOrder.indexOf(n)%2===0 ? 'var(--black)' : 'var(--red)');
                 slideHtml += `<div class="r-num" style="background:${color}">${n}</div>`;
@@ -195,27 +302,30 @@
 
     function spinRoulette() {
         const amt = parseInt(document.getElementById('r-bet').value);
-        if(isRSpinning || !selectedRBet || amt > chips) return;
-        isRSpinning = true; chips -= amt; updateUI();
+        if(isRSpinning || !selectedRBet || amt > userData.chips) return alert("Vyber sázku!");
+        isRSpinning = true; userData.chips -= amt; updateUI();
         document.getElementById('r-spin').disabled = true;
         document.getElementById('r-board').classList.add('disabled');
+        document.getElementById('r-status').innerText = "TOCÍ SE...";
 
         const slider = document.getElementById('r-slider');
         const winNum = rOrder[Math.floor(Math.random() * rOrder.length)];
-        const targetPos = (rOrder.length * 6 + rOrder.indexOf(winNum)) * 60 - (475 - 30);
+        const targetPos = (rOrder.length * 6 + rOrder.indexOf(winNum)) * 65 - (475 - 32);
         slider.style.transition = "left 4s cubic-bezier(0.1, 0, 0.1, 1)";
         slider.style.left = `-${targetPos}px`;
 
         setTimeout(() => {
-            if(selectedRBet === 'n'+winNum) { chips += amt * (winNum === 0 ? 40 : 36); play('win'); } else play('boom');
+            if(selectedRBet === 'n'+winNum) { userData.chips += amt * (winNum === 0 ? 40 : 36); play('win'); document.getElementById('r-status').innerText = "VÝHRA!"; } 
+            else { play('boom'); document.getElementById('r-status').innerText = "PROHRA (PADLO "+winNum+")"; }
+            
             isRSpinning = false; document.getElementById('r-spin').disabled = false;
             document.getElementById('r-board').classList.remove('disabled');
             updateUI();
         }, 4100);
     }
 
-    function updateUI() { document.getElementById('display-chips').innerText = Math.floor(chips); }
-    window.onload = () => { buildRoulette(); updateUI(); };
+    // LOAD SESSION
+    window.onload = async () => { if(currentUser) { const r = await fetch(`${DB_URL}/${currentUser}.json`); userData = await r.json(); if(userData) loginSuccess(); } };
 </script>
 </body>
 </html>
