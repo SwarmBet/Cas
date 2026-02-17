@@ -2,196 +2,212 @@
 <html lang="cs">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Golden Casino - Admin Edition</title>
+    <title>Golden Casino & Sand Mine</title>
     <style>
-        :root { --gold: #ffcc00; --felt: #1a472a; --bg: #0f0f0f; --glass: rgba(255, 255, 255, 0.1); }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: white; margin: 0; display: flex; justify-content: center; min-height: 100vh; }
-        .casino-wrapper { width: 100%; max-width: 900px; background: radial-gradient(circle at center, var(--felt) 0%, #05140a 100%); margin: 20px; border-radius: 30px; border: 10px solid #2d1f16; box-shadow: 0 20px 60px rgba(0,0,0,0.8); padding: 25px; position: relative; }
-        header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px; border-bottom: 1px solid var(--glass); }
-        .balance-card { background: linear-gradient(135deg, #222, #000); padding: 15px 30px; border-radius: 20px; border: 2px solid var(--gold); font-size: 28px; font-weight: bold; color: var(--gold); }
-        .btn-nav { background: var(--glass); color: white; margin: 5px; padding: 12px 20px; border-radius: 10px; cursor: pointer; border:none; font-weight:bold; }
-        .btn-nav.active { background: var(--gold); color: black; }
-        .btn-action { background: linear-gradient(to bottom, var(--gold), #b8860b); color: black; padding: 12px 20px; border-radius: 10px; cursor: pointer; border:none; font-weight:bold; text-transform:uppercase; margin-top: 10px;}
-        .btn-action:disabled { background: #555; color: #888; cursor: not-allowed; }
-        .message-area { height: 50px; display: flex; align-items: center; justify-content: center; font-size: 1.3em; font-weight: bold; color: var(--gold); }
-        .hand-box { background: rgba(0,0,0,0.3); padding: 15px; border-radius: 15px; border: 1px solid var(--glass); text-align: center; margin-top: 10px; }
-        .cards-display { display: flex; gap: 10px; justify-content: center; min-height: 120px; margin-top: 10px; }
-        .card { width: 70px; height: 100px; background: white; color: black; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: bold; box-shadow: 2px 2px 5px rgba(0,0,0,0.5); }
-        .hidden { display: none !important; }
+        body { background: #0a0a0a; color: white; font-family: sans-serif; display: flex; justify-content: center; margin: 0; }
+        .game-container { width: 450px; background: #1a1a1a; border: 4px solid #d4af37; border-radius: 20px; padding: 20px; margin-top: 20px; text-align: center; box-shadow: 0 0 50px rgba(0,0,0,0.5); }
+        
+        /* Horní panel */
+        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #333; padding-bottom: 10px; }
+        .logo { color: #d4af37; cursor: pointer; user-select: none; }
+        .balance { font-size: 24px; color: #ffd700; font-weight: bold; }
 
-        /* Admin Panel Styl */
-        .admin-panel {
-            margin-top: 30px;
-            padding: 15px;
-            background: rgba(255,0,0,0.1);
-            border-radius: 15px;
-            border: 1px dashed red;
-            font-size: 0.8em;
-        }
+        /* Menu */
+        .menu { margin: 20px 0; display: flex; gap: 10px; justify-content: center; }
+        .menu button { background: #333; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; }
+        .menu button.active { background: #d4af37; color: black; }
+
+        /* Pískovna */
+        #sand-mine { padding: 40px 20px; background: #c2b280; border-radius: 15px; color: #5d4037; }
+        .sand-pile { font-size: 50px; cursor: pointer; transition: transform 0.1s; display: inline-block; }
+        .sand-pile:active { transform: scale(0.8); }
+
+        /* Blackjack */
+        .card-area { display: flex; justify-content: center; gap: 5px; min-height: 80px; margin: 10px 0; }
+        .card { width: 50px; height: 75px; background: white; color: black; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 18px; border: 1px solid #999; }
+        .btn-action { background: #d4af37; border: none; padding: 10px 20px; border-radius: 5px; font-weight: bold; cursor: pointer; margin: 5px; }
+        .btn-action:disabled { background: #555; }
+
+        .hidden { display: none; }
+        .status { margin: 15px 0; font-weight: bold; color: #ffd700; min-height: 20px; }
     </style>
 </head>
 <body>
 
-<div class="casino-wrapper">
-    <header>
-        <h2 style="margin:0">🎰 GOLDEN STAKE</h2>
-        <div class="balance-card">💰 <span id="balance">0</span></div>
-    </header>
-
-    <div class="message-area" id="msg">Získej žetony od admína!</div>
-
-    <div class="game-nav">
-        <button id="nav-bj" class="btn-nav active" onclick="setGame('bj')">Blackjack</button>
-        <button id="nav-roulette" class="btn-nav" onclick="setGame('roulette')">Ruleta</button>
+<div class="game-container">
+    <div class="header">
+        <h2 class="logo" onclick="adminCommand()">GOLDEN STAKE</h2>
+        <div class="balance">💰 <span id="chips">0</span></div>
     </div>
 
-    <div id="bj-ui">
-        <div class="hand-box">
-            Sázka: <input type="number" id="bj-bet" value="10" style="width: 60px; background: #000; color: gold; border: 1px solid gold;">
-            <button class="btn-action" id="bj-start" onclick="bjStart()">Hrát</button>
-        </div>
-        <div id="bj-cards-area" class="hidden">
-            <div class="hand-box">Dealer: <span id="d-val">?</span> <div id="d-cards" class="cards-display"></div></div>
-            <div class="hand-box">Ty: <span id="p-val">0</span> <div id="p-cards" class="cards-display"></div></div>
-            <div id="bj-actions" style="text-align:center; margin-top:10px;">
-                <button class="btn-action" onclick="bjPlay('hit')">HIT</button>
-                <button class="btn-action" style="background:#ddd" onclick="bjPlay('stand')">STAND</button>
-            </div>
-        </div>
+    <div class="status" id="status">Vítej! Začni v pískovně.</div>
+
+    <div class="menu">
+        <button id="btn-mine" class="active" onclick="showTab('mine')">Pískovna 🏖️</button>
+        <button id="btn-bj" onclick="showTab('bj')">Blackjack 🃏</button>
     </div>
 
-    <div id="roulette-ui" class="hidden">
-        <div class="hand-box">
-            <p>Ruleta je připravena. Vsaďte na barvu (2x výhra):</p>
-            <button class="btn-action" onclick="rSpin('red')">Červená</button>
-            <button class="btn-action" style="background: #222; color: white;" onclick="rSpin('black')">Černá</button>
-        </div>
+    <div id="tab-mine">
+        <h3>Těžba písku</h3>
+        <p>Klikni na písek a najdi žetony!</p>
+        <div class="sand-pile" onclick="mineSand()">🏖️</div>
+        <p><small>(1 klik = šance na 1-3 žetony)</small></p>
     </div>
 
-    <div class="admin-panel">
-        <strong>🔒 Admin Panel (Jen pro majitele)</strong><br>
-        Heslo: <input type="password" id="admin-pass" style="background: #000; color: white; border: 1px solid #444;">
-        Množství: <input type="number" id="admin-amt" value="100" style="width: 60px;">
-        <button onclick="adminAddChips()">PŘIDAT ŽETONY</button>
+    <div id="tab-bj" class="hidden">
+        <div id="bj-setup">
+            <input type="number" id="bet-input" value="10" style="width:50px">
+            <button class="btn-action" onclick="bjStart()">Rozdat karty</button>
+        </div>
+        
+        <div id="bj-game" class="hidden">
+            <p>Dealer: <span id="d-score">?</span></p>
+            <div class="card-area" id="d-cards"></div>
+            <p>Ty: <span id="p-score">0</span></p>
+            <div class="card-area" id="p-cards"></div>
+            <button class="btn-action" id="hit-btn" onclick="bjHit()">HIT</button>
+            <button class="btn-action" id="stand-btn" onclick="bjStand()">STAND</button>
+        </div>
     </div>
 </div>
 
 <script>
-    // --- UKLÁDÁNÍ A DATA ---
-    let chips = parseInt(localStorage.getItem('casino_chips')) || 0;
+    // --- DATA ---
+    let chips = parseInt(localStorage.getItem('chips')) || 0;
     let playing = false;
+    let pHand = [], dHand = [], deck = [], currentBet = 0;
 
-    function save() {
-        localStorage.setItem('casino_chips', chips);
-        document.getElementById('balance').innerText = chips;
+    const sfx = {
+        card: new Audio('https://www.soundjay.com/misc/sounds/card-slap-1.mp3'),
+        dig: new Audio('https://www.soundjay.com/button/sounds/button-37.mp3'),
+        win: new Audio('https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3')
+    };
+    Object.values(sfx).forEach(s => s.volume = 0.2);
+
+    function updateUI() {
+        document.getElementById('chips').innerText = chips;
+        localStorage.setItem('chips', chips);
+    }
+    updateUI();
+
+    // --- PŘEPÍNÁNÍ ---
+    function showTab(tab) {
+        if(playing) return;
+        document.getElementById('tab-mine').classList.toggle('hidden', tab !== 'mine');
+        document.getElementById('tab-bj').classList.toggle('hidden', tab !== 'bj');
+        document.getElementById('btn-mine').classList.toggle('active', tab === 'mine');
+        document.getElementById('btn-bj').classList.toggle('active', tab === 'bj');
     }
 
-    // --- ADMIN FUNKCE ---
-    function adminAddChips() {
-        const pass = document.getElementById('admin-pass').value;
-        const amt = parseInt(document.getElementById('admin-amt').value);
-        
-        if(pass === "admin123") { // Tady si změň heslo
-            chips += amt;
-            save();
-            log("Admin přidal " + amt + " žetonů.");
-            document.getElementById('admin-pass').value = "";
-        } else {
-            alert("Špatné heslo!");
+    // --- TĚŽBA ---
+    function mineSand() {
+        sfx.dig.currentTime = 0; sfx.dig.play();
+        if(Math.random() > 0.7) {
+            let gain = Math.floor(Math.random() * 3) + 1;
+            chips += gain;
+            document.getElementById('status').innerText = `Našel jsi ${gain} žetony v písku!`;
+            updateUI();
         }
     }
 
-    // --- ZVUKY (Zjednodušené pro přehlednost) ---
-    const sounds = {
-        card: new Audio('https://www.soundjay.com/misc/sounds/card-slap-1.mp3'),
-        win: new Audio('https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3')
-    };
-    sounds.card.volume = 0.2;
-
-    function log(m, win = null) {
-        const el = document.getElementById('msg');
-        el.innerText = m;
-        el.style.color = win === true ? '#76ff03' : (win === false ? '#ff5252' : '#ffcc00');
-    }
-
-    function setGame(g) {
-        if(playing) return;
-        document.getElementById('bj-ui').classList.toggle('hidden', g !== 'bj');
-        document.getElementById('roulette-ui').classList.toggle('hidden', g !== 'roulette');
+    // --- ADMIN (Klikni na logo) ---
+    function adminCommand() {
+        let pw = prompt("Zadej heslo pro přidání žetonů:");
+        if(pw === "admin") {
+            let amt = parseInt(prompt("Kolik žetonů chceš přidat?"));
+            if(!isNaN(amt)) { chips += amt; updateUI(); }
+        }
     }
 
     // --- BLACKJACK LOGIKA ---
-    let pHand = [], dHand = [], deck = [], curBet = 0;
-
     function bjStart() {
-        curBet = parseInt(document.getElementById('bj-bet').value);
-        if(curBet > chips || curBet <= 0) return log("Nemáš dost žetonů!", false);
-        
-        chips -= curBet;
-        save();
+        currentBet = parseInt(document.getElementById('bet-input').value);
+        if(currentBet > chips || currentBet <= 0) {
+            document.getElementById('status').innerText = "Nemáš dost žetonů!";
+            return;
+        }
+
+        chips -= currentBet;
+        updateUI();
         playing = true;
-        document.getElementById('bj-start').disabled = true;
-        document.getElementById('bj-cards-area').classList.remove('hidden');
         
-        // Balíček
+        document.getElementById('bj-setup').classList.add('hidden');
+        document.getElementById('bj-game').classList.remove('hidden');
+        document.getElementById('status').innerText = "Hra o " + currentBet;
+
         deck = [];
         ['♠','♥','♦','♣'].forEach(s => ['2','3','4','5','6','7','8','9','10','J','Q','K','A'].forEach(v => deck.push({v,s})));
         deck.sort(() => Math.random() - 0.5);
 
         pHand = [deck.pop(), deck.pop()];
         dHand = [deck.pop(), deck.pop()];
+        
         renderBJ(false);
-        log("Hraješ o " + curBet);
+        if(getVal(pHand) === 21) bjEnd('win', "BLACKJACK!");
     }
 
     function renderBJ(all) {
-        const p = document.getElementById('p-cards'), d = document.getElementById('d-cards');
-        p.innerHTML = ''; d.innerHTML = '';
-        pHand.forEach(c => p.innerHTML += `<div class="card">${c.v}${c.s}</div>`);
-        dHand.forEach((c, i) => d.innerHTML += `<div class="card" style="${!all && i===1 ? 'background:#222':''}">${!all && i===1 ? '?':c.v+c.s}</div>`);
-        document.getElementById('p-val').innerText = getVal(pHand);
+        const pArea = document.getElementById('p-cards'), dArea = document.getElementById('d-cards');
+        pArea.innerHTML = ''; dArea.innerHTML = '';
+        
+        pHand.forEach(c => pArea.innerHTML += `<div class="card">${c.v}${c.s}</div>`);
+        dHand.forEach((c, i) => {
+            dArea.innerHTML += `<div class="card" style="${!all && i===1 ? 'background:black':''}">${!all && i===1 ? '' : c.v+c.s}</div>`;
+        });
+
+        document.getElementById('p-score').innerText = getVal(pHand);
+        document.getElementById('d-score').innerText = all ? getVal(dHand) : "?";
     }
 
     function getVal(h) {
         let s = 0, a = 0;
-        h.forEach(c => { if(['J','Q','K'].includes(c.v)) s += 10; else if(c.v === 'A') { s += 11; a++; } else s += parseInt(c.v); });
+        h.forEach(c => {
+            if(['J','Q','K'].includes(c.v)) s += 10;
+            else if(c.v === 'A') { s += 11; a++; }
+            else s += parseInt(c.v);
+        });
         while(s > 21 && a > 0) { s -= 10; a--; }
         return s;
     }
 
-    async function bjPlay(act) {
+    function bjHit() {
         if(!playing) return;
-        if(act === 'hit') {
-            pHand.push(deck.pop());
-            sounds.card.play();
-            renderBJ(false);
-            if(getVal(pHand) > 21) bjEnd(false, "BUST!");
-        } else {
+        pHand.push(deck.pop());
+        sfx.card.currentTime = 0; sfx.card.play();
+        renderBJ(false);
+        if(getVal(pHand) > 21) bjEnd('lose', "PŘETÁHL JSI!");
+    }
+
+    async function bjStand() {
+        if(!playing) return;
+        document.getElementById('hit-btn').disabled = true;
+        document.getElementById('stand-btn').disabled = true;
+        
+        renderBJ(true);
+        while(getVal(dHand) < 17) {
+            await new Promise(r => setTimeout(r, 600));
+            dHand.push(deck.pop());
+            sfx.card.play();
             renderBJ(true);
-            while(getVal(dHand) < 17) {
-                await new Promise(r => setTimeout(r, 600));
-                dHand.push(deck.pop());
-                renderBJ(true);
-            }
-            let ps = getVal(pHand), ds = getVal(dHand);
-            if(ds > 21 || ps > ds) bjEnd(true, "VÝHRA!");
-            else if(ps < ds) bjEnd(false, "PROHRA");
-            else bjEnd('draw', "REMIZA");
         }
+
+        let ps = getVal(pHand), ds = getVal(dHand);
+        if(ds > 21 || ps > ds) bjEnd('win', "VYHRÁL JSI!");
+        else if(ps < ds) bjEnd('lose', "DEALER VYHRÁL");
+        else bjEnd('draw', "REMIZA");
     }
 
-    function bjEnd(res, m) {
+    function bjEnd(res, msg) {
         playing = false;
-        if(res === true) chips += curBet * 2;
-        if(res === 'draw') chips += curBet;
-        save();
-        log(m, res === true);
-        document.getElementById('bj-start').disabled = false;
+        if(res === 'win') { chips += currentBet * 2; sfx.win.play(); }
+        if(res === 'draw') { chips += currentBet; }
+        
+        updateUI();
+        document.getElementById('status').innerText = msg;
+        document.getElementById('hit-btn').disabled = false;
+        document.getElementById('stand-btn').disabled = false;
+        document.getElementById('bj-setup').classList.remove('hidden');
     }
-
-    // --- INITIALIZE ---
-    save();
 </script>
 </body>
 </html>
