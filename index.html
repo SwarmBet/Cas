@@ -1,41 +1,34 @@
 import random
 
-def blackjack():
-    # Definice karet (zjednodušeně: J, Q, K jsou za 10, Eso za 11)
-    karty = [2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11]
+def blackjack(body):
+    print(f"\n--- BLACK JACK (Máš {body} bodů) ---")
+    sazka = int(input("Kolik bodů vsadíš? "))
     
-    hrac = [random.choice(karty), random.choice(karty)]
-    dealer = [random.choice(karty), random.choice(karty)]
+    # ... tady proběhne logika hry ...
+    vyhra = random.choice([True, False]) # Simulační náhoda
     
-    print(f"Tvoje karty: {hrac}, součet: {sum(hrac)}")
-    print(f"Dealerova viditelná karta: [{dealer[0]}]")
+    if vyhra:
+        print("Vyhrál jsi!")
+        return body + sazka
+    else:
+        print("Prohrál jsi.")
+        return body - sazka
 
-    # Hráčův tah
-    while sum(hrac) < 21:
-        akce = input("Chceš (h)it nebo (s)tand? ").lower()
-        if akce == 'h':
-            hrac.append(random.choice(karty))
-            print(f"Tvoje karty: {hrac}, součet: {sum(hrac)}")
-        else:
+def main_menu():
+    moje_body = 1000  # Začínáš s tisícovkou "pro zábavu"
+    
+    while True:
+        print(f"\nTvůj aktuální stav: {moje_body} bodů")
+        print("1. Hrát Black Jack")
+        print("2. Konec")
+        
+        volba = input("Vyber si: ")
+        
+        if volba == '1':
+            # Tady se děje to kouzlo: pošleš body do hry 
+            # a hra ti vrátí nový počet bodů zpět
+            moje_body = blackjack(moje_body)
+        elif volba == '2':
             break
 
-    # Vyhodnocení
-    soucet_hrac = sum(hrac)
-    soucet_dealer = sum(dealer)
-
-    if soucet_hrac > 21:
-        print("Bust! Přetáhl jsi a prohrál.")
-    else:
-        # Dealer hraje (vždy tahá do 16)
-        while sum(dealer) < 17:
-            dealer.append(random.choice(karty))
-        
-        soucet_dealer = sum(dealer)
-        print(f"Dealerovy karty: {dealer}, součet: {soucet_dealer}")
-
-        if soucet_dealer > 21 or soucet_hrac > soucet_dealer:
-            print("Vyhrál jsi!")
-        elif soucet_hrac < soucet_dealer:
-            print("Prohrál jsi!")
-        else:
-            print("Remíza (Push)!")
+main_menu()
