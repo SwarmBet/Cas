@@ -3,83 +3,592 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Webové Kasino</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Animované Webové Kasino</title>
+    <style>
+        /* --- ZÁKLADNÍ CSS --- */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212;
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, #1e4d2b 0%, #2e7d32 100%);
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+            border: 8px solid #4caf50;
+        }
+
+        h1, h2, h3 { margin: 10px 0; text-shadow: 2px 2px 4px black; }
+
+        /* Tlačítka */
+        button {
+            padding: 12px 24px;
+            font-size: 16px;
+            cursor: pointer;
+            background: linear-gradient(to bottom, #ffd700, #e6c200);
+            border: 2px solid #b8860b;
+            border-radius: 8px;
+            color: #333;
+            font-weight: bold;
+            margin: 5px;
+            transition: transform 0.1s, box-shadow 0.1s;
+        }
+        button:active { transform: scale(0.95); }
+        button:disabled { background: #555; border-color: #333; color: #888; cursor: not-allowed; }
+        .danger-btn { background: linear-gradient(to bottom, #d32f2f, #b71c1c); color: white; border-color: #7f0000; }
+
+        .hidden { display: none !important; }
+        
+        /* Statistiky a zprávy */
+        .stats { font-size: 1.2em; background: rgba(0,0,0,0.4); padding: 10px; border-radius: 10px; display: inline-block; margin-bottom: 15px; }
+        .message { 
+            min-height: 40px; 
+            margin: 15px 0; 
+            padding: 10px; 
+            background: rgba(0,0,0,0.6); 
+            border-radius: 8px; 
+            color: #fff176; 
+            font-weight: bold;
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* --- BLACKJACK KARTY A ANIMACE --- */
+        .table { display: flex; justify-content: space-around; margin-top: 20px; flex-wrap: wrap;}
+        .hand { min-width: 150px; }
+        
+        .cards-container { 
+            display: flex; 
+            justify-content: center; 
+            gap: -30px; /* Karty se překrývají */
+            height: 140px; 
+            perspective: 1000px;
+        }
+
+        .card {
+            width: 80px; height: 120px;
+            background: white; color: black;
+            border-radius: 8px;
+            border: 1px solid #999;
+            box-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            font-weight: bold; font-size: 24px;
+            position: relative;
+            margin-right: -40px; /* Překryv */
+            transition: transform 0.3s;
+            
+            /* Animace příchodu */
+            animation: dealCard 0.5s ease-out forwards;
+            opacity: 0;
+            transform: translateY(-50px) rotate(-10deg);
+        }
+
+        .card:hover { transform: translateY(-20px) z-index: 10; }
+        .card.red { color: #d32f2f; }
+        .card-top { position: absolute; top: 5px; left: 5px; font-size: 14px; }
+        .card-bottom { position: absolute; bottom: 5px; right: 5px; font-size: 14px; transform: rotate(180deg); }
+
+        @keyframes dealCard {
+            to { opacity: 1; transform: translateY(0) rotate(0deg); }
+        }
+
+        /* --- RULETA KOLO A ANIMACE --- */
+        .roulette-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 20px auto;
+        }
+
+        /* Šipka ukazující výhru */
+        .marker {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0; 
+            height: 0; 
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 25px solid #ffd700;
+            z-index: 10;
+            filter: drop-shadow(0 2px 2px black);
+        }
+
+        .wheel {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 10px solid #4e342e;
+            box-shadow: 0 0 20px black;
+            position: relative;
+            overflow: hidden;
+            transition: transform 4s cubic-bezier(0.1, 0.7, 0.1, 1); /* Brzdící efekt */
+            background: conic-gradient(
+                #008000 0deg 9.7deg, /* 0 */
+                #d32f2f 9.7deg 19.4deg, /* 32 */
+                #111 19.4deg 29.1deg, /* 15 */
+                #d32f2f 29.1deg 38.8deg, /* 19 */
+                #111 38.8deg 48.5deg, /* 4 */
+                #d32f2f 48.5deg 58.2deg, /* 21 */
+                #111 58.2deg 67.9deg, /* 2 */
+                #d32f2f 67.9deg 77.6deg, /* 25 */
+                #111 77.6deg 87.3deg, /* 17 */
+                #d32f2f 87.3deg 97.0deg, /* 34 */
+                #111 97.0deg 106.7deg, /* 6 */
+                #d32f2f 106.7deg 116.4deg, /* 27 */
+                #111 116.4deg 126.1deg, /* 13 */
+                #d32f2f 126.1deg 135.8deg, /* 36 */
+                #111 135.8deg 145.5deg, /* 11 */
+                #d32f2f 145.5deg 155.2deg, /* 30 */
+                #111 155.2deg 164.9deg, /* 8 */
+                #d32f2f 164.9deg 174.6deg, /* 23 */
+                #111 174.6deg 184.3deg, /* 10 */
+                #d32f2f 184.3deg 194.0deg, /* 5 */
+                #111 194.0deg 203.7deg, /* 24 */
+                #d32f2f 203.7deg 213.4deg, /* 16 */
+                #111 213.4deg 223.1deg, /* 33 */
+                #d32f2f 223.1deg 232.8deg, /* 1 */
+                #111 232.8deg 242.5deg, /* 20 */
+                #d32f2f 242.5deg 252.2deg, /* 14 */
+                #111 252.2deg 261.9deg, /* 31 */
+                #d32f2f 261.9deg 271.6deg, /* 9 */
+                #111 271.6deg 281.3deg, /* 22 */
+                #d32f2f 281.3deg 291.0deg, /* 18 */
+                #111 291.0deg 300.7deg, /* 29 */
+                #d32f2f 300.7deg 310.4deg, /* 7 */
+                #111 310.4deg 320.1deg, /* 28 */
+                #d32f2f 320.1deg 329.8deg, /* 12 */
+                #111 329.8deg 339.5deg, /* 35 */
+                #d32f2f 339.5deg 349.2deg, /* 3 */
+                #111 349.2deg 360deg /* 26 */
+            );
+        }
+        
+        /* Střed kola */
+        .wheel::after {
+            content: "";
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px; height: 40px;
+            background: gold;
+            border-radius: 50%;
+            box-shadow: 0 0 5px black;
+            border: 2px solid white;
+        }
+
+        .bet-controls input, .bet-controls select {
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            text-align: center;
+            font-size: 16px;
+        }
+    </style>
 </head>
 <body>
 
-    <div class="container">
-        <header>
-            <h1>🎰 Mini Casino</h1>
-            <div class="stats">
-                <p>Žetony: <span id="chip-count">1000</span></p>
-                <button onclick="fullReset()" class="danger-btn">Reset Hry</button>
-            </div>
-            <div id="message-box" class="message">Vítejte! Vyberte si hru.</div>
-        </header>
-
-        <div class="game-selector">
-            <button onclick="showGame('blackjack')">Hrát Blackjack</button>
-            <button onclick="showGame('roulette')">Hrát Ruletu</button>
+<div class="container">
+    <header>
+        <h1>🎰 Vegas Web Casino</h1>
+        <div class="stats">
+            💰 Žetony: <span id="chip-count" style="color: gold;">1000</span>
         </div>
-
-        <hr>
-
-        <div id="blackjack-game" class="game-section hidden">
-            <h2>🃏 Blackjack</h2>
-            <div class="bet-controls">
-                <input type="number" id="bj-bet-input" placeholder="Sázka" value="50" min="10">
-                <button onclick="startBlackjack()">Rozdat karty</button>
-            </div>
-            
-            <div class="table">
-                <div class="hand">
-                    <h3>Dealer</h3>
-                    <div id="dealer-cards" class="cards-container"></div>
-                    <p>Skóre: <span id="dealer-score">0</span></p>
-                </div>
-                <div class="hand">
-                    <h3>Hráč</h3>
-                    <div id="player-cards" class="cards-container"></div>
-                    <p>Skóre: <span id="player-score">0</span></p>
-                </div>
-            </div>
-
-            <div class="controls hidden" id="bj-actions">
-                <button onclick="hit()">Karta (Hit)</button>
-                <button onclick="stand()">Stát (Stand)</button>
-            </div>
+        <div>
+            <button onclick="fullReset()" class="danger-btn" style="font-size: 12px; padding: 5px 10px;">Resetovat vše</button>
         </div>
+        <div id="message-box" class="message">Vítejte! Vyberte si hru pro začátek.</div>
+    </header>
 
-        <div id="roulette-game" class="game-section hidden">
-            <h2>🔴⚫ Ruleta</h2>
-            
-            <div class="roulette-wheel">
-                <div id="wheel-number">0</div>
-            </div>
-
-            <div class="bet-controls-roulette">
-                <div class="bet-group">
-                    <label>Sázka na číslo (Výhra 35x):</label>
-                    <input type="number" id="roulette-number-pick" min="0" max="36" placeholder="0-36">
-                    <input type="number" id="roulette-bet-number" value="10" placeholder="Částka">
-                    <button onclick="spinRoulette('number')">Vsadit na číslo</button>
-                </div>
-                
-                <div class="bet-group">
-                    <label>Barva (Výhra 2x):</label>
-                    <select id="roulette-color-pick">
-                        <option value="red">Červená</option>
-                        <option value="black">Černá</option>
-                    </select>
-                    <input type="number" id="roulette-bet-color" value="50" placeholder="Částka">
-                    <button onclick="spinRoulette('color')">Vsadit na barvu</button>
-                </div>
-            </div>
-        </div>
-
+    <div class="game-selector">
+        <button onclick="switchGame('blackjack')">🃏 Blackjack</button>
+        <button onclick="switchGame('roulette')">🔴 Ruleta ⚫</button>
     </div>
 
-    <script src="script.js"></script>
+    <hr style="border-color: rgba(255,255,255,0.2);">
+
+    <div id="blackjack-game" class="game-section hidden">
+        <div class="bet-controls">
+            <input type="number" id="bj-bet-input" value="50" min="10" step="10">
+            <button id="bj-deal-btn" onclick="startBlackjack()">Rozdat karty</button>
+        </div>
+        
+        <div class="table">
+            <div class="hand">
+                <h3>Dealer <span id="dealer-score" style="font-size: 0.8em; color: #ccc;"></span></h3>
+                <div id="dealer-cards" class="cards-container"></div>
+            </div>
+            <div class="hand">
+                <h3>Ty <span id="player-score" style="font-size: 0.8em; color: #ccc;"></span></h3>
+                <div id="player-cards" class="cards-container"></div>
+            </div>
+        </div>
+
+        <div class="controls hidden" id="bj-actions" style="margin-top: 20px;">
+            <button onclick="hit()">👇 Karta (Hit)</button>
+            <button onclick="stand()">✋ Stát (Stand)</button>
+        </div>
+    </div>
+
+    <div id="roulette-game" class="game-section hidden">
+        <div class="roulette-container">
+            <div class="marker"></div>
+            <div class="wheel" id="wheel"></div>
+        </div>
+
+        <div class="bet-controls">
+            <div style="margin-bottom: 15px;">
+                <label>Číslo (35x):</label>
+                <input type="number" id="roulette-number-pick" min="0" max="36" placeholder="0-36" style="width: 60px;">
+                <input type="number" id="roulette-bet-number" value="10" style="width: 80px;">
+                <button onclick="spinRoulette('number')" id="btn-spin-num">Vsadit</button>
+            </div>
+            
+            <div>
+                <label>Barva (2x):</label>
+                <select id="roulette-color-pick">
+                    <option value="red">Červená</option>
+                    <option value="black">Černá</option>
+                </select>
+                <input type="number" id="roulette-bet-color" value="50" style="width: 80px;">
+                <button onclick="spinRoulette('color')" id="btn-spin-col">Vsadit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- STAV HRY ---
+    let chips = 1000;
+    let deck = [];
+    let dealerHand = [];
+    let playerHand = [];
+    let currentBet = 0;
+    let gameInProgress = false;
+
+    // --- POMOCNÉ FUNKCE ---
+    const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+    
+    function updateChips() {
+        document.getElementById('chip-count').innerText = chips;
+    }
+
+    function showMessage(msg, type="neutral") {
+        const box = document.getElementById('message-box');
+        box.innerText = msg;
+        if(type === "win") box.style.color = "#76ff03";
+        else if(type === "lose") box.style.color = "#ff5252";
+        else box.style.color = "#fff176";
+    }
+
+    function switchGame(game) {
+        if(gameInProgress) return alert("Nejdřív dokonči aktuální hru!");
+        document.getElementById('blackjack-game').classList.add('hidden');
+        document.getElementById('roulette-game').classList.add('hidden');
+        document.getElementById(game + '-game').classList.remove('hidden');
+        showMessage(`Hrajete ${game === 'blackjack' ? 'Blackjack' : 'Ruletu'}.`);
+    }
+
+    function fullReset() {
+        chips = 1000;
+        updateChips();
+        gameInProgress = false;
+        switchGame('blackjack');
+        showMessage("Hra resetována.");
+    }
+
+    // --- BLACKJACK LOGIKA ---
+    const suits = ['♠', '♥', '♦', '♣'];
+    const values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
+
+    function createDeck() {
+        deck = [];
+        for (let suit of suits) {
+            for (let value of values) {
+                deck.push({ value, suit });
+            }
+        }
+        deck.sort(() => Math.random() - 0.5);
+    }
+
+    function getCardValue(card) {
+        if (['J', 'Q', 'K'].includes(card.value)) return 10;
+        if (card.value === 'A') return 11;
+        return parseInt(card.value);
+    }
+
+    function calculateBJScore(hand) {
+        let score = 0;
+        let aceCount = 0;
+        for (let card of hand) {
+            score += getCardValue(card);
+            if (card.value === 'A') aceCount++;
+        }
+        while (score > 21 && aceCount > 0) {
+            score -= 10;
+            aceCount--;
+        }
+        return score;
+    }
+
+    // Vykreslení jedné karty s animací
+    function renderCard(card, targetId, hidden = false) {
+        const container = document.getElementById(targetId);
+        const div = document.createElement('div');
+        div.className = `card ${hidden ? 'hidden-card' : ''} ${(card.suit === '♥' || card.suit === '♦') ? 'red' : ''}`;
+        
+        if (hidden) {
+            div.style.background = "navy";
+            div.style.color = "navy";
+            div.innerText = "?";
+        } else {
+            div.innerHTML = `
+                <span class="card-top">${card.value}${card.suit}</span>
+                <span style="font-size:30px">${card.suit}</span>
+                <span class="card-bottom">${card.value}${card.suit}</span>
+            `;
+        }
+        container.appendChild(div);
+    }
+
+    async function startBlackjack() {
+        if(gameInProgress) return;
+        const bet = parseInt(document.getElementById('bj-bet-input').value);
+        if (bet > chips || bet <= 0) return showMessage("Neplatná sázka!", "lose");
+
+        gameInProgress = true;
+        currentBet = bet;
+        chips -= bet;
+        updateChips();
+        showMessage("Rozdávám...");
+
+        createDeck();
+        dealerHand = [];
+        playerHand = [];
+        document.getElementById('dealer-cards').innerHTML = '';
+        document.getElementById('player-cards').innerHTML = '';
+        document.getElementById('bj-actions').classList.add('hidden');
+        document.getElementById('bj-deal-btn').disabled = true;
+
+        // Postupné rozdávání (animace)
+        playerHand.push(deck.pop());
+        renderCard(playerHand[0], 'player-cards');
+        updateBJUI();
+        await wait(500);
+
+        dealerHand.push(deck.pop());
+        renderCard(dealerHand[0], 'dealer-cards');
+        updateBJUI(); 
+        await wait(500);
+
+        playerHand.push(deck.pop());
+        renderCard(playerHand[1], 'player-cards');
+        updateBJUI();
+        await wait(500);
+
+        dealerHand.push(deck.pop());
+        renderCard(dealerHand[1], 'dealer-cards', true); // Skrytá karta
+        // Score pro dealera zatím neaktualizujeme (je tajné)
+        
+        document.getElementById('bj-actions').classList.remove('hidden');
+        showMessage("Tvůj tah.");
+        
+        // Kontrola Blackjacku hned po rozdání
+        if(calculateBJScore(playerHand) === 21) {
+             stand(); // Automaticky stand, pokud máš 21
+        }
+    }
+
+    function updateBJUI() {
+        document.getElementById('player-score').innerText = calculateBJScore(playerHand);
+        // Dealer score ukazujeme jen pro odkryté karty
+        if(!gameInProgress) {
+            document.getElementById('dealer-score').innerText = calculateBJScore(dealerHand);
+        } else {
+            document.getElementById('dealer-score').innerText = getCardValue(dealerHand[0]);
+        }
+    }
+
+    async function hit() {
+        playerHand.push(deck.pop());
+        renderCard(playerHand[playerHand.length - 1], 'player-cards');
+        updateBJUI();
+        
+        if (calculateBJScore(playerHand) > 21) {
+            endBlackjack(false, "Moc! (Bust)");
+        }
+    }
+
+    async function stand() {
+        document.getElementById('bj-actions').classList.add('hidden');
+        
+        // Odhalit dealerovu kartu
+        const dContainer = document.getElementById('dealer-cards');
+        dContainer.innerHTML = ''; // Smazat a překreslit
+        renderCard(dealerHand[0], 'dealer-cards');
+        renderCard(dealerHand[1], 'dealer-cards');
+        updateBJUI();
+        
+        showMessage("Dealer hraje...");
+        await wait(800);
+
+        while (calculateBJScore(dealerHand) < 17) {
+            dealerHand.push(deck.pop());
+            renderCard(dealerHand[dealerHand.length - 1], 'dealer-cards');
+            updateBJUI();
+            await wait(800);
+        }
+
+        evaluateBlackjack();
+    }
+
+    function evaluateBlackjack() {
+        const pScore = calculateBJScore(playerHand);
+        const dScore = calculateBJScore(dealerHand);
+
+        let win = false;
+        let push = false;
+
+        if (pScore > 21) win = false; // Už vyřešeno v hit(), ale pro jistotu
+        else if (dScore > 21) win = true;
+        else if (pScore > dScore) win = true;
+        else if (pScore === dScore) push = true;
+
+        if (push) {
+            chips += currentBet;
+            showMessage("Remíza. Žetony vráceny.");
+        } else if (win) {
+            chips += currentBet * 2;
+            showMessage("🎉 Výhra!", "win");
+        } else {
+            showMessage("❌ Prohra.", "lose");
+        }
+        endBlackjack(null, null, true);
+    }
+
+    function endBlackjack(winBool, msg, skipMsg = false) {
+        gameInProgress = false;
+        document.getElementById('bj-deal-btn').disabled = false;
+        document.getElementById('bj-actions').classList.add('hidden');
+        updateChips();
+        if(!skipMsg) showMessage(msg, winBool ? "win" : "lose");
+    }
+
+
+    // --- RULETA LOGIKA ---
+    // Pořadí čísel na Evropské ruletě (po směru hodinových ručiček od 0)
+    const wheelOrder = [0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30, 8, 23, 10, 5, 24, 16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7, 28, 12, 35, 3, 26];
+    
+    // Barvy (zjednodušeně pro logiku)
+    const redNumbers = [1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36];
+
+    let currentRotation = 0;
+
+    function getNumberColor(num) {
+        if (num === 0) return 'green';
+        return redNumbers.includes(num) ? 'red' : 'black';
+    }
+
+    function spinRoulette(type) {
+        if(gameInProgress) return;
+        
+        let betAmount, selection;
+
+        if (type === 'number') {
+            betAmount = parseInt(document.getElementById('roulette-bet-number').value);
+            selection = parseInt(document.getElementById('roulette-number-pick').value);
+            if (isNaN(selection) || selection < 0 || selection > 36) return showMessage("Vyber číslo 0-36.", "lose");
+        } else {
+            betAmount = parseInt(document.getElementById('roulette-bet-color').value);
+            selection = document.getElementById('roulette-color-pick').value;
+        }
+
+        if (betAmount > chips || betAmount <= 0) return showMessage("Neplatná sázka.", "lose");
+
+        chips -= betAmount;
+        updateChips();
+        gameInProgress = true;
+        
+        // Deaktivace tlačítek
+        document.getElementById('btn-spin-num').disabled = true;
+        document.getElementById('btn-spin-col').disabled = true;
+        showMessage("Kolo se točí...");
+
+        // 1. Určit vítězné číslo předem
+        const winningNumber = Math.floor(Math.random() * 37);
+        
+        // 2. Vypočítat úhel
+        // Kolo má 37 výsečí. Jedna výseč = 360 / 37 stupňů.
+        const segmentAngle = 360 / 37;
+        const index = wheelOrder.indexOf(winningNumber);
+        
+        // Aby číslo bylo nahoře (pod šipkou), musíme otočit kolo tak, aby index byl na 0 stupních.
+        // Protože CSS rotate točí doprava, musíme točit "proti" indexu.
+        const targetAngle = - (index * segmentAngle); 
+        
+        // Přidáme náhodný počet celých otoček (min 5, max 10) pro efekt
+        const spins = 5 + Math.floor(Math.random() * 5);
+        const totalRotation = (spins * 360) + targetAngle;
+        
+        // Protože se transformace sčítají, musíme přičíst k aktuální rotaci
+        // Ale musíme zajistit, aby se točilo vždy dopředu.
+        // Nejjednodušší: nastavit obrovskou rotaci
+        const finalRotation = currentRotation + (360 * 5) + (360 - (currentRotation % 360)) + targetAngle;
+
+        const wheel = document.getElementById('wheel');
+        wheel.style.transform = `rotate(${finalRotation}deg)`;
+        
+        // Uložit pro příště
+        currentRotation = finalRotation;
+
+        // 3. Počkat na konec animace (4s nastaveno v CSS)
+        setTimeout(() => {
+            finishRoulette(type, selection, betAmount, winningNumber);
+        }, 4000);
+    }
+
+    function finishRoulette(type, selection, bet, winningNum) {
+        const winningColor = getNumberColor(winningNum);
+        let win = false;
+        let payout = 0;
+
+        if (type === 'number') {
+            if (selection === winningNum) {
+                win = true;
+                payout = bet * 36;
+            }
+        } else if (type === 'color') {
+            if (selection === winningColor) {
+                win = true;
+                payout = bet * 2;
+            }
+        }
+
+        if (win) {
+            chips += payout;
+            showMessage(`Padla ${winningNum} (${winningColor}). Výhra ${payout}!`, "win");
+        } else {
+            showMessage(`Padla ${winningNum} (${winningColor}). Zkus to znovu.`, "lose");
+        }
+        
+        updateChips();
+        gameInProgress = false;
+        document.getElementById('btn-spin-num').disabled = false;
+        document.getElementById('btn-spin-col').disabled = false;
+    }
+</script>
+
 </body>
 </html>
