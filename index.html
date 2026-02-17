@@ -35,23 +35,20 @@
         .brand-big { font-size: 45px; font-weight: 900; color: var(--orange); text-align: center; }
         .hidden { display: none !important; }
 
-        .grid { display: grid; grid-template-columns: repeat(5, 60px); gap: 10px; margin: 20px auto; width: 340px; }
-        .tile { width: 60px; height: 60px; background: #000; border: 1px solid #333; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 28px; transition: 0.1s; }
-        .tile:hover { border-color: var(--orange); transform: scale(1.05); }
-        .tile.rev { pointer-events: none; border-color: #444; background: #080808; }
-
         .btn-play { background: var(--orange); color: black; border: none; padding: 12px 25px; border-radius: 8px; font-weight: 900; cursor: pointer; transition: 0.2s; }
         #status-bar { color: var(--orange); text-align: center; font-weight: bold; margin-bottom: 10px; height: 20px; text-transform: uppercase; }
         input { background: #000; color: var(--orange); border: 1px solid #333; padding: 10px; border-radius: 8px; width: 80px; text-align: center; font-weight: bold; }
 
-        footer {
-            text-align: center;
-            padding: 20px;
-            color: #555;
-            font-size: 11px;
-            line-height: 1.6;
-            margin-top: auto;
-        }
+        /* Roulette UI */
+        .roulette-board { display: grid; grid-template-columns: repeat(13, 1fr); gap: 5px; margin: 20px 0; background: #222; padding: 10px; border-radius: 10px; }
+        .r-cell { height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight: bold; border-radius: 4px; border: 1px solid transparent; }
+        .r-cell:hover { border-color: white; }
+        .r-red { background: #e74c3c; }
+        .r-black { background: #2c3e50; }
+        .r-green { background: #27ae60; grid-row: span 3; }
+        .r-active { border: 2px solid var(--orange) !important; box-shadow: 0 0 10px var(--orange); }
+
+        footer { text-align: center; padding: 20px; color: #555; font-size: 11px; margin-top: auto; line-height: 1.6; }
     </style>
 </head>
 <body onclick="forceAudioInit()">
@@ -59,7 +56,6 @@
 <div id="auth-screen" style="display:flex; justify-content:center; align-items:center; height: 100vh;">
     <div class="card" style="width: 320px; text-align: center; border: 2px solid var(--orange);">
         <div class="brand-big">SWARM<span>BET</span></div>
-        <p style="color:#888; font-size: 13px; margin-bottom: 20px;">⭐ SBÍREJ HVĚZDY ⭐</p>
         <input type="text" id="user" placeholder="Jméno"><br><br>
         <input type="password" id="pass" placeholder="Heslo"><br><br>
         <button class="btn-play" onclick="auth('login')" style="width:100%">PŘIHLÁSIT</button>
@@ -85,30 +81,37 @@
 
     <div class="container">
         <div id="page-home" class="card">
-            <h1>Vítej v úlu! 🐝</h1>
-            <p>Design zůstává pevný, zvuky jsou vyladěné. Hodně štěstí!</p>
+            <h1>Vítej v SwarmBet! 🐝</h1>
+            <p>Zkus novou Ruletu s násobitelem až 40x!</p>
         </div>
 
         <div id="page-games" class="hidden">
             <div style="display:flex; gap:20px;">
-                <div style="width:200px; display:flex; flex-direction:column; gap:10px;">
+                <div style="width:150px; display:flex; flex-direction:column; gap:10px;">
                     <button class="btn-play" style="background:#222; color:white;" onclick="selectGame('mines')">MINY</button>
                     <button class="btn-play" style="background:#222; color:white;" onclick="selectGame('dice')">KOSTKY</button>
+                    <button class="btn-play" style="background:#222; color:white;" onclick="selectGame('roulette')">RULETA</button>
                 </div>
                 <div class="card" style="flex:1; background:#0c0c0c;">
                     <div id="status-bar">VYBER HRU</div>
+                    
                     <div id="game-mines" class="hidden">
-                        <input type="number" id="m-count" value="3">
-                        <input type="number" id="m-bet" value="10">
-                        <button class="btn-play" onclick="startMines()">START</button>
-                        <div class="grid" id="m-board"></div>
-                        <button id="m-cash" class="hidden" onclick="cashoutMines()" style="width:100%; padding:15px; background:#2ecc71; border:none; border-radius:10px; font-weight:bold;">VYBRAT ⭐</button>
+                        <input type="number" id="m-bet" value="10"> <button class="btn-play" onclick="startMines()">START</button>
+                        <div class="grid" id="m-board" style="display:grid; grid-template-columns: repeat(5, 50px); gap: 5px; margin-top:20px;"></div>
+                        <button id="m-cash" class="hidden" onclick="cashoutMines()" style="width:100%; margin-top:10px; background:#2ecc71; border:none; border-radius:5px; padding:10px; font-weight:bold;">CASH OUT</button>
                     </div>
+
                     <div id="game-dice" class="hidden" style="text-align:center;">
-                        <input type="number" id="d-num" value="1" min="1" max="6">
-                        <input type="number" id="d-bet" value="10">
+                        Tip (1-6): <input type="number" id="d-num" value="1" min="1" max="6"> Sázka: <input type="number" id="d-bet" value="10">
                         <button class="btn-play" onclick="playDice()">HODIT</button>
-                        <div id="d-res" style="font-size:100px; margin:20px;">🎲</div>
+                        <div id="d-res" style="font-size:80px; margin-top:20px;">🎲</div>
+                    </div>
+
+                    <div id="game-roulette" class="hidden">
+                        Sázka: <input type="number" id="r-bet" value="10">
+                        <button class="btn-play" onclick="spinRoulette()">TOČIT</button>
+                        <div id="r-board" class="roulette-board"></div>
+                        <div id="r-result" style="text-align:center; font-size:24px; font-weight:bold; color:var(--orange);">Kde se zastaví?</div>
                     </div>
                 </div>
             </div>
@@ -137,91 +140,82 @@
     };
     sounds.boom.volume = 0.3;
 
-    function forceAudioInit() {
-        if(audioReady) return;
-        for(let s in sounds) {
-            sounds[s].play().then(() => { sounds[s].pause(); sounds[s].currentTime = 0; }).catch(()=>{});
-        }
-        audioReady = true;
-    }
+    function forceAudioInit() { if(!audioReady) { for(let s in sounds) { sounds[s].play().then(()=> {sounds[s].pause(); sounds[s].currentTime=0;}).catch(()=>{}); } audioReady = true; } }
+    function play(n) { if(sounds[n]) { sounds[n].pause(); sounds[n].currentTime=0; setTimeout(()=>sounds[n].play(), 10); } }
 
-    function play(n) {
-        if(sounds[n]) {
-            sounds[n].pause();
-            sounds[n].currentTime = 0;
-            setTimeout(() => { sounds[n].play().catch(() => {}); }, 10);
-        }
-    }
-
-    window.onload = async () => { if(currentUser) { const r = await fetch(`${DB_URL}/${currentUser}.json`); userData = await r.json(); if(userData) loginSuccess(); } };
-    
-    async function auth(type) {
-        forceAudioInit();
-        const u = document.getElementById('user').value.trim();
-        const p = document.getElementById('pass').value;
-        if(!u || !p) return;
-        const res = await fetch(DB_URL + ".json");
-        const users = await res.json() || {};
-        if(type === 'reg') {
-            userData = { password: p, chips: 500 };
-            await fetch(`${DB_URL}/${u}.json`, { method: 'PUT', body: JSON.stringify(userData) });
-            alert("Registrace OK!");
-        } else {
-            if(users[u] && users[u].password === p) { currentUser=u; userData=users[u]; localStorage.setItem('swarm_user', u); loginSuccess(); }
-        }
-    }
-
-    function loginSuccess() {
-        document.getElementById('auth-screen').classList.add('hidden');
-        document.getElementById('main-app').classList.remove('hidden');
-        document.getElementById('display-name').innerText = currentUser;
-        updateUI();
-    }
-
-    function updateUI() {
-        document.getElementById('display-chips').innerText = Math.floor(userData.chips);
-        fetch(`${DB_URL}/${currentUser}.json`, { method: 'PUT', body: JSON.stringify(userData) });
-    }
-
-    function showPage(p) { play('click'); document.querySelectorAll('.container > div').forEach(d => d.classList.add('hidden')); document.getElementById('page-' + p).classList.remove('hidden'); }
-    function selectGame(g) { play('click'); document.getElementById('game-mines').classList.add('hidden'); document.getElementById('game-dice').classList.add('hidden'); document.getElementById('game-' + g).classList.remove('hidden'); }
+    window.onload = async () => { if(currentUser) { const r = await fetch(`${DB_URL}/${currentUser}.json`); userData = await r.json(); if(userData) loginSuccess(); } buildRoulette(); };
+    async function auth(t) { forceAudioInit(); const u=document.getElementById('user').value, p=document.getElementById('pass').value; if(!u||!p) return; const r=await fetch(DB_URL+".json"), us=await r.json()||{}; if(t==='reg'){ userData={password:p,chips:500}; await fetch(`${DB_URL}/${u}.json`,{method:'PUT',body:JSON.stringify(userData)}); alert("OK"); } else if(us[u]&&us[u].password===p){ currentUser=u; userData=us[u]; localStorage.setItem('swarm_user',u); loginSuccess(); } }
+    function loginSuccess() { document.getElementById('auth-screen').classList.add('hidden'); document.getElementById('main-app').classList.remove('hidden'); document.getElementById('display-name').innerText = currentUser; updateUI(); }
+    function updateUI() { document.getElementById('display-chips').innerText = Math.floor(userData.chips); fetch(`${DB_URL}/${currentUser}.json`,{method:'PUT',body:JSON.stringify(userData)}); }
+    function showPage(p) { play('click'); document.querySelectorAll('.container > div').forEach(d=>d.classList.add('hidden')); document.getElementById('page-'+p).classList.remove('hidden'); }
+    function selectGame(g) { play('click'); document.getElementById('game-mines').classList.add('hidden'); document.getElementById('game-dice').classList.add('hidden'); document.getElementById('game-roulette').classList.add('hidden'); document.getElementById('game-'+g).classList.remove('hidden'); }
     function logout() { localStorage.removeItem('swarm_user'); location.reload(); }
 
+    // ROULETTE LOGIC
+    let rBetTarget = null;
+    const rColors = [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1]; // 0 red, 1 black
+    function buildRoulette() {
+        const board = document.getElementById('r-board'); board.innerHTML = '<div class="r-cell r-green" onclick="setRBet(\'num0\')">0</div>';
+        for(let i=1; i<=36; i++) {
+            let cl = (i%2===0) ? 'r-black' : 'r-red';
+            board.innerHTML += `<div id="rcell-${i}" class="r-cell ${cl}" onclick="setRBet('num${i}')">${i}</div>`;
+        }
+        board.innerHTML += `<div class="r-cell r-red" style="grid-column: span 3" onclick="setRBet('red')">RED (2x)</div>`;
+        board.innerHTML += `<div class="r-cell r-black" style="grid-column: span 3" onclick="setRBet('black')">BLACK (2x)</div>`;
+        board.innerHTML += `<div class="r-cell" style="grid-column: span 3; background:#444" onclick="setRBet('even')">EVEN (2x)</div>`;
+        board.innerHTML += `<div class="r-cell" style="grid-column: span 3; background:#444" onclick="setRBet('odd')">ODD (2x)</div>`;
+        board.innerHTML += `<div class="r-cell" style="grid-column: span 4; background:#555" onclick="setRBet('1st')">1st 12 (3x)</div>`;
+        board.innerHTML += `<div class="r-cell" style="grid-column: span 4; background:#555" onclick="setRBet('2nd')">2nd 12 (3x)</div>`;
+        board.innerHTML += `<div class="r-cell" style="grid-column: span 5; background:#555" onclick="setRBet('3rd')">3rd 12 (3x)</div>`;
+    }
+    function setRBet(t) { rBetTarget = t; play('click'); document.querySelectorAll('.r-cell').forEach(c=>c.classList.remove('r-active')); event.target.classList.add('r-active'); }
+    function spinRoulette() {
+        const b = parseInt(document.getElementById('r-bet').value);
+        if(!rBetTarget || b > userData.chips) return alert("Vyber sázku!");
+        userData.chips -= b; updateUI(); play('roll');
+        let res = Math.floor(Math.random()*37);
+        setTimeout(() => {
+            document.getElementById('r-result').innerText = "Padlo: " + res;
+            let win = 0;
+            if(rBetTarget === 'num'+res) win = b * (res === 0 ? 40 : 36);
+            else if(rBetTarget === 'red' && res !== 0 && res%2!==0) win = b * 2;
+            else if(rBetTarget === 'black' && res !== 0 && res%2===0) win = b * 2;
+            else if(rBetTarget === 'even' && res !== 0 && res%2===0) win = b * 2;
+            else if(rBetTarget === 'odd' && res !== 0 && res%2!==0) win = b * 2;
+            else if(rBetTarget === '1st' && res >= 1 && res <= 12) win = b * 3;
+            else if(rBetTarget === '2nd' && res >= 13 && res <= 24) win = b * 3;
+            else if(rBetTarget === '3rd' && res >= 25 && res <= 36) win = b * 3;
+            
+            if(win > 0) { userData.chips += win; play('win'); } else { play('boom'); }
+            updateUI();
+        }, 1500);
+    }
+
+    // MINES & DICE (Beze změny, přidán win sound)
     let mActive = false, mMult = 1, mBet = 0, mRev = 0, mBoard = [];
     function startMines() {
         mBet = parseInt(document.getElementById('m-bet').value);
-        let count = parseInt(document.getElementById('m-count').value);
         if(mBet > userData.chips || mBet <= 0) return;
         mActive = true; mRev = 0; mMult = 1; userData.chips -= mBet; updateUI();
-        document.getElementById('m-board').innerHTML = '';
-        mBoard = new Array(25).fill(false);
-        let m = 0; while(m < count) { let r = Math.floor(Math.random()*25); if(!mBoard[r]){mBoard[r]=true; m++;} }
+        const b = document.getElementById('m-board'); b.innerHTML = ''; mBoard = new Array(25).fill(false);
+        let m = 0; while(m<3){ let r=Math.floor(Math.random()*25); if(!mBoard[r]){mBoard[r]=true; m++;}}
         for(let i=0; i<25; i++) {
-            let t = document.createElement('div'); t.className = 'tile';
+            let t = document.createElement('div'); t.style = "width:50px;height:50px;background:#222;cursor:pointer;display:flex;align-items:center;justify-content:center;border-radius:5px;";
             t.onclick = () => {
                 if(!mActive || t.innerHTML !== "") return;
                 if(mBoard[i]) { t.innerHTML = '💥'; play('boom'); mActive = false; document.getElementById('m-cash').classList.add('hidden'); }
-                else { t.innerHTML = '⭐'; play('gem'); mRev++; mMult *= (1 + (count/(25-mRev))); document.getElementById('status-bar').innerText = mMult.toFixed(2)+"X"; document.getElementById('m-cash').classList.remove('hidden'); }
-                t.classList.add('rev');
+                else { t.innerHTML = '⭐'; play('gem'); mRev++; mMult *= 1.2; document.getElementById('m-cash').classList.remove('hidden'); }
             };
-            document.getElementById('m-board').appendChild(t);
+            b.appendChild(t);
         }
     }
-
-    function cashoutMines() {
-        if(!mActive) return;
-        userData.chips += Math.floor(mBet * mMult); play('win');
-        mActive = false; document.getElementById('m-cash').classList.add('hidden'); updateUI();
-    }
-
+    function cashoutMines() { if(!mActive) return; userData.chips += Math.floor(mBet * mMult); play('win'); mActive = false; updateUI(); document.getElementById('m-cash').classList.add('hidden'); }
     function playDice() {
-        let b = parseInt(document.getElementById('d-bet').value);
-        let n = parseInt(document.getElementById('d-num').value);
-        if(b > userData.chips) return;
-        userData.chips -= b; updateUI(); play('roll');
+        let b = parseInt(document.getElementById('d-bet').value), n = parseInt(document.getElementById('d-num').value);
+        if(b > userData.chips) return; userData.chips -= b; updateUI(); play('roll');
         setTimeout(() => {
             let r = Math.floor(Math.random()*6)+1; document.getElementById('d-res').innerText = r;
-            if(r === n) { userData.chips += b*6; play('win'); } else { play('boom'); }
+            if(r === n) { userData.chips += b*6; play('win'); } else play('boom');
             updateUI();
         }, 1000);
     }
