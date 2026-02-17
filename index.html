@@ -1,39 +1,41 @@
 import random
 
 def blackjack():
-    print("\n--- Vítej v Black Jacku! ---")
-    # Tady bude tvoje logika pro Blackjack
-    print("Hráč dostal: [10, 7]. Dealer má: [9].")
-    print("Zatím jen ukázka... vracím tě do menu.")
+    # Definice karet (zjednodušeně: J, Q, K jsou za 10, Eso za 11)
+    karty = [2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11]
+    
+    hrac = [random.choice(karty), random.choice(karty)]
+    dealer = [random.choice(karty), random.choice(karty)]
+    
+    print(f"Tvoje karty: {hrac}, součet: {sum(hrac)}")
+    print(f"Dealerova viditelná karta: [{dealer[0]}]")
 
-def roulette():
-    print("\n--- Vítej u Rulety! ---")
-    # Tady bude tvoje logika pro Ruletu
-    cislo = random.randint(0, 36)
-    barva = "Červená" if cislo % 2 == 0 else "Černá" # Zjednodušeně
-    print(f"Padlo číslo {cislo} ({barva}).")
-    print("Vracím tě do menu.")
-
-def main_menu():
-    while True:
-        print("\n======================")
-        print("   GAMES DASHBOARD")
-        print("======================")
-        print("1. Hrát Black Jack")
-        print("2. Hrát Ruletu")
-        print("3. Konec")
-        
-        volba = input("\nVyber si hru (1-3): ")
-
-        if volba == '1':
-            blackjack()
-        elif volba == '2':
-            roulette()
-        elif volba == '3':
-            print("Díky za hraní! Čau.")
-            break
+    # Hráčův tah
+    while sum(hrac) < 21:
+        akce = input("Chceš (h)it nebo (s)tand? ").lower()
+        if akce == 'h':
+            hrac.append(random.choice(karty))
+            print(f"Tvoje karty: {hrac}, součet: {sum(hrac)}")
         else:
-            print("Neplatná volba, zkus to znova.")
+            break
 
-if __name__ == "__main__":
-    main_menu()
+    # Vyhodnocení
+    soucet_hrac = sum(hrac)
+    soucet_dealer = sum(dealer)
+
+    if soucet_hrac > 21:
+        print("Bust! Přetáhl jsi a prohrál.")
+    else:
+        # Dealer hraje (vždy tahá do 16)
+        while sum(dealer) < 17:
+            dealer.append(random.choice(karty))
+        
+        soucet_dealer = sum(dealer)
+        print(f"Dealerovy karty: {dealer}, součet: {soucet_dealer}")
+
+        if soucet_dealer > 21 or soucet_hrac > soucet_dealer:
+            print("Vyhrál jsi!")
+        elif soucet_hrac < soucet_dealer:
+            print("Prohrál jsi!")
+        else:
+            print("Remíza (Push)!")
