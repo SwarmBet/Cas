@@ -64,7 +64,7 @@
         .tile:hover { background: #111; }
         
         .r-slider-wrap { position: relative; width: 100%; height: 85px; background: #111; border: 2px solid #333; overflow: hidden; border-radius: 10px; margin-bottom: 20px; }
-        .r-slider-inner { display: flex; position: absolute; left: 0; transition: left 4s cubic-bezier(0.1, 0, 0.1, 1); align-items: center; height: 100%; }
+        .r-slider-inner { display: flex; position: absolute; left: 0; transition: left 6s cubic-bezier(0.1, 0, 0.1, 1); align-items: center; height: 100%; }
         .r-num { min-width: 65px; height: 65px; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 1px solid rgba(0,0,0,0.2); font-size: 20px; }
         .r-pointer { position: absolute; left: 50%; top: 0; bottom: 0; width: 4px; background: var(--orange); z-index: 10; transform: translateX(-50%); box-shadow: 0 0 15px var(--orange); }
 
@@ -364,7 +364,7 @@
     }
     function cashoutMines() { if(!mActive) return; userData.chips += Math.floor(mBet * mMult); play('win'); mActive = false; updateUI(); document.getElementById('m-cash').classList.add('hidden'); document.getElementById('m-start').disabled = false; }
 
-    // ROULETTE LOGIC (WITH NEW SOUND)
+    // ROULETTE LOGIC (NOW 6 SECONDS SPIN)
     const rOrder = [0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30, 8, 23, 10, 5, 24, 16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7, 28, 12, 35, 3, 26];
     const redNums = [1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36];
     let currentBets = {}, isRSpinning = false;
@@ -422,11 +422,12 @@
         document.getElementById('r-status').innerText = "KULIČKA BĚŽÍ...";
         document.getElementById('r-status').style.color = 'var(--orange)';
         
-        play('rSpin'); // NOVÝ ZVUK TADY
+        play('rSpin'); 
         
         const slider = document.getElementById('r-slider'), winNum = rOrder[Math.floor(Math.random()*rOrder.length)];
-        const target = (rOrder.length * 6 + rOrder.indexOf(winNum)) * 65 - (475-32);
-        slider.style.transition = "left 4s cubic-bezier(0.1, 0, 0.1, 1)"; 
+        // Upravený cílový posun pro delší trasu během 6s
+        const target = (rOrder.length * 8 + rOrder.indexOf(winNum)) * 65 - (475-32);
+        slider.style.transition = "left 6s cubic-bezier(0.1, 0, 0.1, 1)"; // ZDE ZMĚNA NA 6s
         slider.style.left = `-${target}px`;
 
         setTimeout(() => {
@@ -476,7 +477,7 @@
             isRSpinning = false; 
             document.getElementById('r-spin').disabled = false; 
             updateUI();
-        }, 4100);
+        }, 6100); // ZDE ZMĚNA NA 6100ms
     }
 
     // DICE LOGIC
