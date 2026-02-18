@@ -4,11 +4,30 @@
     <meta charset="UTF-8">
     <title>SwarmBet - Star Premium 2026</title>
     <style>
-        :root { --orange: #ff9900; --dark: #0a0a0a; --panel: #151515; --green: #27ae60; --red: #e74c3c; --black: #2c3e50; }
+        :root { --orange: #ff9900; --dark: #0a0a0a; --panel: #151515; --green: #27ae60; --red: #e74c3c; --black: #2c3e50; --gold: #f1c40f; }
         body { 
             background-color: var(--dark); color: white; font-family: 'Segoe UI', sans-serif; margin: 0; 
             display: flex; flex-direction: column; min-height: 100vh;
             background-image: radial-gradient(circle at center, rgba(255, 153, 0, 0.03) 0%, transparent 80%);
+            overflow-x: hidden;
+        }
+
+        /* WIN OVERLAY STYLE */
+        .win-announcement {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            z-index: 9999; text-align: center; pointer-events: none;
+            animation: winPop 3s forwards cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-shadow: 0 0 20px rgba(241, 196, 15, 0.5);
+        }
+        .win-mult { font-size: 80px; font-weight: 900; color: var(--gold); margin: 0; line-height: 1; }
+        .win-amt { font-size: 40px; font-weight: bold; color: white; margin: 0; }
+        
+        @keyframes winPop {
+            0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+            15% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
+            20% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            80% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            100% { transform: translate(-50%, -70%) scale(0.8); opacity: 0; }
         }
 
         /* NAVIGATION & AUTH */
@@ -283,6 +302,8 @@
     <footer>© 2026 Swarmbet<br>For entertainment purposes only.</footer>
 </div>
 
+<div id="win-container"></div>
+
 <script>
     const DB_URL = "https://casbss-c75a0-default-rtdb.europe-west1.firebasedatabase.app/users";
     let currentUser = localStorage.getItem('swarm_user');
@@ -291,7 +312,7 @@
 
     // SFX UPDATED LINKS
     const sfx = {
-        star: "https://cdn.discordapp.com/attachments/1090308530348757122/1473461724018376704/sigmaman1432.mp3?ex=6996f46a&is=6995a2ea&hm=5cf2b79a65d72055b889f0d2fd4f9e38edc5c4abca7ec9b9fc76b55938e45b0d&",
+        star: "https://cdn.discordapp.com/attachments/1027983822702248026/1473788416624951418/Lucky_wheel_spin_sound_effect.mp3?ex=69977bec&is=69962a6c&hm=176c43d1374817d21b3f9cc8e03fade656a8791c959aa49572bbc0c0435b34c7&",
         win: "https://www.myinstants.com/media/sounds/correct_2.mp3",
         boom: "https://www.myinstants.com/media/sounds/explosion.mp3",
         click: "https://raw.githubusercontent.com/theking9x/Roblox-Sounds/main/UIPresentation.mp3",
@@ -308,6 +329,19 @@
         else if(name === 'rSpin') a.volume = 1.0;
         else a.volume = 0.4;
         a.play().catch(()=>{});
+    }
+
+    // NEW WIN OVERLAY FUNCTION
+    function showWinOverlay(mult, amount) {
+        const container = document.getElementById('win-container');
+        const div = document.createElement('div');
+        div.className = 'win-announcement';
+        div.innerHTML = `
+            <p class="win-mult">${mult.toFixed(2)}x</p>
+            <p class="win-amt">+${Math.floor(amount)} ⭐️</p>
+        `;
+        container.appendChild(div);
+        setTimeout(() => div.remove(), 3000);
     }
 
     async function auth(type) {
@@ -405,9 +439,11 @@
         setTimeout(() => { slider.style.transition = "transform 5s cubic-bezier(0.1, 0, 0.1, 1)"; slider.style.transform = `translateX(${finalTransform}px)`; }, 50);
         setTimeout(() => {
             let totalWin = 0;
+            let totalBetOnThisSpin = 0;
             const isRed = redNums.includes(winNum), isBlack = winNum !== 0 && !isRed, isEven = winNum !== 0 && winNum % 2 === 0, isOdd = winNum !== 0 && winNum % 2 !== 0;
             for(let bet in currentBets) {
                 let amt = currentBets[bet];
+                totalBetOnThisSpin += amt;
                 if(bet === 'n'+winNum) totalWin += amt * 36;
                 if(bet === 'red' && isRed) totalWin += amt * 2;
                 if(bet === 'black' && isBlack) totalWin += amt * 2;
@@ -420,7 +456,12 @@
                 if(bet === '3rd12' && winNum >= 25 && winNum <= 36) totalWin += amt * 3;
             }
             document.getElementById('r-status').innerText = `VYHRÁLO ČÍSLO: ${winNum}`;
-            if(totalWin > 0) { userData.chips += totalWin; play('win'); document.getElementById('r-status').style.color = 'var(--green)'; document.getElementById('r-status').innerText += ` | VÝHRA: ${totalWin}`; }
+            if(totalWin > 0) { 
+                userData.chips += totalWin; play('win'); 
+                document.getElementById('r-status').style.color = 'var(--green)'; 
+                document.getElementById('r-status').innerText += ` | VÝHRA: ${totalWin}`;
+                showWinOverlay(totalWin / totalBetOnThisSpin, totalWin);
+            }
             else { play('boom'); document.getElementById('r-status').style.color = 'var(--red)'; }
             currentBets = {}; document.querySelectorAll('.cell, .btn-extra').forEach(el => { el.classList.remove('active'); const chip = el.querySelector('.chip-overlay'); if(chip) chip.remove(); });
             setTimeout(() => { document.getElementById('r-status').innerText = "PŘIPRAVTE SÁZKY"; document.getElementById('r-status').style.color = 'var(--orange)'; }, 3000);
@@ -446,14 +487,33 @@
             board.appendChild(t);
         }
     }
-    function cashoutMines() { if(!mActive) return; userData.chips += Math.floor(mBet * mMult); play('win'); mActive = false; updateUI(); document.getElementById('m-cash').classList.add('hidden'); document.getElementById('m-start').disabled = false; }
+    function cashoutMines() { 
+        if(!mActive) return; 
+        let win = Math.floor(mBet * mMult);
+        userData.chips += win; 
+        play('win'); 
+        showWinOverlay(mMult, win);
+        mActive = false; updateUI(); 
+        document.getElementById('m-cash').classList.add('hidden'); 
+        document.getElementById('m-start').disabled = false; 
+    }
     
-    // DICE & BLACKJACK (Standard logic kept as requested)
+    // DICE
     function playDice() {
         let b = parseInt(document.getElementById('d-bet').value), n = parseInt(document.getElementById('d-num').value);
         if(b > userData.chips) return; userData.chips -= b; updateUI();
-        setTimeout(() => { let r = Math.floor(Math.random()*6)+1; document.getElementById('d-res').innerText = r; if(r === n) { userData.chips += b*6; play('win'); } else play('boom'); updateUI(); }, 500);
+        setTimeout(() => { 
+            let r = Math.floor(Math.random()*6)+1; 
+            document.getElementById('d-res').innerText = r; 
+            if(r === n) { 
+                userData.chips += b*6; play('win'); 
+                showWinOverlay(6.00, b*6);
+            } else play('boom'); 
+            updateUI(); 
+        }, 500);
     }
+
+    // BLACKJACK
     let deck = [], pHand = [], dHand = [], bjActive = false, bjBet = 0;
     function createDeck() {
         const suits = ['♠', '♣', '♥', '♦'], values = ['2','3','4','5','6','7','8','9','10','J','Q','K','A']; deck = [];
@@ -483,7 +543,14 @@
         if (!bjActive) return; bjActive = false; document.getElementById('bj-back').remove(); renderCard(dHand[1], 'bj-dealer-hand');
         let dScore = getScore(dHand); document.getElementById('bj-dealer-score').innerText = dScore;
         while (dScore < 17) { await new Promise(r => setTimeout(r, 600)); const card = deck.pop(); dHand.push(card); renderCard(card, 'bj-dealer-hand'); dScore = getScore(dHand); document.getElementById('bj-dealer-score').innerText = dScore; }
-        const pScore = getScore(pHand); if (dScore > 21 || pScore > dScore) { userData.chips += bjBet * 2; endBJ("VÝHRA!"); play('win'); } else if (dScore === pScore) { userData.chips += bjBet; endBJ("REMÍZA"); } else { endBJ("PROHRA"); play('boom'); } updateUI();
+        const pScore = getScore(pHand); 
+        if (dScore > 21 || pScore > dScore) { 
+            userData.chips += bjBet * 2; endBJ("VÝHRA!"); play('win'); 
+            showWinOverlay(2.00, bjBet * 2);
+        } else if (dScore === pScore) { 
+            userData.chips += bjBet; endBJ("REMÍZA"); 
+            showWinOverlay(1.00, bjBet);
+        } else { endBJ("PROHRA"); play('boom'); } updateUI();
     }
     function endBJ(msg) { bjActive = false; document.getElementById('bj-status').innerText = msg; document.getElementById('bj-dealer-score').innerText = getScore(dHand); toggleBJControls(false); }
     function toggleBJControls(playing) { document.getElementById('bj-deal-btn').classList.toggle('hidden', playing); document.getElementById('bj-hit-btn').classList.toggle('hidden', !playing); document.getElementById('bj-stand-btn').classList.toggle('hidden', !playing); }
