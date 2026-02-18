@@ -63,26 +63,23 @@
         .tile { width: 60px; height: 60px; background: #000; border: 1px solid #333; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 28px; transition: 0.1s; }
         .tile:hover { background: #111; }
         
-        /* --- ROULETTE FIXED CSS START --- */
         .r-slider-wrap { 
-            position: relative; width: 100%; height: 80px; /* Pevná výška 80px */
+            position: relative; width: 100%; height: 80px; 
             background: #111; border: 2px solid #333; overflow: hidden; 
             border-radius: 10px; margin-bottom: 20px; 
         }
         .r-slider-inner { 
             display: flex; position: absolute; left: 0; align-items: center; height: 100%; 
-            will-change: transform; /* Optimalizace pro novou animaci */
+            will-change: transform; 
         }
         .r-num { 
-            /* ZMĚNA: Pevná šířka 80px pro matematickou přesnost */
             min-width: 80px; width: 80px; height: 80px; 
             display: flex; align-items: center; justify-content: center; 
             font-weight: bold; border-right: 1px solid rgba(0,0,0,0.5); font-size: 24px; box-sizing: border-box;
         }
         .r-pointer { position: absolute; left: 50%; top: 0; bottom: 0; width: 4px; background: var(--orange); z-index: 10; transform: translateX(-50%); box-shadow: 0 0 15px var(--orange); }
 
-        .r-grid { display: grid; grid-template-columns: 80px repeat(12, 1fr); gap: 5px; } /* Grid upraven na 80px */
-        /* --- ROULETTE FIXED CSS END --- */
+        .r-grid { display: grid; grid-template-columns: 80px repeat(12, 1fr); gap: 5px; }
 
         .cell { height: 50px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight: bold; border-radius: 4px; border: 2px solid transparent; transition: 0.1s; position: relative; font-size: 12px; }
         .cell.nula { background: var(--green); grid-row: span 3; height: 160px; font-size: 24px; }
@@ -279,21 +276,24 @@
     let userData = null;
     let audioReady = false;
 
+    // UPDATED SFX WITH YOUR NEW LINKS
     const sfx = {
-        star: "https://www.myinstants.com/media/sounds/collect-star.mp3",
+        star: "https://cdn.discordapp.com/attachments/1090308530348757122/1473461724018376704/sigmaman1432.mp3",
         win: "https://www.myinstants.com/media/sounds/correct_2.mp3",
         boom: "https://www.myinstants.com/media/sounds/explosion.mp3",
         click: "https://raw.githubusercontent.com/theking9x/Roblox-Sounds/main/UIPresentation.mp3",
-        rSpin: "https://cdn.discordapp.com/attachments/1473732416706449450/1473769802110603295/Game_Wheel_Spin_Sound_Effect.mp3"
+        rSpin: "https://cdn.discordapp.com/attachments/1027983822702248026/1473788416624951418/Lucky_wheel_spin_sound_effect.mp3"
     };
 
     function initAudio() { audioReady = true; }
     function play(name) {
         if(!audioReady) return;
         const a = new Audio(sfx[name]);
-        a.volume = name === 'star' ? 0.6 : 0.4;
-        if(name === 'boom') a.volume = 0.2;
-        if(name === 'rSpin') a.volume = 0.7;
+        if(name === 'star') a.volume = 0.8;
+        else if(name === 'win') a.volume = 0.4;
+        else if(name === 'boom') a.volume = 0.2;
+        else if(name === 'rSpin') a.volume = 1.0;
+        else a.volume = 0.4;
         a.play().catch(()=>{});
     }
 
@@ -319,7 +319,7 @@
     function backToMenu() { document.getElementById('selection-menu').classList.remove('hidden'); document.getElementById('game-active-page').classList.add('hidden'); }
     function updateUI() { if(!userData) return; document.getElementById('display-chips').innerText = Math.floor(userData.chips); fetch(`${DB_URL}/${currentUser}.json`, { method: 'PUT', body: JSON.stringify(userData) }); }
 
-    // --- ROULETTE REPLACED LOGIC (FIXED) ---
+    // ROULETTE LOGIC
     const rOrder = [0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30, 8, 23, 10, 5, 24, 16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7, 28, 12, 35, 3, 26];
     const redNums = [1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36];
     let currentBets = {}, isRSpinning = false;
@@ -327,7 +327,6 @@
     function buildRoulette() {
         const slider = document.getElementById('r-slider'); 
         let sH = "";
-        // Generujeme více kopií (30) pro dlouhý spin
         for(let i=0; i<30; i++) rOrder.forEach(n => { 
             let c = n===0?'var(--green)':(redNums.includes(n)?'var(--red)':'var(--black)'); 
             sH += `<div class="r-num" style="background:${c}">${n}</div>`; 
@@ -371,34 +370,27 @@
         play('rSpin'); 
         
         const slider = document.getElementById('r-slider');
-        
-        // 1. OKAMŽITÝ RESET
         slider.style.transition = "none";
         slider.style.transform = "translateX(0px)";
-        slider.offsetHeight; // Force reflow
+        slider.offsetHeight; 
 
-        // 2. MATEMATIKA VÝHRY
         const winIndex = Math.floor(Math.random() * rOrder.length);
         const winNum = rOrder[winIndex];
         
-        const CARD_WIDTH = 80; // Musí sedět s CSS
+        const CARD_WIDTH = 80; 
         const LOOPS = 10;
         const targetIndex = (LOOPS * rOrder.length) + winIndex;
         
         const pixelOffset = targetIndex * CARD_WIDTH;
         const wrapWidth = document.getElementById('r-wrap').offsetWidth;
         const centerOffset = (wrapWidth / 2) - (CARD_WIDTH / 2);
-        
-        // 3. CÍLOVÁ POZICE
         const finalTransform = -(pixelOffset - centerOffset);
 
-        // 4. ANIMACE
         setTimeout(() => {
             slider.style.transition = "transform 5s cubic-bezier(0.1, 0, 0.1, 1)";
             slider.style.transform = `translateX(${finalTransform}px)`;
         }, 50);
 
-        // 5. VYHODNOCENÍ (Musí se shodovat s délkou animace + rezerva)
         setTimeout(() => {
             let totalWin = 0;
             const isRed = redNums.includes(winNum);
@@ -448,9 +440,8 @@
             updateUI();
         }, 5100); 
     }
-    // --- END ROULETTE LOGIC ---
 
-    // MINES, DICE & BLACKJACK (Unchanged)
+    // MINES
     let mActive = false, mMult = 1, mBet = 0, mBombs = [];
     function startMines() {
         mBet = parseInt(document.getElementById('m-bet').value); if(mBet > userData.chips || mBet <= 0) return;
@@ -469,11 +460,15 @@
         }
     }
     function cashoutMines() { if(!mActive) return; userData.chips += Math.floor(mBet * mMult); play('win'); mActive = false; updateUI(); document.getElementById('m-cash').classList.add('hidden'); document.getElementById('m-start').disabled = false; }
+    
+    // DICE
     function playDice() {
         let b = parseInt(document.getElementById('d-bet').value), n = parseInt(document.getElementById('d-num').value);
         if(b > userData.chips) return; userData.chips -= b; updateUI();
         setTimeout(() => { let r = Math.floor(Math.random()*6)+1; document.getElementById('d-res').innerText = r; if(r === n) { userData.chips += b*6; play('win'); } else play('boom'); updateUI(); }, 500);
     }
+
+    // BLACKJACK
     let deck = [], pHand = [], dHand = [], bjActive = false, bjBet = 0;
     function createDeck() {
         const suits = ['♠', '♣', '♥', '♦'], values = ['2','3','4','5','6','7','8','9','10','J','Q','K','A']; deck = [];
