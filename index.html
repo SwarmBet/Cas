@@ -276,12 +276,10 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
-
     <footer>© 2026 Swarmbet<br>For entertainment purposes only.</footer>
 </div>
 
@@ -291,13 +289,13 @@
     let userData = null;
     let audioReady = false;
 
-    // SFX LINKS
+    // SFX UPDATED LINKS
     const sfx = {
-        star: "https://cdn.discordapp.com/attachments/1090308530348757122/1473461724018376704/sigmaman1432.mp3",
+        star: "https://cdn.discordapp.com/attachments/1027983822702248026/1473788416624951418/Lucky_wheel_spin_sound_effect.mp3?ex=69977bec&is=69962a6c&hm=176c43d1374817d21b3f9cc8e03fade656a8791c959aa49572bbc0c0435b34c7&",
         win: "https://www.myinstants.com/media/sounds/correct_2.mp3",
         boom: "https://www.myinstants.com/media/sounds/explosion.mp3",
         click: "https://raw.githubusercontent.com/theking9x/Roblox-Sounds/main/UIPresentation.mp3",
-        rSpin: "https://cdn.discordapp.com/attachments/1027983822702248026/1473788416624951418/Lucky_wheel_spin_sound_effect.mp3"
+        rSpin: "https://cdn.discordapp.com/attachments/1027983822702248026/1473788416624951418/Lucky_wheel_spin_sound_effect.mp3?ex=69977bec&is=69962a6c&hm=176c43d1374817d21b3f9cc8e03fade656a8791c959aa49572bbc0c0435b34c7&"
     };
 
     function initAudio() { audioReady = true; }
@@ -331,50 +329,27 @@
         document.getElementById('auth-screen').classList.add('hidden'); 
         document.getElementById('main-app').classList.remove('hidden'); 
         document.getElementById('display-name').innerText = currentUser; 
-        
-        // Admin toggle
-        if(currentUser === "SEPIAK") {
-            document.getElementById('link-admin').classList.remove('hidden');
-        }
-
+        if(currentUser === "SEPIAK") { document.getElementById('link-admin').classList.remove('hidden'); }
         buildRoulette(); 
         updateUI(); 
     }
 
     function logout() { localStorage.removeItem('swarm_user'); location.reload(); }
-    
-    function showPage(p) { 
-        play('click'); 
-        document.getElementById('page-home').classList.add('hidden'); 
-        document.getElementById('page-games').classList.add('hidden'); 
-        document.getElementById('page-admin').classList.add('hidden'); 
-        document.getElementById('page-'+p).classList.remove('hidden'); 
-        if(p === 'games') backToMenu(); 
-    }
-
+    function showPage(p) { play('click'); document.getElementById('page-home').classList.add('hidden'); document.getElementById('page-games').classList.add('hidden'); document.getElementById('page-admin').classList.add('hidden'); document.getElementById('page-'+p).classList.remove('hidden'); if(p === 'games') backToMenu(); }
     function selectGame(g) { play('click'); document.getElementById('selection-menu').classList.add('hidden'); document.getElementById('game-active-page').classList.remove('hidden'); ['mines','dice','roulette','blackjack'].forEach(id => document.getElementById('game-'+id).classList.add('hidden')); document.getElementById('game-'+g).classList.remove('hidden'); }
     function backToMenu() { document.getElementById('selection-menu').classList.remove('hidden'); document.getElementById('game-active-page').classList.add('hidden'); }
     function updateUI() { if(!userData) return; document.getElementById('display-chips').innerText = Math.floor(userData.chips); fetch(`${DB_URL}/${currentUser}.json`, { method: 'PUT', body: JSON.stringify(userData) }); }
 
-    // ADMIN LOGIC
     async function adminGiveChips() {
         const target = document.getElementById('adm-target').value.trim();
         const amount = parseInt(document.getElementById('adm-amount').value);
         if(!target || isNaN(amount)) return alert("Zadej jméno a počet!");
-        
         const res = await fetch(`${DB_URL}/${target}.json`);
         const targetData = await res.json();
-        
         if(!targetData) return alert("Hráč nenalezen!");
-        
         targetData.chips = (targetData.chips || 0) + amount;
         await fetch(`${DB_URL}/${target}.json`, { method: 'PUT', body: JSON.stringify(targetData) });
-        
-        if(target === currentUser) {
-            userData.chips = targetData.chips;
-            updateUI();
-        }
-        
+        if(target === currentUser) { userData.chips = targetData.chips; updateUI(); }
         alert(`Úspěšně přidáno ${amount} čipů hráči ${target}!`);
     }
 
@@ -384,20 +359,11 @@
     let currentBets = {}, isRSpinning = false;
 
     function buildRoulette() {
-        const slider = document.getElementById('r-slider'); 
-        let sH = "";
-        for(let i=0; i<30; i++) rOrder.forEach(n => { 
-            let c = n===0?'var(--green)':(redNums.includes(n)?'var(--red)':'var(--black)'); 
-            sH += `<div class="r-num" style="background:${c}">${n}</div>`; 
-        });
+        const slider = document.getElementById('r-slider'); let sH = "";
+        for(let i=0; i<30; i++) rOrder.forEach(n => { let c = n===0?'var(--green)':(redNums.includes(n)?'var(--red)':'var(--black)'); sH += `<div class="r-num" style="background:${c}">${n}</div>`; });
         slider.innerHTML = sH;
-
-        const b = document.getElementById('r-board'); 
-        let bH = `<div class="cell nula" onclick="handleRClick('n0', this)">0</div>`;
-        for(let r=3; r>=1; r--) for(let i=1; i<=12; i++) { 
-            let n=(i-1)*3+r; let c=redNums.includes(n)?'red':'black'; 
-            bH+=`<div class="cell ${c}" onclick="handleRClick('n${n}', this)">${n}</div>`; 
-        }
+        const b = document.getElementById('r-board'); let bH = `<div class="cell nula" onclick="handleRClick('n0', this)">0</div>`;
+        for(let r=3; r>=1; r--) for(let i=1; i<=12; i++) { let n=(i-1)*3+r; let c=redNums.includes(n)?'red':'black'; bH+=`<div class="cell ${c}" onclick="handleRClick('n${n}', this)">${n}</div>`; }
         b.innerHTML = bH;
     }
 
@@ -425,38 +391,21 @@
         document.getElementById('r-spin').disabled = true;
         document.getElementById('r-status').innerText = "KULIČKA BĚŽÍ...";
         document.getElementById('r-status').style.color = 'var(--orange)';
-        
         play('rSpin'); 
-        
         const slider = document.getElementById('r-slider');
-        slider.style.transition = "none";
-        slider.style.transform = "translateX(0px)";
-        slider.offsetHeight; 
-
+        slider.style.transition = "none"; slider.style.transform = "translateX(0px)"; slider.offsetHeight; 
         const winIndex = Math.floor(Math.random() * rOrder.length);
         const winNum = rOrder[winIndex];
-        
-        const CARD_WIDTH = 80; 
-        const LOOPS = 10;
+        const CARD_WIDTH = 80; const LOOPS = 10;
         const targetIndex = (LOOPS * rOrder.length) + winIndex;
-        
         const pixelOffset = targetIndex * CARD_WIDTH;
         const wrapWidth = document.getElementById('r-wrap').offsetWidth;
         const centerOffset = (wrapWidth / 2) - (CARD_WIDTH / 2);
         const finalTransform = -(pixelOffset - centerOffset);
-
-        setTimeout(() => {
-            slider.style.transition = "transform 5s cubic-bezier(0.1, 0, 0.1, 1)";
-            slider.style.transform = `translateX(${finalTransform}px)`;
-        }, 50);
-
+        setTimeout(() => { slider.style.transition = "transform 5s cubic-bezier(0.1, 0, 0.1, 1)"; slider.style.transform = `translateX(${finalTransform}px)`; }, 50);
         setTimeout(() => {
             let totalWin = 0;
-            const isRed = redNums.includes(winNum);
-            const isBlack = winNum !== 0 && !isRed;
-            const isEven = winNum !== 0 && winNum % 2 === 0;
-            const isOdd = winNum !== 0 && winNum % 2 !== 0;
-
+            const isRed = redNums.includes(winNum), isBlack = winNum !== 0 && !isRed, isEven = winNum !== 0 && winNum % 2 === 0, isOdd = winNum !== 0 && winNum % 2 !== 0;
             for(let bet in currentBets) {
                 let amt = currentBets[bet];
                 if(bet === 'n'+winNum) totalWin += amt * 36;
@@ -470,33 +419,12 @@
                 if(bet === '2nd12' && winNum >= 13 && winNum <= 24) totalWin += amt * 3;
                 if(bet === '3rd12' && winNum >= 25 && winNum <= 36) totalWin += amt * 3;
             }
-
             document.getElementById('r-status').innerText = `VYHRÁLO ČÍSLO: ${winNum}`;
-            
-            if(totalWin > 0) { 
-                userData.chips += totalWin; play('win'); 
-                document.getElementById('r-status').style.color = 'var(--green)';
-                document.getElementById('r-status').innerText += ` | VÝHRA: ${totalWin}`;
-            } else { 
-                play('boom'); 
-                document.getElementById('r-status').style.color = 'var(--red)';
-            }
-
-            currentBets = {};
-            document.querySelectorAll('.cell, .btn-extra').forEach(el => {
-                el.classList.remove('active');
-                const chip = el.querySelector('.chip-overlay');
-                if(chip) chip.remove();
-            });
-
-            setTimeout(() => {
-                document.getElementById('r-status').innerText = "PŘIPRAVTE SÁZKY";
-                document.getElementById('r-status').style.color = 'var(--orange)';
-            }, 3000);
-            
-            isRSpinning = false; 
-            document.getElementById('r-spin').disabled = false; 
-            updateUI();
+            if(totalWin > 0) { userData.chips += totalWin; play('win'); document.getElementById('r-status').style.color = 'var(--green)'; document.getElementById('r-status').innerText += ` | VÝHRA: ${totalWin}`; }
+            else { play('boom'); document.getElementById('r-status').style.color = 'var(--red)'; }
+            currentBets = {}; document.querySelectorAll('.cell, .btn-extra').forEach(el => { el.classList.remove('active'); const chip = el.querySelector('.chip-overlay'); if(chip) chip.remove(); });
+            setTimeout(() => { document.getElementById('r-status').innerText = "PŘIPRAVTE SÁZKY"; document.getElementById('r-status').style.color = 'var(--orange)'; }, 3000);
+            isRSpinning = false; document.getElementById('r-spin').disabled = false; updateUI();
         }, 5100); 
     }
 
@@ -512,30 +440,20 @@
             let t = document.createElement('div'); t.className = 'tile';
             t.onclick = () => {
                 if(!mActive || t.innerHTML !== "") return;
-                if(mBombs.includes(i)) { 
-                    t.innerHTML='💥'; play('boom'); mActive=false; 
-                    document.getElementById('m-cash').classList.add('hidden'); 
-                    document.getElementById('m-start').disabled=false; 
-                }
-                else { 
-                    t.innerHTML='⭐'; play('star'); 
-                    mMult *= 1.25; 
-                    document.getElementById('m-cash').classList.remove('hidden'); 
-                }
+                if(mBombs.includes(i)) { t.innerHTML='💥'; play('boom'); mActive=false; document.getElementById('m-cash').classList.add('hidden'); document.getElementById('m-start').disabled=false; }
+                else { t.innerHTML='⭐'; play('star'); mMult *= 1.25; document.getElementById('m-cash').classList.remove('hidden'); }
             };
             board.appendChild(t);
         }
     }
     function cashoutMines() { if(!mActive) return; userData.chips += Math.floor(mBet * mMult); play('win'); mActive = false; updateUI(); document.getElementById('m-cash').classList.add('hidden'); document.getElementById('m-start').disabled = false; }
     
-    // DICE
+    // DICE & BLACKJACK (Standard logic kept as requested)
     function playDice() {
         let b = parseInt(document.getElementById('d-bet').value), n = parseInt(document.getElementById('d-num').value);
         if(b > userData.chips) return; userData.chips -= b; updateUI();
         setTimeout(() => { let r = Math.floor(Math.random()*6)+1; document.getElementById('d-res').innerText = r; if(r === n) { userData.chips += b*6; play('win'); } else play('boom'); updateUI(); }, 500);
     }
-
-    // BLACKJACK
     let deck = [], pHand = [], dHand = [], bjActive = false, bjBet = 0;
     function createDeck() {
         const suits = ['♠', '♣', '♥', '♦'], values = ['2','3','4','5','6','7','8','9','10','J','Q','K','A']; deck = [];
