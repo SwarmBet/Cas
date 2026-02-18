@@ -6,8 +6,7 @@
     <style>
         :root { --orange: #ff9900; --dark: #0a0a0a; --panel: #151515; --green: #27ae60; --red: #e74c3c; --black: #2c3e50; --gold: #f1c40f; }
         body { 
-            background-color: var(--dark);
-            color: white; font-family: 'Segoe UI', sans-serif; margin: 0; 
+            background-color: var(--dark); color: white; font-family: 'Segoe UI', sans-serif; margin: 0; 
             display: flex; flex-direction: column; min-height: 100vh;
             background-image: radial-gradient(circle at center, rgba(255, 153, 0, 0.03) 0%, transparent 80%);
             overflow-x: hidden;
@@ -15,8 +14,7 @@
 
         /* WIN OVERLAY STYLE */
         .win-announcement {
-            position: fixed;
-            top: 50%; left: 50%; transform: translate(-50%, -50%);
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
             z-index: 9999; text-align: center; pointer-events: none;
             animation: winPop 3s forwards cubic-bezier(0.175, 0.885, 0.32, 1.275);
             text-shadow: 0 0 20px rgba(241, 196, 15, 0.5);
@@ -40,12 +38,7 @@
         .user-section { position: relative; cursor: pointer; padding: 5px 10px; }
         .user-info { display: flex; flex-direction: column; align-items: flex-end; }
         .user-name { font-weight: 900; color: var(--orange); }
-        .logout-btn {
-            position: absolute;
-            top: 100%; right: 0; background: #ff4444; color: white;
-            border: none; padding: 8px 15px; border-radius: 5px; font-size: 12px;
-            display: none; cursor: pointer; margin-top: 5px; width: 100px; font-weight: bold;
-        }
+        .logout-btn { position: absolute; top: 100%; right: 0; background: #ff4444; color: white; border: none; padding: 8px 15px; border-radius: 5px; font-size: 12px; display: none; cursor: pointer; margin-top: 5px; width: 100px; font-weight: bold; }
         .user-section:hover .logout-btn { display: block; }
 
         .container { width: 950px; margin: 30px auto; flex: 1; }
@@ -61,26 +54,18 @@
         .section-title::before { content: ''; width: 4px; height: 20px; background: #3498db; border-radius: 2px; }
 
         .games-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; width: 100%; }
-        .game-card { 
-            background: #111;
-            border-radius: 12px; padding: 20px 10px; text-align: center; 
-            transition: 0.3s; cursor: pointer; border: 1px solid #222;
-        }
+        .game-card { background: #111; border-radius: 12px; padding: 20px 10px; text-align: center; transition: 0.3s; cursor: pointer; border: 1px solid #222; }
         .game-card:hover { transform: translateY(-5px); background: #181818; border-color: #444; }
         
-        .icon-box { 
-            width: 50px; height: 50px; background: rgba(0,0,0,0.3); border-radius: 10px; 
-            margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; font-size: 24px;
-            border: 1px solid rgba(255,255,255,0.05);
-        }
+        .icon-box { width: 50px; height: 50px; background: rgba(0,0,0,0.3); border-radius: 10px; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; font-size: 24px; border: 1px solid rgba(255,255,255,0.05); }
         .game-card h3 { margin: 5px 0; font-size: 16px; color: white; }
         .game-card p { color: #666; font-size: 11px; margin-bottom: 15px; }
         
-        .btn-card-play { 
-            background: #222; color: var(--orange); border: 1px solid #333; padding: 6px 0; 
-            width: 100%; border-radius: 6px; font-size: 12px; font-weight: bold; transition: 0.2s;
-        }
+        .btn-card-play { background: #222; color: var(--orange); border: 1px solid #333; padding: 6px 0; width: 100%; border-radius: 6px; font-size: 12px; font-weight: bold; transition: 0.2s; }
         .game-card:hover .btn-card-play { background: var(--orange); color: black; border-color: var(--orange); }
+
+        /* LIMBO DISPLAY */
+        .limbo-display { font-size: 80px; font-weight: 900; margin: 20px 0; color: var(--orange); transition: 0.1s; }
 
         /* COIN FLIP ANIMATION */
         .coin { width: 100px; height: 100px; margin: 20px auto; background: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 40px; border: 5px solid #d4af37; transition: transform 0.6s; }
@@ -114,13 +99,7 @@
         .btn-extra.red { background: var(--red); }
         .btn-extra.black { background: var(--black); }
 
-        .chip-overlay {
-            position: absolute;
-            width: 24px; height: 24px; background: var(--orange); border-radius: 50%; border: 2px dashed white; color: black; font-size: 9px;
-            display: flex; align-items: center; justify-content: center; font-weight: bold;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.5); pointer-events: none; animation: chipDrop 0.2s ease-out;
-            top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 5;
-        }
+        .chip-overlay { position: absolute; width: 24px; height: 24px; background: var(--orange); border-radius: 50%; border: 2px dashed white; color: black; font-size: 9px; display: flex; align-items: center; justify-content: center; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.5); pointer-events: none; animation: chipDrop 0.2s ease-out; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 5; }
         @keyframes chipDrop { from { transform: translate(-50%, -50%) scale(2); opacity: 0; } to { transform: translate(-50%, -50%) scale(1); opacity: 1; } }
 
         .btn-play { background: var(--orange); color: black; border: none; padding: 12px 20px; border-radius: 8px; font-weight: 900; cursor: pointer; }
@@ -128,13 +107,7 @@
 
         .bj-area { display: flex; flex-direction: column; align-items: center; gap: 20px; padding: 20px; }
         .bj-hand { display: flex; gap: 10px; min-height: 120px; align-items: center; }
-        .card-ui { 
-            width: 70px; height: 100px; background: white; border-radius: 8px; 
-            color: black; display: flex; flex-direction: column; justify-content: center; 
-            align-items: center; font-weight: bold; font-size: 20px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.5); border: 1px solid #ddd;
-            animation: dealCard 0.3s ease-out;
-        }
+        .card-ui { width: 70px; height: 100px; background: white; border-radius: 8px; color: black; display: flex; flex-direction: column; justify-content: center; align-items: center; font-weight: bold; font-size: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.5); border: 1px solid #ddd; animation: dealCard 0.3s ease-out; }
         .card-ui.red { color: #e74c3c; }
         .bj-score { font-size: 14px; color: var(--orange); font-weight: bold; margin-top: 5px; }
         @keyframes dealCard { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
@@ -227,6 +200,12 @@
                         <div class="icon-box" style="color:#2ecc71;">🚀</div>
                         <h3>Crash</h3>
                         <p>cash out in time</p>
+                        <button class="btn-card-play">Play</button>
+                    </div>
+                    <div class="game-card" onclick="selectGame('limbo')">
+                        <div class="icon-box" style="color:#e67e22;">🛸</div>
+                        <h3>Limbo</h3>
+                        <p>target the rocket</p>
                         <button class="btn-card-play">Play</button>
                     </div>
                 </div>
@@ -327,6 +306,24 @@
                             <div id="crash-history" style="display:flex; justify-content:center; gap:10px; color:#555; font-size:12px;"></div>
                         </div>
                     </div>
+
+                    <div id="game-limbo" class="hidden" style="text-align:center;">
+                        <h2 style="color:#e67e22;">LIMBO</h2>
+                        <div id="limbo-res" class="limbo-display">1.00x</div>
+                        <div style="display:flex; justify-content:center; gap:15px; align-items:center;">
+                            <div>
+                                Cíl (Target):<br>
+                                <input type="number" id="l-target" value="2.00" step="0.10" min="1.01">
+                            </div>
+                            <div>
+                                Sázka:<br>
+                                <input type="number" id="l-bet" value="50">
+                            </div>
+                        </div>
+                        <br>
+                        <button class="btn-play" id="l-btn" onclick="playLimbo()" style="width:200px; background:#e67e22;">BET</button>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -349,7 +346,6 @@
         click: "https://raw.githubusercontent.com/theking9x/Roblox-Sounds/main/UIPresentation.mp3",
         rSpin: "https://cdn.discordapp.com/attachments/1027983822702248026/1473788416624951418/Lucky_wheel_spin_sound_effect.mp3?ex=69977bec&is=69962a6c&hm=176c43d1374817d21b3f9cc8e03fade656a8791c959aa49572bbc0c0435b34c7&"
     };
-
     function initAudio() { audioReady = true; }
     function play(name) {
         if(!audioReady) return;
@@ -407,19 +403,19 @@
         play('click');
         document.getElementById('selection-menu').classList.add('hidden'); 
         document.getElementById('game-active-page').classList.remove('hidden'); 
-        ['mines','dice','roulette','blackjack','coinflip','crash'].forEach(id => document.getElementById('game-'+id).classList.add('hidden')); 
+        ['mines','dice','roulette','blackjack','coinflip','crash','limbo'].forEach(id => document.getElementById('game-'+id).classList.add('hidden')); 
         document.getElementById('game-'+g).classList.remove('hidden');
     }
 
     function backToMenu() { 
-        // Reset Crash if playing
         if(crashActive) clearInterval(crashInterval);
         crashActive = false;
         document.getElementById('selection-menu').classList.remove('hidden'); 
         document.getElementById('game-active-page').classList.add('hidden');
     }
 
-    function updateUI() { if(!userData) return; document.getElementById('display-chips').innerText = Math.floor(userData.chips); fetch(`${DB_URL}/${currentUser}.json`, { method: 'PUT', body: JSON.stringify(userData) }); }
+    function updateUI() { if(!userData) return; document.getElementById('display-chips').innerText = Math.floor(userData.chips);
+    fetch(`${DB_URL}/${currentUser}.json`, { method: 'PUT', body: JSON.stringify(userData) }); }
 
     async function adminGiveChips() {
         const target = document.getElementById('adm-target').value.trim();
@@ -430,8 +426,47 @@
         if(!targetData) return alert("Hráč nenalezen!");
         targetData.chips = (targetData.chips || 0) + amount;
         await fetch(`${DB_URL}/${target}.json`, { method: 'PUT', body: JSON.stringify(targetData) });
-        if(target === currentUser) { userData.chips = targetData.chips; updateUI(); }
+        if(target === currentUser) { userData.chips = targetData.chips; updateUI();
+        }
         alert(`Úspěšně přidáno ${amount} čipů hráči ${target}!`);
+    }
+
+    // LIMBO LOGIC
+    function playLimbo() {
+        const bet = parseInt(document.getElementById('l-bet').value);
+        const target = parseFloat(document.getElementById('l-target').value);
+        const btn = document.getElementById('l-btn');
+        const display = document.getElementById('limbo-res');
+
+        if(bet > userData.chips || bet <= 0 || isNaN(target) || target < 1.01) return alert("Neplatné údaje!");
+
+        userData.chips -= bet;
+        updateUI();
+        btn.disabled = true;
+        play('click');
+
+        // Generování Limbo výsledku (house edge 1%)
+        const result = (0.99 / (1 - Math.random())).toFixed(2);
+        const resNum = parseFloat(result);
+
+        display.style.color = "white";
+        display.innerText = "???";
+
+        setTimeout(() => {
+            display.innerText = result + "x";
+            if(resNum >= target) {
+                const win = Math.floor(bet * target);
+                userData.chips += win;
+                display.style.color = "var(--green)";
+                play('win');
+                showWinOverlay(target, win);
+            } else {
+                display.style.color = "var(--red)";
+                play('boom');
+            }
+            btn.disabled = false;
+            updateUI();
+        }, 600);
     }
 
     // COIN FLIP
@@ -469,11 +504,13 @@
         crashBet = parseInt(document.getElementById('c-bet').value);
         if (crashBet > userData.chips || crashBet <= 0 || crashActive) return;
         userData.chips -= crashBet; updateUI();
-        crashActive = true; crashMult = 1.00;
+        crashActive = true;
+        crashMult = 1.00;
         const display = document.getElementById('crash-display');
         const startBtn = document.getElementById('c-start');
         const cashBtn = document.getElementById('c-cash');
-        display.style.color = "white"; startBtn.disabled = true; cashBtn.classList.remove('hidden');
+        display.style.color = "white";
+        startBtn.disabled = true; cashBtn.classList.remove('hidden');
         let crashPoint = (Math.random() < 0.05) ? 1.00 : (0.99 / (1 - Math.random()));
         crashInterval = setInterval(() => {
             crashMult += 0.01 + (crashMult * 0.005);
@@ -488,7 +525,8 @@
     }
     function cashoutCrash() {
         if (!crashActive) return;
-        clearInterval(crashInterval); crashActive = false;
+        clearInterval(crashInterval);
+        crashActive = false;
         let win = Math.floor(crashBet * crashMult); userData.chips += win;
         play('win'); showWinOverlay(crashMult, win); updateUI();
         document.getElementById('c-start').disabled = false; document.getElementById('c-cash').classList.add('hidden');
@@ -511,11 +549,13 @@
         for(let i=0; i<30; i++) rOrder.forEach(n => { let c = n===0?'var(--green)':(redNums.includes(n)?'var(--red)':'var(--black)'); sH += `<div class="r-num" style="background:${c}">${n}</div>`; });
         slider.innerHTML = sH;
         const b = document.getElementById('r-board'); let bH = `<div class="cell nula" onclick="handleRClick('n0', this)">0</div>`;
-        for(let r=3; r>=1; r--) for(let i=1; i<=12; i++) { let n=(i-1)*3+r; let c=redNums.includes(n)?'red':'black'; bH+=`<div class="cell ${c}" onclick="handleRClick('n${n}', this)">${n}</div>`; }
+        for(let r=3; r>=1; r--) for(let i=1; i<=12; i++) { let n=(i-1)*3+r; let c=redNums.includes(n)?'red':'black'; bH+=`<div class="cell ${c}" onclick="handleRClick('n${n}', this)">${n}</div>`;
+        }
         b.innerHTML = bH;
     }
 
-    function handleRClick(val, el) { setExtraBet(val, el); }
+    function handleRClick(val, el) { setExtraBet(val, el);
+    }
     function setExtraBet(type, el) { 
         if(isRSpinning) return;
         const amt = parseInt(document.getElementById('r-bet').value);
@@ -524,7 +564,8 @@
         currentBets[type] += amt;
         userData.chips -= amt; updateUI();
         let chip = el.querySelector('.chip-overlay');
-        if(!chip) { chip = document.createElement('div'); chip.className = 'chip-overlay'; el.appendChild(chip); }
+        if(!chip) { chip = document.createElement('div'); chip.className = 'chip-overlay'; el.appendChild(chip);
+        }
         chip.innerText = currentBets[type]; el.classList.add('active');
     }
 
@@ -558,7 +599,8 @@
             let totalWin = 0; let totalBetOnThisSpin = 0;
             const isRed = redNums.includes(winNum), isBlack = winNum !== 0 && !isRed, isEven = winNum !== 0 && winNum % 2 === 0, isOdd = winNum !== 0 && winNum % 2 !== 0;
             for(let bet in currentBets) {
-                let amt = currentBets[bet]; totalBetOnThisSpin += amt;
+                let amt = 
+                currentBets[bet]; totalBetOnThisSpin += amt;
                 if(bet === 'n'+winNum) totalWin += amt * 36;
                 if(bet === 'red' && isRed) totalWin += amt * 2;
                 if(bet === 'black' && isBlack) totalWin += amt * 2;
@@ -572,16 +614,18 @@
             }
             document.getElementById('r-status').innerText = `VYHRÁLO ČÍSLO: ${winNum}`;
             if(totalWin > 0) { 
-                userData.chips += totalWin; play('win'); 
+                userData.chips += totalWin;
+                play('win'); 
                 document.getElementById('r-status').style.color = 'var(--green)'; 
                 document.getElementById('r-status').innerText += ` | VÝHRA: ${totalWin}`;
                 showWinOverlay(totalWin / totalBetOnThisSpin, totalWin);
-            } else { play('boom'); document.getElementById('r-status').style.color = 'var(--red)'; }
+            } else { play('boom');
+            document.getElementById('r-status').style.color = 'var(--red)'; }
             currentBets = {};
             document.querySelectorAll('.cell, .btn-extra').forEach(el => { el.classList.remove('active'); const chip = el.querySelector('.chip-overlay'); if(chip) chip.remove(); });
             setTimeout(() => { document.getElementById('r-status').innerText = "PŘIPRAVTE SÁZKY"; document.getElementById('r-status').style.color = 'var(--orange)'; }, 3000);
             isRSpinning = false; document.getElementById('r-spin').disabled = false; updateUI();
-        }, 5100); 
+            }, 5100); 
     }
 
     // MINES
@@ -592,19 +636,23 @@
         userData.chips -= mBet; mActive = true; mMult = 1; mBombs = [];
         updateUI(); document.getElementById('m-start').disabled = true;
         const board = document.getElementById('m-board'); board.innerHTML = '';
-        while(mBombs.length < 3) { let r = Math.floor(Math.random()*25); if(!mBombs.includes(r)) mBombs.push(r); }
+        while(mBombs.length < 3) { let r = Math.floor(Math.random()*25);
+        if(!mBombs.includes(r)) mBombs.push(r); }
         for(let i=0; i<25; i++) {
-            let t = document.createElement('div'); t.className = 'tile';
+            let t = document.createElement('div');
+            t.className = 'tile';
             t.onclick = () => {
                 if(!mActive || t.innerHTML !== "") return;
                 if(mBombs.includes(i)) { t.innerHTML='💥'; play('boom'); mActive=false; document.getElementById('m-cash').classList.add('hidden'); document.getElementById('m-start').disabled=false; }
-                else { t.innerHTML='⭐'; play('star'); mMult *= 1.25; document.getElementById('m-cash').classList.remove('hidden'); }
+                else { t.innerHTML='⭐';
+                play('star'); mMult *= 1.25; document.getElementById('m-cash').classList.remove('hidden'); }
             };
             board.appendChild(t);
         }
     }
     function cashoutMines() { if(!mActive) return; let win = Math.floor(mBet * mMult);
-    userData.chips += win; play('win'); showWinOverlay(mMult, win); mActive = false; updateUI(); document.getElementById('m-cash').classList.add('hidden'); document.getElementById('m-start').disabled = false; }
+    userData.chips += win; play('win'); showWinOverlay(mMult, win); mActive = false; updateUI(); document.getElementById('m-cash').classList.add('hidden'); document.getElementById('m-start').disabled = false;
+    }
     
     // DICE
     function playDice() {
@@ -618,11 +666,14 @@
     function createDeck() {
         const suits = ['♠', '♣', '♥', '♦'], values = ['2','3','4','5','6','7','8','9','10','J','Q','K','A'];
         deck = []; for (let s of suits) for (let v of values) deck.push({v, s});
-        for (let i = deck.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [deck[i], deck[j]] = [deck[j], deck[i]]; }
+        for (let i = deck.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1));
+        [deck[i], deck[j]] = [deck[j], deck[i]]; }
     }
     function getScore(hand) {
         let score = 0, aces = 0;
-        for (let c of hand) { if (c.v === 'A') aces++; else if (['J','Q','K'].includes(c.v)) score += 10; else if (c.v === '?') continue; else score += parseInt(c.v); }
+        for (let c of hand) { if (c.v === 'A') aces++; else if (['J','Q','K'].includes(c.v)) score += 10;
+        else if (c.v === '?') continue; else score += parseInt(c.v);
+        }
         for (let i = 0; i < aces; i++) score += (score + 11 <= 21) ? 11 : 1; return score;
     }
     function renderCard(card, target) {
@@ -640,8 +691,10 @@
         const back = document.createElement('div'); back.className='card-ui'; back.id='bj-back'; back.style.background='#444'; back.innerText='?'; document.getElementById('bj-dealer-hand').appendChild(back);
         toggleBJControls(true); updateBJScore(); play('click');
     }
-    function updateBJScore() { document.getElementById('bj-player-score').innerText = getScore(pHand); if (getScore(pHand) > 21) endBJ("Bust! Dealer vyhrává."); }
-    function bjHit() { if (!bjActive) return; const card = deck.pop(); pHand.push(card); renderCard(card, 'bj-player-hand'); updateBJScore(); play('click'); }
+    function updateBJScore() { document.getElementById('bj-player-score').innerText = getScore(pHand); if (getScore(pHand) > 21) endBJ("Bust! Dealer vyhrává.");
+    }
+    function bjHit() { if (!bjActive) return; const card = deck.pop(); pHand.push(card); renderCard(card, 'bj-player-hand'); updateBJScore(); play('click');
+    }
     async function bjStand() {
         if (!bjActive) return;
         bjActive = false; document.getElementById('bj-back').remove(); renderCard(dHand[1], 'bj-dealer-hand');
@@ -652,8 +705,10 @@
         if (dScore > 21 || pScore > dScore) { userData.chips += bjBet * 2; endBJ("VÝHRA!"); play('win'); showWinOverlay(2.00, bjBet * 2);
         } else if (dScore === pScore) { userData.chips += bjBet; endBJ("REMÍZA"); showWinOverlay(1.00, bjBet); } else { endBJ("PROHRA"); play('boom'); } updateUI();
     }
-    function endBJ(msg) { bjActive = false; document.getElementById('bj-status').innerText = msg; document.getElementById('bj-dealer-score').innerText = getScore(dHand); toggleBJControls(false); }
-    function toggleBJControls(playing) { document.getElementById('bj-deal-btn').classList.toggle('hidden', playing); document.getElementById('bj-hit-btn').classList.toggle('hidden', !playing); document.getElementById('bj-stand-btn').classList.toggle('hidden', !playing); }
+    function endBJ(msg) { bjActive = false; document.getElementById('bj-status').innerText = msg; document.getElementById('bj-dealer-score').innerText = getScore(dHand); toggleBJControls(false);
+    }
+    function toggleBJControls(playing) { document.getElementById('bj-deal-btn').classList.toggle('hidden', playing); document.getElementById('bj-hit-btn').classList.toggle('hidden', !playing); document.getElementById('bj-stand-btn').classList.toggle('hidden', !playing);
+    }
 
     window.onload = async () => { if(currentUser) { const r = await fetch(`${DB_URL}/${currentUser}.json`);
     userData = await r.json(); if(userData) loginSuccess(); } };
