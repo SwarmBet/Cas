@@ -281,7 +281,8 @@
         star: "https://cdn.discordapp.com/attachments/1090308530348757122/1473461724018376704/sigmaman1432.mp3?ex=69964baa&is=6994fa2a&hm=08a411cebdd98fd8c356d8dadba586b7cca4efc387ddac1976d91381f279accc&",
         win: "https://www.myinstants.com/media/sounds/correct_2.mp3",
         boom: "https://www.myinstants.com/media/sounds/explosion.mp3",
-        click: "https://raw.githubusercontent.com/theking9x/Roblox-Sounds/main/UIPresentation.mp3"
+        click: "https://raw.githubusercontent.com/theking9x/Roblox-Sounds/main/UIPresentation.mp3",
+        rSpin: "https://cdn.discordapp.com/attachments/1473732416706449450/1473769802110603295/Game_Wheel_Spin_Sound_Effect.mp3?ex=69976a96&is=69961916&hm=8b911be42e1254b15a18c7798e38237840b18ce169c922081fc1560c96ee4f66&"
     };
 
     function initAudio() { audioReady = true; }
@@ -290,6 +291,7 @@
         const a = new Audio(sfx[name]);
         a.volume = name === 'star' ? 0.6 : 0.4;
         if(name === 'boom') a.volume = 0.2;
+        if(name === 'rSpin') a.volume = 0.7;
         a.play().catch(()=>{});
         a.onended = () => a.remove();
     }
@@ -362,7 +364,7 @@
     }
     function cashoutMines() { if(!mActive) return; userData.chips += Math.floor(mBet * mMult); play('win'); mActive = false; updateUI(); document.getElementById('m-cash').classList.add('hidden'); document.getElementById('m-start').disabled = false; }
 
-    // ROULETTE LOGIC (FULL MULTI-BET)
+    // ROULETTE LOGIC (WITH NEW SOUND)
     const rOrder = [0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30, 8, 23, 10, 5, 24, 16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7, 28, 12, 35, 3, 26];
     const redNums = [1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36];
     let currentBets = {}, isRSpinning = false;
@@ -386,13 +388,11 @@
         if(isRSpinning) return; 
         const amt = parseInt(document.getElementById('r-bet').value);
         if(amt > userData.chips) return alert("Nedostatek čipů!");
-
         play('click'); 
         if(!currentBets[type]) currentBets[type] = 0;
         currentBets[type] += amt;
         userData.chips -= amt;
         updateUI();
-
         let chip = el.querySelector('.chip-overlay');
         if(!chip) {
             chip = document.createElement('div');
@@ -422,6 +422,8 @@
         document.getElementById('r-status').innerText = "KULIČKA BĚŽÍ...";
         document.getElementById('r-status').style.color = 'var(--orange)';
         
+        play('rSpin'); // NOVÝ ZVUK TADY
+        
         const slider = document.getElementById('r-slider'), winNum = rOrder[Math.floor(Math.random()*rOrder.length)];
         const target = (rOrder.length * 6 + rOrder.indexOf(winNum)) * 65 - (475-32);
         slider.style.transition = "left 4s cubic-bezier(0.1, 0, 0.1, 1)"; 
@@ -436,18 +438,13 @@
 
             for(let bet in currentBets) {
                 let amt = currentBets[bet];
-                // Čísla
                 if(bet === 'n'+winNum) totalWin += amt * 36;
-                // Barvy
                 if(bet === 'red' && isRed) totalWin += amt * 2;
                 if(bet === 'black' && isBlack) totalWin += amt * 2;
-                // Sudá/Lichá
                 if(bet === 'even' && isEven) totalWin += amt * 2;
                 if(bet === 'odd' && isOdd) totalWin += amt * 2;
-                // Rozpětí
                 if(bet === '1-18' && winNum >= 1 && winNum <= 18) totalWin += amt * 2;
                 if(bet === '19-36' && winNum >= 19 && winNum <= 36) totalWin += amt * 2;
-                // Tucty
                 if(bet === '1st12' && winNum >= 1 && winNum <= 12) totalWin += amt * 3;
                 if(bet === '2nd12' && winNum >= 13 && winNum <= 24) totalWin += amt * 3;
                 if(bet === '3rd12' && winNum >= 25 && winNum <= 36) totalWin += amt * 3;
@@ -464,7 +461,6 @@
                 document.getElementById('r-status').style.color = 'var(--red)';
             }
 
-            // Reset sázek po spinu
             currentBets = {};
             document.querySelectorAll('.cell, .btn-extra').forEach(el => {
                 el.classList.remove('active');
