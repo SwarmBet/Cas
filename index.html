@@ -344,7 +344,8 @@
         win: "https://cdn.discordapp.com/attachments/1090308530348757122/1473821791133630738/roblox-old-winning-sound-effect.mp3?ex=69999541&is=699843c1&hm=3cdfded35bad6885d34e13b36774773ab91944a423f9ed5e6612bd347025576c&",
         click: "https://raw.githubusercontent.com/theking9x/Roblox-Sounds/main/UIPresentation.mp3",
         rSpin: "https://cdn.discordapp.com/attachments/1027983822702248026/1473788416624951418/Lucky_wheel_spin_sound_effect.mp3?ex=69977bec&is=69962a6c&hm=176c43d1374817d21b3f9cc8e03fade656a8791c959aa49572bbc0c0435b34c7&",
-        cardDraw: "https://cdn.discordapp.com/attachments/1090308530348757122/1473815893040562176/2026-02-18_23-55-17_mp3cut.net_1.mp3?ex=69998fc3&is=69983e43&hm=7b38cd86bd06c8e1ec2a96d93d46971062ffb241c8c3865e03ce8001f0c4ef7f&"
+        boom: "https://www.soundboard.com/handler/DownLoadTrack.ashx?cliptoken=646067b8-6d8b-49eb-831e-4f7f6319808a",
+        card: "https://raw.githubusercontent.com/theking9x/Roblox-Sounds/main/card-flip.mp3" // ADDED CARD SOUND
     };
 
     function initAudio() { audioReady = true; }
@@ -353,7 +354,9 @@
         const a = new Audio(sfx[name]);
         if(name === 'star') a.volume = 0.8;
         else if(name === 'win') a.volume = 0.4;
+        else if(name === 'boom') a.volume = 0.2;
         else if(name === 'rSpin') a.volume = 1.0;
+        else if(name === 'card') a.volume = 0.5; // Set volume for card sound
         else a.volume = 0.4;
         a.play().catch(()=>{});
     }
@@ -370,20 +373,24 @@
     async function auth(type) {
         const u = document.getElementById('user').value.trim(), p = document.getElementById('pass').value;
         if(!u || !p) return;
-        const res = await fetch(DB_URL + ".json"), users = await res.json() || {};
-        if(type === 'reg') {
-            if(users[u]) return alert("User already exists!");
-            userData = { password: p, chips: 500 };
-            await fetch(`${DB_URL}/${u}.json`, { method: 'PUT', body: JSON.stringify(userData) });
-            alert("Registered successfully!");
-        } else {
-            if(users[u] && users[u].password === p) { 
-                currentUser = u;
-                userData = users[u]; 
-                localStorage.setItem('swarm_user', u); 
-                loginSuccess(); 
+        try {
+            const res = await fetch(DB_URL + ".json"), users = await res.json() || {};
+            if(type === 'reg') {
+                if(users[u]) return alert("User already exists!");
+                userData = { password: p, chips: 500 };
+                await fetch(`${DB_URL}/${u}.json`, { method: 'PUT', body: JSON.stringify(userData) });
+                alert("Registered successfully! Now click LOGIN.");
+            } else {
+                if(users[u] && users[u].password === p) { 
+                    currentUser = u;
+                    userData = users[u]; 
+                    localStorage.setItem('swarm_user', u); 
+                    loginSuccess(); 
+                }
+                else alert("Invalid credentials! Did you REGISTER first?");
             }
-            else alert("Invalid credentials!");
+        } catch (e) {
+            alert("Database connection failed! Check your internet or disable AdBlock.");
         }
     }
 
@@ -391,17 +398,34 @@
         document.getElementById('auth-screen').classList.add('hidden');
         document.getElementById('main-app').classList.remove('hidden'); 
         document.getElementById('display-name').innerText = currentUser; 
-        if(["SEPIAK", "sepiakfromsponge", "artur"].includes(currentUser)) { 
-            document.getElementById('link-admin').classList.remove('hidden'); 
-        }
-        buildRoulette(); buildTower(); updateUI();
+        if(currentUser === "SEPIAK") { document.getElementById('link-admin').classList.remove('hidden'); }
+        buildRoulette(); updateUI();
     }
 
     function logout() { localStorage.removeItem('swarm_user'); location.reload(); }
-    function showPage(p) { play('click'); document.getElementById('page-home').classList.add('hidden'); document.getElementById('page-games').classList.add('hidden'); document.getElementById('page-admin').classList.add('hidden'); document.getElementById('page-'+p).classList.remove('hidden'); if(p === 'games') backToMenu(); }
-    function selectGame(g) { play('click'); document.getElementById('selection-menu').classList.add('hidden'); document.getElementById('game-active-page').classList.remove('hidden'); ['mines','dice','roulette','blackjack','coinflip','crash','limbo','baccarat','tower'].forEach(id => { const el = document.getElementById('game-'+id); if(el) el.classList.add('hidden'); }); document.getElementById('game-'+g).classList.remove('hidden'); }
-    function backToMenu() { if(crashActive) clearInterval(crashInterval); crashActive = false; document.getElementById('selection-menu').classList.remove('hidden'); document.getElementById('game-active-page').classList.add('hidden'); }
-    function updateUI() { if(!userData) return; document.getElementById('display-chips').innerText = Math.floor(userData.chips); fetch(`${DB_URL}/${currentUser}.json`, { method: 'PUT', body: JSON.stringify(userData) }); }
+    function showPage(p) { play('click'); document.getElementById('page-home').classList.add('hidden'); document.getElementById('page-games').classList.add('hidden'); document.getElementById('page-admin').classList.add('hidden');
+        document.getElementById('page-'+p).classList.remove('hidden'); if(p === 'games') backToMenu(); }
+    
+    function selectGame(g) { 
+        play('click');
+        document.getElementById('selection-menu').classList.add('hidden'); 
+        document.getElementById('game-active-page').classList.remove('hidden'); 
+        ['mines','dice','roulette','blackjack','coinflip','crash','limbo','baccarat','tower'].forEach(id => {
+            const el = document.getElementById('game-'+id);
+            if(el) el.classList.add('hidden');
+        });
+        document.getElementById('game-'+g).classList.remove('hidden');
+    }
+
+    function backToMenu() { 
+        if(crashActive) clearInterval(crashInterval);
+        crashActive = false;
+        document.getElementById('selection-menu').classList.remove('hidden'); 
+        document.getElementById('game-active-page').classList.add('hidden');
+    }
+
+    function updateUI() { if(!userData) return; document.getElementById('display-chips').innerText = Math.floor(userData.chips);
+        fetch(`${DB_URL}/${currentUser}.json`, { method: 'PUT', body: JSON.stringify(userData) }); }
 
     async function adminGiveChips() {
         const target = document.getElementById('adm-target').value.trim();
@@ -416,343 +440,355 @@
         alert(`Successfully added ${amount} chips to ${target}!`);
     }
 
-    // --- CARDS SHARED ---
-    let deck = [];
-    function createDeck() {
-        const values = ['2','3','4','5','6','7','8','9','10','J','Q','K','A'];
-        const suits = ['♠','♥','♣','♦'];
-        deck = [];
-        for(let s of suits) for(let v of values) deck.push({s,v});
-        for(let i = deck.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [deck[i], deck[j]] = [deck[j], deck[i]];
+    // BACCARAT LOGIC
+    function getBacScore(hand) {
+        let score = 0;
+        for (let c of hand) {
+            if (['J','Q','K','10'].includes(c.v)) score += 0;
+            else if (c.v === 'A') score += 1;
+            else score += parseInt(c.v);
         }
+        return score % 10;
     }
-    function renderCard(card, target) {
-        play('cardDraw');
-        const div = document.createElement('div');
-        div.className = `card-ui ${['♥','♦'].includes(card.s) ? 'red' : ''}`;
-        div.innerHTML = `<div>${card.v}</div><div style="font-size:12px">${card.s}</div>`;
-        document.getElementById(target).appendChild(div);
-    }
-    function getBJValue(hand) {
-        let v = 0, aces = 0;
-        for(let c of hand) {
-            if(['J','Q','K'].includes(c.v)) v += 10;
-            else if(c.v === 'A') { v += 11; aces++; }
-            else v += parseInt(c.v);
+    async function playBaccarat(side) {
+        let bet = parseInt(document.getElementById('bac-bet').value);
+        if (bet > userData.chips || bet <= 0) return alert("Insufficient chips!");
+        userData.chips -= bet; updateUI(); play('click');
+        document.getElementById('bac-player-hand').innerHTML = '';
+        document.getElementById('bac-banker-hand').innerHTML = '';
+        document.getElementById('bac-status').innerText = "DEALING...";
+        createDeck();
+        let pHand = [deck.pop(), deck.pop()], bHand = [deck.pop(), deck.pop()];
+        renderCard(pHand[0], 'bac-player-hand');
+        await new Promise(r => setTimeout(r, 400));
+        renderCard(bHand[0], 'bac-banker-hand'); await new Promise(r => setTimeout(r, 400));
+        renderCard(pHand[1], 'bac-player-hand');
+        await new Promise(r => setTimeout(r, 400));
+        renderCard(bHand[1], 'bac-banker-hand');
+        let pScore = getBacScore(pHand), bScore = getBacScore(bHand);
+        if (pScore <= 5) { await new Promise(r => setTimeout(r, 500)); let c = deck.pop(); pHand.push(c); renderCard(c, 'bac-player-hand');
+        pScore = getBacScore(pHand); }
+        if (bScore <= 5) { await new Promise(r => setTimeout(r, 500));
+        let c = deck.pop(); bHand.push(c); renderCard(c, 'bac-banker-hand'); bScore = getBacScore(bHand);
         }
-        while(v > 21 && aces > 0) { v -= 10; aces--; }
-        return v;
-    }
-
-    // --- MINES ---
-    let mActive = false, mMines = [], mRevealed = 0, mBet = 0;
-    function startMines() {
-        mBet = parseInt(document.getElementById('m-bet').value);
-        if(userData.chips < mBet) return alert(\"Not enough chips!\");
-        userData.chips -= mBet; updateUI();
-        mActive = true; mRevealed = 0; mMines = [];
-        const board = document.getElementById('m-board');
-        board.innerHTML = '';
-        while(mMines.length < 5) { let r = Math.floor(Math.random()*25); if(!mMines.includes(r)) mMines.push(r); }
-        for(let i=0; i<25; i++) {
-            let t = document.createElement('div'); t.className = 'tile';
-            t.onclick = () => revealMine(i, t); board.appendChild(t);
-        }
-        document.getElementById('m-start').classList.add('hidden');
-        document.getElementById('m-cash').classList.remove('hidden');
-    }
-    function revealMine(i, el) {
-        if(!mActive || el.innerText) return;
-        if(mMines.includes(i)) {
-            el.innerText = '💣'; el.style.background = 'red'; mActive = false;
-            document.getElementById('m-start').classList.remove('hidden');
-            document.getElementById('m-cash').classList.add('hidden');
-        } else {
-            el.innerText = '⭐'; el.style.background = '#222'; mRevealed++;
-            play('star');
-            if(mRevealed === 20) cashoutMines();
-        }
-    }
-    function cashoutMines() {
-        if(!mActive) return;
-        let mult = 1 + (mRevealed * 0.25);
-        let win = Math.floor(mBet * mult);
-        userData.chips += win; mActive = false; updateUI();
-        showWinOverlay(mult, win); play('win');
-        document.getElementById('m-start').classList.remove('hidden');
-        document.getElementById('m-cash').classList.add('hidden');
-    }
-
-    // --- DICE ---
-    function playDice() {
-        let b = parseInt(document.getElementById('d-bet').value);
-        let g = parseInt(document.getElementById('d-num').value);
-        if(userData.chips < b) return alert(\"Not enough chips!\");
-        userData.chips -= b;
-        let r = Math.floor(Math.random()*6)+1;
-        document.getElementById('d-res').innerText = ['','⚀','⚁','⚂','⚃','⚄','⚅'][r];
-        if(r === g) { userData.chips += b*5; showWinOverlay(5, b*5); play('win'); }
+        document.getElementById('bac-player-score').innerText = pScore; document.getElementById('bac-banker-score').innerText = bScore;
+        let result = "T";
+        if (pScore > bScore) result = "P"; else if (bScore > pScore) result = "B";
+        let win = 0, mult = 0;
+        if (side === result) {
+            if (result === 'P') { win = bet * 2; mult = 2; }
+            else if (result === 'B') { win = Math.floor(bet * 1.95); mult = 1.95; }
+            else if (result === 'T') { win = bet * 9; mult = 9; }
+            userData.chips += win;
+            document.getElementById('bac-status').innerText = "WINNER!"; document.getElementById('bac-status').style.color = "var(--green)";
+            play('win'); showWinOverlay(mult, win);
+        } else { document.getElementById('bac-status').innerText = "DEFEAT"; document.getElementById('bac-status').style.color = "var(--red)"; play('boom'); }
         updateUI();
     }
 
-    // --- COINFLIP ---
+    function playLimbo() {
+        const bet = parseInt(document.getElementById('l-bet').value);
+        const target = parseFloat(document.getElementById('l-target').value);
+        const btn = document.getElementById('l-btn');
+        const display = document.getElementById('limbo-res');
+        if(bet > userData.chips || bet <= 0 || isNaN(target) || target < 1.01) return alert("Invalid data!");
+        userData.chips -= bet; updateUI();
+        btn.disabled = true; play('click');
+        const result = (0.99 / (1 - Math.random())).toFixed(2);
+        const resNum = parseFloat(result);
+        display.style.color = "white";
+        display.innerText = "???";
+        setTimeout(() => {
+            display.innerText = result + "x";
+            if(resNum >= target) { const win = Math.floor(bet * target); userData.chips += win; display.style.color = "var(--green)"; play('win'); showWinOverlay(target, win); }
+            else { display.style.color = "var(--red)"; play('boom'); }
+            btn.disabled = false; updateUI();
+        }, 600);
+    }
+
     function playCoinFlip() {
-        let b = parseInt(document.getElementById('cf-bet').value);
-        let choice = document.getElementById('cf-choice').value;
-        if(userData.chips < b) return alert(\"Not enough chips!\");
-        userData.chips -= b; updateUI();
-        const coin = document.getElementById('coin-obj');
-        coin.classList.add('flipping');
-        document.getElementById('cf-btn').disabled = true;
+        let b = parseInt(document.getElementById('cf-bet').value), choice = document.getElementById('cf-choice').value;
+        let btn = document.getElementById('cf-btn'), coin = document.getElementById('coin-obj');
+        if(b > userData.chips || b <= 0) return alert("Invalid bet!");
+        userData.chips -= b;
+        updateUI(); btn.disabled = true; coin.classList.add('flipping');
         setTimeout(() => {
             coin.classList.remove('flipping');
-            let res = Math.random() < 0.5 ? 'H' : 'T';
-            coin.innerText = res === 'H' ? '⭐' : '💎';
-            if(res === choice) { userData.chips += b*1.95; showWinOverlay(1.95, b*1.95); play('win'); }
-            updateUI();
-            document.getElementById('cf-btn').disabled = false;
+            let res = Math.random() > 0.5 ? 'H' : 'T'; coin.innerText = (res === 'H') ? '⭐' : '💎';
+            if(res === choice) { userData.chips += b * 2; play('win'); showWinOverlay(2.00, b * 2); }
+            else play('boom');
+            btn.disabled = false; updateUI();
         }, 1200);
     }
 
-    // --- ROULETTE ---
-    const rOrder = [0,32,15,19,4,21,2,25,17,34,6,27,13,36,11,30,8,23,10,5,24,16,33,1,20,14,31,9,22,18,29,7,28,12,35,3,26];
-    const rReds = [32,19,21,25,34,27,36,30,23,5,16,1,14,9,18,7,12,3];
-    let rBets = {};
-    function buildRoulette() {
-        const board = document.getElementById('r-board');
-        const slider = document.getElementById('r-slider');
-        board.innerHTML = '<div class=\"cell nula\" onclick=\"placeRBet(0, this)\">0</div>';
-        for(let i=1; i<=36; i++) {
-            let c = document.createElement('div');
-            c.className = `cell ${rReds.includes(i)?'red':'black'}`;
-            c.innerText = i; c.onclick = () => placeRBet(i, c);
-            board.appendChild(c);
-        }
-        let sliderHTML = '';
-        for(let i=0; i<80; i++) {
-            let n = rOrder[i % 37];
-            let color = n===0?'#27ae60':(rReds.includes(n)?'#e74c3c':'#2c3e50');
-            sliderHTML += `<div class=\"r-num\" style=\"background:${color}\">${n}</div>`;
-        }
-        slider.innerHTML = sliderHTML;
-    }
-    function placeRBet(n, el) {
-        let b = parseInt(document.getElementById('r-bet').value);
-        if(userData.chips < b) return alert(\"Not enough chips!\");
-        userData.chips -= b; rBets[n] = (rBets[n]||0) + b;
-        let chip = document.createElement('div'); chip.className = 'chip-overlay'; chip.innerText = rBets[n];
-        let old = el.querySelector('.chip-overlay'); if(old) old.remove();
-        el.appendChild(chip); updateUI(); play('click');
-    }
-    function setExtraBet(type, el) {
-        let b = parseInt(document.getElementById('r-bet').value);
-        if(userData.chips < b) return alert(\"Not enough chips!\");
-        userData.chips -= b; rBets[type] = (rBets[type]||0) + b;
-        let chip = document.createElement('div'); chip.className = 'chip-overlay'; chip.innerText = rBets[type];
-        let old = el.querySelector('.chip-overlay'); if(old) old.remove();
-        el.appendChild(chip); updateUI(); play('click');
-    }
-    function clearRouletteBets() {
-        rBets = {}; document.querySelectorAll('.chip-overlay').forEach(c => c.remove());
-        document.getElementById('r-status').innerText = 'BETS CLEARED';
-    }
-    function spinRoulette() {
-        if(Object.keys(rBets).length === 0) return alert(\"Place bets first!\");
-        document.getElementById('r-spin').disabled = true;
-        play('rSpin');
-        let res = rOrder[Math.floor(Math.random()*37)];
-        let targetIdx = 0; for(let i=40; i<77; i++) { if(rOrder[i%37] === res) { targetIdx = i; break; } }
-        let offset = (targetIdx * 80) - (document.getElementById('r-wrap').offsetWidth / 2) + 40;
-        const slider = document.getElementById('r-slider');
-        slider.style.transition = 'transform 4s cubic-bezier(0.1, 0, 0.1, 1)';
-        slider.style.transform = `translateX(-${offset}px)`;
-        setTimeout(() => {
-            let totalWin = 0;
-            if(rBets[res]) totalWin += rBets[res] * 36;
-            if(rReds.includes(res)) { if(rBets['red']) totalWin += rBets['red']*2; }
-            else if(res !== 0) { if(rBets['black']) totalWin += rBets['black']*2; }
-            if(res !== 0) {
-                if(res%2===0 && rBets['even']) totalWin += rBets['even']*2;
-                if(res%2!==0 && rBets['odd']) totalWin += rBets['odd']*2;
-                if(res<=18 && rBets['1-18']) totalWin += rBets['1-18']*2;
-                if(res>=19 && rBets['19-36']) totalWin += rBets['19-36']*2;
-                if(res<=12 && rBets['1st12']) totalWin += rBets['1st12']*3;
-                else if(res<=24 && rBets['2nd12']) totalWin += rBets['2nd12']*3;
-                else if(rBets['3rd12']) totalWin += rBets['3rd12']*3;
-            }
-            if(totalWin > 0) { userData.chips += totalWin; showWinOverlay(totalWin/Object.values(rBets).reduce((a,b)=>a+b,0), totalWin); play('win'); }
-            document.getElementById('r-status').innerText = `RESULT: ${res}`;
-            updateUI(); rBets = {}; document.querySelectorAll('.chip-overlay').forEach(c => c.remove());
-            document.getElementById('r-spin').disabled = false;
-            slider.style.transition = 'none'; slider.style.transform = 'translateX(0)';
-        }, 4500);
-    }
-
-    // --- BLACKJACK ---
-    let bjPHand = [], bjDHand = [], bjBet = 0;
-    function startBlackjack() {
-        bjBet = parseInt(document.getElementById('bj-bet').value);
-        if(userData.chips < bjBet) return alert(\"Not enough chips!\");
-        userData.chips -= bjBet; updateUI();
-        createDeck(); bjPHand = [deck.pop(), deck.pop()]; bjDHand = [deck.pop()];
-        document.getElementById('bj-player-hand').innerHTML = ''; document.getElementById('bj-dealer-hand').innerHTML = '';
-        renderCard(bjPHand[0], 'bj-player-hand'); renderCard(bjPHand[1], 'bj-player-hand'); renderCard(bjDHand[0], 'bj-dealer-hand');
-        document.getElementById('bj-deal-btn').classList.add('hidden');
-        document.getElementById('bj-hit-btn').classList.remove('hidden'); document.getElementById('bj-stand-btn').classList.remove('hidden');
-        document.getElementById('bj-status').innerText = 'VS'; updateBJScore();
-    }
-    function updateBJScore() {
-        let p = getBJValue(bjPHand), d = getBJValue(bjDHand);
-        document.getElementById('bj-player-score').innerText = p; document.getElementById('bj-dealer-score').innerText = d;
-        if(p > 21) bjEnd('DEALER WINS (BUST)');
-    }
-    function bjHit() {
-        let c = deck.pop(); bjPHand.push(c); renderCard(c, 'bj-player-hand'); updateBJScore();
-    }
-    function bjStand() {
-        while(getBJValue(bjDHand) < 17) { let c = deck.pop(); bjDHand.push(c); renderCard(c, 'bj-dealer-hand'); }
-        updateBJScore();
-        let p = getBJValue(bjPHand), d = getBJValue(bjDHand);
-        if(d > 21 || p > d) { userData.chips += bjBet*2; bjEnd('YOU WIN!'); play('win'); showWinOverlay(2, bjBet*2); }
-        else if(p === d) { userData.chips += bjBet; bjEnd('PUSH'); }
-        else bjEnd('DEALER WINS');
-    }
-    function bjEnd(txt) {
-        document.getElementById('bj-status').innerText = txt;
-        document.getElementById('bj-deal-btn').classList.remove('hidden');
-        document.getElementById('bj-hit-btn').classList.add('hidden'); document.getElementById('bj-stand-btn').classList.add('hidden');
-        updateUI();
-    }
-
-    // --- BACCARAT ---
-    function playBaccarat(side) {
-        let b = parseInt(document.getElementById('bac-bet').value);
-        if(userData.chips < b) return alert(\"Not enough chips!\");
-        userData.chips -= b; updateUI();
-        createDeck();
-        let pHand = [deck.pop(), deck.pop()], bHand = [deck.pop(), deck.pop()];
-        document.getElementById('bac-player-hand').innerHTML = ''; document.getElementById('bac-banker-hand').innerHTML = '';
-        renderCard(pHand[0], 'bac-player-hand'); renderCard(pHand[1], 'bac-player-hand');
-        renderCard(bHand[0], 'bac-banker-hand'); renderCard(bHand[1], 'bac-banker-hand');
-        let pVal = (pHand[0].v === 'A'?1:(['J','Q','K','10'].includes(pHand[0].v)?0:parseInt(pHand[0].v))) + (pHand[1].v === 'A'?1:(['J','Q','K','10'].includes(pHand[1].v)?0:parseInt(pHand[1].v)));
-        let bVal = (bHand[0].v === 'A'?1:(['J','Q','K','10'].includes(bHand[0].v)?0:parseInt(bHand[0].v))) + (bHand[1].v === 'A'?1:(['J','Q','K','10'].includes(bHand[1].v)?0:parseInt(bHand[1].v)));
-        pVal %= 10; bVal %= 10;
-        document.getElementById('bac-player-score').innerText = pVal; document.getElementById('bac-banker-score').innerText = bVal;
-        let winner = pVal > bVal ? 'P' : (bVal > pVal ? 'B' : 'T');
-        if(winner === side) {
-            let mult = side === 'P' ? 2 : (side === 'B' ? 1.95 : 9);
-            userData.chips += b*mult; play('win'); showWinOverlay(mult, b*mult);
-        }
-        document.getElementById('bac-status').innerText = winner==='T'?'TIE!':(winner==='P'?'PLAYER WINS!':'BANKER WINS!');
-        updateUI();
-    }
-
-    // --- CRASH ---
-    let crashActive = false, crashMult = 1.0, crashInterval, crashBet = 0;
+    let crashActive = false, crashMult = 1.00, crashInterval, crashBet = 0;
     function startCrash() {
         crashBet = parseInt(document.getElementById('c-bet').value);
-        if(userData.chips < crashBet) return alert(\"Not enough chips!\");
-        userData.chips -= crashBet; updateUI();
-        crashActive = true; crashMult = 1.0;
-        document.getElementById('c-start').classList.add('hidden');
-        document.getElementById('c-cash').classList.remove('hidden');
-        document.getElementById('crash-display').style.color = 'white';
-        let limit = 1 + (Math.random() * 10);
+        if (crashBet > userData.chips || crashBet <= 0 || crashActive) return;
+        userData.chips -= crashBet; updateUI(); crashActive = true;
+        crashMult = 1.00;
+        const display = document.getElementById('crash-display'), startBtn = document.getElementById('c-start'), cashBtn = document.getElementById('c-cash');
+        display.style.color = "white"; startBtn.disabled = true; cashBtn.classList.remove('hidden');
+        let crashPoint = (Math.random() < 0.05) ? 1.00 : (0.99 / (1 - Math.random()));
         crashInterval = setInterval(() => {
-            crashMult += 0.01;
-            document.getElementById('crash-display').innerText = crashMult.toFixed(2) + 'x';
-            if(crashMult >= limit) {
+            crashMult += 0.01 + (crashMult * 0.005);
+            display.innerText = crashMult.toFixed(2) + "x";
+            if (crashMult >= crashPoint) {
                 clearInterval(crashInterval); crashActive = false;
-                document.getElementById('crash-display').innerText = 'CRASHED!';
-                document.getElementById('crash-display').style.color = 'red';
-                document.getElementById('c-start').classList.remove('hidden');
-                document.getElementById('c-cash').classList.add('hidden');
+                display.style.color = "var(--red)"; display.innerText = "CRASHED @ " + crashMult.toFixed(2) + "x";
+                play('boom'); startBtn.disabled = false; cashBtn.classList.add('hidden');
+                addToCrashHistory(crashMult, false);
             }
         }, 100);
     }
     function cashoutCrash() {
-        if(!crashActive) return;
-        clearInterval(crashInterval); crashActive = false;
-        let win = Math.floor(crashBet * crashMult);
-        userData.chips += win; updateUI();
-        showWinOverlay(crashMult, win); play('win');
-        document.getElementById('c-start').classList.remove('hidden');
-        document.getElementById('c-cash').classList.add('hidden');
+        if (!crashActive) return;
+        clearInterval(crashInterval);
+        crashActive = false;
+        let win = Math.floor(crashBet * crashMult); userData.chips += win;
+        play('win'); showWinOverlay(crashMult, win); updateUI();
+        document.getElementById('c-start').disabled = false; document.getElementById('c-cash').classList.add('hidden');
+        document.getElementById('crash-display').style.color = "var(--green)";
+        addToCrashHistory(crashMult, true);
+    }
+    function addToCrashHistory(m, win) {
+        const hist = document.getElementById('crash-history'), span = document.createElement('span');
+        span.style.color = win ? 'var(--green)' : 'var(--red)'; span.innerText = m.toFixed(2) + "x"; hist.prepend(span);
+        if(hist.children.length > 5) hist.removeChild(hist.lastChild);
     }
 
-    // --- LIMBO ---
-    function playLimbo() {
-        let b = parseInt(document.getElementById('l-bet').value);
-        let target = parseFloat(document.getElementById('l-target').value);
-        if(userData.chips < b) return alert(\"Not enough chips!\");
-        userData.chips -= b; updateUI();
-        let res = 1 / (Math.random()); 
-        if(res > 100) res = 100;
-        document.getElementById('limbo-res').innerText = res.toFixed(2) + 'x';
-        if(res >= target) {
-            userData.chips += b * target; showWinOverlay(target, b*target); play('win');
-            document.getElementById('limbo-res').style.color = 'var(--green)';
-        } else {
-            document.getElementById('limbo-res').style.color = 'var(--red)';
+    const rOrder = [0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30, 8, 23, 10, 5, 24, 16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7, 28, 12, 35, 3, 26];
+    const redNums = [1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36];
+    let currentBets = {}, isRSpinning = false;
+    function buildRoulette() {
+        const slider = document.getElementById('r-slider'); let sH = "";
+        for(let i=0; i<30; i++) rOrder.forEach(n => { let c = n===0?'var(--green)':(redNums.includes(n)?'var(--red)':'var(--black)'); sH += `<div class="r-num" style="background:${c}">${n}</div>`; });
+        slider.innerHTML = sH;
+        const b = document.getElementById('r-board'); let bH = `<div class="cell nula" onclick="handleRClick('n0', this)">0</div>`;
+        for(let r=3; r>=1; r--) for(let i=1; i<=12; i++) { let n=(i-1)*3+r; let c=redNums.includes(n)?'red':'black'; bH+=`<div class="cell ${c}" onclick="handleRClick('n${n}', this)">${n}</div>`;
         }
+        b.innerHTML = bH;
+    }
+    function handleRClick(val, el) { setExtraBet(val, el);
+    }
+    function setExtraBet(type, el) { 
+        if(isRSpinning) return;
+        const amt = parseInt(document.getElementById('r-bet').value);
+        if(amt > userData.chips) return alert("Insufficient chips!");
+        play('click'); if(!currentBets[type]) currentBets[type] = 0;
+        currentBets[type] += amt;
+        userData.chips -= amt; updateUI();
+        let chip = el.querySelector('.chip-overlay');
+        if(!chip) { chip = document.createElement('div'); chip.className = 'chip-overlay'; el.appendChild(chip);
+        }
+        chip.innerText = currentBets[type]; el.classList.add('active');
+    }
+    function clearRouletteBets() {
+        if(isRSpinning) return;
+        for(let key in currentBets) { userData.chips += currentBets[key]; }
+        currentBets = {};
+        document.querySelectorAll('.cell, .btn-extra').forEach(el => { el.classList.remove('active'); const chip = el.querySelector('.chip-overlay'); if(chip) chip.remove(); });
         updateUI();
     }
-
-    // --- TOWER ---
-    let tActive = false, tLevel = 0, tBet = 0;
-    const tMults = [1.4, 2.1, 3.2, 4.8, 7.5, 12.0, 20.0, 40.0];
-    function buildTower() {
-        const board = document.getElementById('tower-board'); board.innerHTML = '';
-        for(let i=0; i<8; i++) {
-            let row = document.createElement('div'); row.style.display = 'flex'; row.style.gap = '5px'; row.id = `floor-${i}`;
-            for(let j=0; j<3; j++) {
-                let t = document.createElement('div'); t.className = 'tile'; t.style.width = '80px'; t.style.opacity = '0.3';
-                t.onclick = () => clickTower(i, j, t); row.appendChild(t);
+    function spinRoulette() {
+        if(isRSpinning || Object.keys(currentBets).length === 0) return;
+        isRSpinning = true; document.getElementById('r-spin').disabled = true;
+        document.getElementById('r-status').innerText = "THE BALL IS SPINNING...";
+        play('rSpin'); const slider = document.getElementById('r-slider');
+        slider.style.transition = "none";
+        slider.style.transform = "translateX(0px)"; slider.offsetHeight; 
+        const winIndex = Math.floor(Math.random() * rOrder.length), winNum = rOrder[winIndex];
+        const CARD_WIDTH = 80, LOOPS = 10, targetIndex = (LOOPS * rOrder.length) + winIndex;
+        const pixelOffset = targetIndex * CARD_WIDTH, wrapWidth = document.getElementById('r-wrap').offsetWidth;
+        const finalTransform = -(pixelOffset - ((wrapWidth / 2) - (CARD_WIDTH / 2)));
+        setTimeout(() => { slider.style.transition = "transform 5s cubic-bezier(0.1, 0, 0.1, 1)"; slider.style.transform = `translateX(${finalTransform}px)`; }, 50);
+        setTimeout(() => {
+            let totalWin = 0, totalBetOnThisSpin = 0, isRed = redNums.includes(winNum), isBlack = winNum !== 0 && !isRed, isEven = winNum !== 0 && winNum % 2 === 0, isOdd = winNum !== 0 && winNum % 2 !== 0;
+            for(let bet in currentBets) {
+                let amt = currentBets[bet]; totalBetOnThisSpin += amt;
+                if(bet === 'n'+winNum) totalWin += amt * 36;
+                if(bet === 'red' && isRed) totalWin += amt * 2;
+                if(bet === 'black' && isBlack) totalWin += amt * 2;
+                if(bet === 'even' && isEven) totalWin += amt * 2;
+                if(bet === 'odd' && isOdd) totalWin += amt * 2;
+                if(bet === '1-18' && winNum >= 1 && winNum <= 18) totalWin += amt * 2;
+                if(bet === '19-36' && winNum >= 19 && winNum <= 36) totalWin += amt * 2;
+                if(bet === '1st12' && winNum >= 1 && winNum <= 12) totalWin += amt * 3;
+                if(bet === '2nd12' && winNum >= 13 && winNum <= 24) totalWin += amt * 3;
+                if(bet === '3rd12' && winNum >= 25 && winNum <= 36) totalWin += amt * 3;
             }
-            board.appendChild(row);
+            document.getElementById('r-status').innerText = `NUMBER: ${winNum}`;
+            if(totalWin > 0) { userData.chips += totalWin; play('win'); document.getElementById('r-status').style.color = 'var(--green)'; document.getElementById('r-status').innerText += ` | WIN: ${totalWin}`;
+            showWinOverlay(totalWin / totalBetOnThisSpin, totalWin); }
+            else { play('boom');
+            document.getElementById('r-status').style.color = 'var(--red)'; }
+            currentBets = {};
+            document.querySelectorAll('.cell, .btn-extra').forEach(el => { el.classList.remove('active'); const chip = el.querySelector('.chip-overlay'); if(chip) chip.remove(); });
+            setTimeout(() => { document.getElementById('r-status').innerText = "PLACE YOUR BETS"; document.getElementById('r-status').style.color = 'var(--orange)'; }, 3000);
+            isRSpinning = false; document.getElementById('r-spin').disabled = false; updateUI();
+        }, 5100); 
+    }
+
+    let mActive = false, mMult = 1, mBet = 0, mBombs = [];
+    function startMines() {
+        mBet = parseInt(document.getElementById('m-bet').value);
+        if(mBet > userData.chips || mBet <= 0) return;
+        userData.chips -= mBet; mActive = true; mMult = 1; mBombs = [];
+        updateUI();
+        document.getElementById('m-start').disabled = true; const board = document.getElementById('m-board'); board.innerHTML = '';
+        while(mBombs.length < 3) { let r = Math.floor(Math.random()*25);
+        if(!mBombs.includes(r)) mBombs.push(r); }
+        for(let i=0; i<25; i++) {
+            let t = document.createElement('div');
+            t.className = 'tile';
+            t.onclick = () => {
+                if(!mActive || t.innerHTML !== "") return;
+                if(mBombs.includes(i)) { t.innerHTML='💥'; play('boom'); mActive=false; document.getElementById('m-cash').classList.add('hidden'); document.getElementById('m-start').disabled=false; }
+                else { t.innerHTML='⭐';
+                play('star'); mMult *= 1.25; document.getElementById('m-cash').classList.remove('hidden'); }
+            };
+            board.appendChild(t);
         }
     }
+    function cashoutMines() { if(!mActive) return; let win = Math.floor(mBet * mMult);
+        userData.chips += win; play('win'); showWinOverlay(mMult, win); mActive = false; updateUI(); document.getElementById('m-cash').classList.add('hidden'); document.getElementById('m-start').disabled = false;
+    }
+    
+    function playDice() {
+        let b = parseInt(document.getElementById('d-bet').value), n = parseInt(document.getElementById('d-num').value);
+        if(b > userData.chips) return; userData.chips -= b; updateUI();
+        setTimeout(() => { let r = Math.floor(Math.random()*6)+1; document.getElementById('d-res').innerText = r; if(r === n) { userData.chips += b*6; play('win'); showWinOverlay(6.00, b*6); } else play('boom'); updateUI(); }, 500);
+    }
+
+    let deck = [], pHand = [], dHand = [], bjActive = false, bjBet = 0;
+    function createDeck() {
+        const suits = ['♠', '♣', '♥', '♦'], values = ['2','3','4','5','6','7','8','9','10','J','Q','K','A'];
+        deck = [];
+        for (let s of suits) for (let v of values) deck.push({v, s});
+        for (let i = deck.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1));
+        [deck[i], deck[j]] = [deck[j], deck[i]]; }
+    }
+    function getScore(hand) {
+        let score = 0, aces = 0;
+        for (let c of hand) { if (c.v === 'A') aces++; else if (['J','Q','K','10'].includes(c.v)) score += 10;
+        else score += parseInt(c.v); }
+        for (let i = 0; i < aces; i++) score += (score + 11 <= 21) ? 11 : 1; return score;
+    }
+    function renderCard(card, target) {
+        play('card'); // PLAY CARD SOUND HERE
+        const div = document.createElement('div');
+        div.className = `card-ui ${['♥','♦'].includes(card.s) ? 'red' : ''}`;
+        div.innerHTML = `<div>${card.v}</div><div style="font-size:12px">${card.s}</div>`; document.getElementById(target).appendChild(div);
+    }
+    function startBlackjack() {
+        bjBet = parseInt(document.getElementById('bj-bet').value);
+        if (bjBet > userData.chips || bjBet <= 0) return alert("Insufficient chips!");
+        userData.chips -= bjBet; updateUI(); bjActive = true; createDeck();
+        pHand = [deck.pop(), deck.pop()]; dHand = [deck.pop(), deck.pop()];
+        document.getElementById('bj-player-hand').innerHTML = ''; document.getElementById('bj-dealer-hand').innerHTML = ''; document.getElementById('bj-status').innerText = "PLAYING...";
+        pHand.forEach(c => renderCard(c, 'bj-player-hand')); renderCard(dHand[0], 'bj-dealer-hand');
+        const back = document.createElement('div'); back.className='card-ui'; back.id='bj-back'; back.style.background='#444'; back.innerText='?'; document.getElementById('bj-dealer-hand').appendChild(back);
+        toggleBJControls(true); updateBJScore(); play('click');
+    }
+    function updateBJScore() { document.getElementById('bj-player-score').innerText = getScore(pHand); if (getScore(pHand) > 21) endBJ("Bust! Dealer wins.");
+    }
+    function bjHit() { if (!bjActive) return; const card = deck.pop(); pHand.push(card); renderCard(card, 'bj-player-hand'); updateBJScore(); play('click');
+    }
+    async function bjStand() {
+        if (!bjActive) return;
+        bjActive = false; document.getElementById('bj-back').remove(); renderCard(dHand[1], 'bj-dealer-hand');
+        let dScore = getScore(dHand); document.getElementById('bj-dealer-score').innerText = dScore;
+        while (dScore < 17) { await new Promise(r => setTimeout(r, 600)); const card = deck.pop(); dHand.push(card); renderCard(card, 'bj-dealer-hand');
+        dScore = getScore(dHand); document.getElementById('bj-dealer-score').innerText = dScore; }
+        const pScore = getScore(pHand);
+        if (dScore > 21 || pScore > dScore) { userData.chips += bjBet * 2; endBJ("WINNER!"); play('win'); showWinOverlay(2.00, bjBet * 2);
+        }
+        else if (dScore === pScore) { userData.chips += bjBet; endBJ("DRAW"); showWinOverlay(1.00, bjBet);
+        } else { endBJ("DEFEAT"); play('boom'); } updateUI();
+    }
+    function endBJ(msg) { bjActive = false; document.getElementById('bj-status').innerText = msg;
+        toggleBJControls(false); }
+    function toggleBJControls(playing) { document.getElementById('bj-deal-btn').classList.toggle('hidden', playing); document.getElementById('bj-hit-btn').classList.toggle('hidden', !playing); document.getElementById('bj-stand-btn').classList.toggle('hidden', !playing);
+    }
+
+    // TOWER GAME LOGIC
+    let tActive = false, tLevel = 0, tBet = 0, tMults = [1.20, 1.60, 2.10, 3.00, 4.50, 7.00, 12.00, 25.00];
     function startTower() {
         tBet = parseInt(document.getElementById('t-bet').value);
-        if(userData.chips < tBet) return alert(\"Not enough chips!\");
-        userData.chips -= tBet; updateUI();
-        tActive = true; tLevel = 0; buildTower();
-        document.getElementById('tower-status').innerText = \"PATRO 1 (1.4x)\";
-        document.getElementById('tower-status').style.color = \"var(--orange)\";
+        if(tBet > userData.chips || tBet <= 0) return alert("Nedostatek žetonů!");
+        
+        userData.chips -= tBet;
+        updateUI();
+        tActive = true;
+        tLevel = 0;
         document.getElementById('t-start').disabled = true;
-        Array.from(document.getElementById('floor-0').children).forEach(t => t.style.opacity = '1');
+        document.getElementById('t-cash').classList.add('hidden');
+        document.getElementById('tower-status').innerText = "PATRO 1";
+        document.getElementById('tower-status').style.color = "var(--orange)";
+        
+        const board = document.getElementById('tower-board');
+        board.innerHTML = '';
+        for(let i = 0; i < 8; i++) {
+            const floor = document.createElement('div');
+            floor.style.display = 'flex';
+            floor.style.gap = '5px';
+            floor.id = `floor-${i}`;
+            
+            for(let j = 0; j < 3; j++) {
+                const tile = document.createElement('div');
+                tile.className = 'tile';
+                tile.style.opacity = (i === 0) ? '1' : '0.3';
+                tile.onclick = () => playTower(i, j, tile);
+                floor.appendChild(tile);
+            }
+            board.appendChild(floor);
+        }
     }
-    function clickTower(floor, idx, el) {
-        if(!tActive || floor !== tLevel) return;
-        let bomb = Math.floor(Math.random()*3);
-        if(idx === bomb) {
-            el.innerText = '💣'; el.style.background = 'red'; tActive = false;
-            document.getElementById('tower-status').innerText = \"BOOM!\";
+
+    function playTower(floorIdx, tileIdx, el) {
+        if(!tActive || floorIdx !== tLevel || el.innerHTML !== "") return;
+        const bombIdx = Math.floor(Math.random() * 3);
+        
+        if(tileIdx === bombIdx) {
+            el.innerHTML = '💥';
+            play('boom');
+            tActive = false;
+            document.getElementById('tower-status').innerText = "PROHRA!";
+            document.getElementById('tower-status').style.color = "var(--red)";
             document.getElementById('t-start').disabled = false;
             document.getElementById('t-cash').classList.add('hidden');
         } else {
-            el.innerHTML = '⭐'; play('star'); tLevel++;
-            if(tLevel === 8) cashoutTower();
-            else {
-                document.getElementById('tower-status').innerText = `PATRO ${tLevel+1} (${tMults[tLevel-1]}x)`;
+            el.innerHTML = '⭐';
+            play('star');
+            tLevel++;
+            if(tLevel === 8) {
+                cashoutTower();
+            } else {
+                document.getElementById('tower-status').innerText = `PATRO ${tLevel + 1} (${tMults[tLevel-1]}x)`;
                 document.getElementById('t-cash').classList.remove('hidden');
                 Array.from(document.getElementById(`floor-${tLevel}`).children).forEach(t => t.style.opacity = '1');
             }
         }
     }
+
     function cashoutTower() {
         if(!tActive || tLevel === 0) return;
-        let mult = tMults[tLevel-1]; let win = Math.floor(tBet*mult);
-        userData.chips += win; play('win'); showWinOverlay(mult, win);
-        tActive = false; updateUI();
-        document.getElementById('tower-status').innerText = \"VYBRÁNO!\";
+        const mult = tMults[tLevel - 1];
+        const win = Math.floor(tBet * mult);
+        
+        userData.chips += win;
+        play('win');
+        showWinOverlay(mult, win);
+        tActive = false;
+        updateUI();
+        document.getElementById('tower-status').innerText = "VYBRÁNO!";
+        document.getElementById('tower-status').style.color = "var(--green)";
         document.getElementById('t-cash').classList.add('hidden');
         document.getElementById('t-start').disabled = false;
     }
 
-    window.onload = async () => { if(currentUser) loginSuccess(); };
+    window.onload = async () => { if(currentUser) { try { const r = await fetch(`${DB_URL}/${currentUser}.json`);
+        userData = await r.json(); if(userData) loginSuccess(); } catch(e){} } };
 </script>
 </body>
 </html>
