@@ -15,77 +15,428 @@
             --sidebar: #111111;
         }
         body { 
-            background-color: var(--dark); color: white; 
+            background-color: var(--dark); 
+            color: white; 
             font-family: 'Inter', 'Segoe UI', sans-serif; 
-            margin: 0; display: flex; height: 100vh; overflow: hidden;
+            margin: 0; 
+            display: flex; 
+            height: 100vh; 
+            overflow: hidden;
             background-image: radial-gradient(circle at center, rgba(255, 153, 0, 0.03) 0%, transparent 80%);
         }
 
         /* Sidebar & Layout */
-        .sidebar { width: 240px; background: var(--sidebar); border-right: 1px solid #222; display: flex; flex-direction: column; padding: 20px 0; flex-shrink: 0; }
-        .logo { padding: 0 25px 30px; font-size: 24px; font-weight: 900; color: white; text-decoration: none; }
-        .logo span { color: var(--orange); }
-        .nav-item { padding: 12px 25px; cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 12px; transition: 0.2s; color: #888; }
-        .nav-item:hover, .nav-item.active { background: rgba(255, 153, 0, 0.1); color: var(--orange); border-left: 3px solid var(--orange); }
-        .main-wrapper { flex: 1; display: flex; flex-direction: column; overflow-y: auto; }
-        .top-nav { height: 70px; background: #000; border-bottom: 2px solid var(--orange); display: flex; align-items: center; justify-content: flex-end; padding: 0 40px; gap: 20px; position: sticky; top: 0; z-index: 100; }
-        .balance-box { background: #1a1a1a; padding: 8px 18px; border-radius: 8px; color: white; font-weight: bold; display: flex; align-items: center; gap: 10px; border: 1px solid #333; }
-        .container { padding: 40px; max-width: 1100px; margin: 0 auto; width: 100%; box-sizing: border-box; }
-        .card { background: var(--panel); border: 1px solid #222; border-radius: 15px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .sidebar {
+            width: 240px;
+            background: var(--sidebar);
+            border-right: 1px solid #222;
+            display: flex;
+            flex-direction: column;
+            padding: 20px 0;
+            flex-shrink: 0;
+        }
+
+        .logo {
+            padding: 0 25px 30px;
+            font-size: 24px;
+            font-weight: 900;
+            color: white;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--orange);
+        }
+
+        .nav-item {
+            padding: 12px 25px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: 0.2s;
+            color: #888;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background: rgba(255, 153, 0, 0.1);
+            color: var(--orange);
+            border-left: 3px solid var(--orange);
+        }
+
+        .main-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .top-nav {
+            height: 70px;
+            background: #000;
+            border-bottom: 2px solid var(--orange);
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 0 40px;
+            gap: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .balance-box {
+            background: #1a1a1a;
+            padding: 8px 18px;
+            border-radius: 8px;
+            color: white;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 1px solid #333;
+        }
+
+        .container {
+            padding: 40px;
+            max-width: 1100px;
+            margin: 0 auto;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .card {
+            background: var(--panel);
+            border: 1px solid #222;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
 
         /* UI Elements */
         .hidden { display: none !important; }
-        .btn-play { background: var(--orange); color: black; border: none; padding: 12px 20px; border-radius: 8px; font-weight: 900; cursor: pointer; }
-        .btn-back { background: #333; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; margin-bottom: 20px; font-weight: bold; }
-        input, select { background: #000; border: 1px solid #333; color: var(--orange); padding: 10px; border-radius: 8px; text-align: center; outline: none; }
+
+        .btn-play {
+            background: var(--orange);
+            color: black;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 900;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-play:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(255, 153, 0, 0.4);
+        }
+
+        .btn-back {
+            background: #333;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        input, select {
+            background: #000;
+            border: 1px solid #333;
+            color: var(--orange);
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+            outline: none;
+        }
 
         /* Games Grid */
-        .section-title { font-size: 20px; font-weight: 900; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
-        .section-title::before { content: ''; width: 4px; height: 20px; background: var(--orange); border-radius: 2px; }
-        .games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; }
-        .game-card { background: #111; border-radius: 12px; padding: 20px 10px; text-align: center; transition: 0.3s; cursor: pointer; border: 1px solid #222; }
-        .game-card:hover { transform: translateY(-5px); background: #181818; border-color: var(--orange); }
-        .icon-box { width: 50px; height: 50px; background: rgba(0,0,0,0.3); border-radius: 10px; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; font-size: 24px; border: 1px solid rgba(255,255,255,0.05); }
-        .btn-card-play { background: #222; color: var(--orange); border: 1px solid #333; padding: 6px 0; width: 100%; border-radius: 6px; font-size: 12px; font-weight: bold; }
+        .section-title {
+            font-size: 20px;
+            font-weight: 900;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 20px;
+            background: var(--orange);
+            border-radius: 2px;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+        }
+
+        .game-card {
+            background: #111;
+            border-radius: 12px;
+            padding: 20px 10px;
+            text-align: center;
+            transition: 0.3s;
+            cursor: pointer;
+            border: 1px solid #222;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+            background: #181818;
+            border-color: var(--orange);
+        }
+
+        .icon-box {
+            width: 50px;
+            height: 50px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 10px;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .game-card h3 {
+            margin: 0 0 5px;
+            font-size: 16px;
+        }
+
+        .game-card p {
+            margin: 0 0 15px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .btn-card-play {
+            background: #222;
+            color: var(--orange);
+            border: 1px solid #333;
+            padding: 6px 0;
+            width: 100%;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: bold;
+        }
 
         /* History Table */
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th { text-align: left; color: #666; font-size: 12px; padding: 10px; border-bottom: 1px solid #333; text-transform: uppercase; }
-        td { padding: 15px 10px; border-bottom: 1px solid #222; font-size: 14px; color: white; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th {
+            text-align: left;
+            color: #666;
+            font-size: 12px;
+            padding: 10px;
+            border-bottom: 1px solid #333;
+            text-transform: uppercase;
+        }
+
+        td {
+            padding: 15px 10px;
+            border-bottom: 1px solid #222;
+            font-size: 14px;
+            color: white;
+        }
+
         .status-win { color: var(--green); font-weight: bold; }
         .status-loss { color: var(--red); }
 
         /* --- GAME SPECIFIC CSS --- */
-        .win-announcement { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 9999; text-align: center; pointer-events: none; animation: winPop 3s forwards cubic-bezier(0.175, 0.885, 0.32, 1.275); text-shadow: 0 0 20px rgba(241, 196, 15, 0.5); }
+        
+        /* Win Announcement */
+        .win-announcement {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            text-align: center;
+            pointer-events: none;
+            animation: winPop 3s forwards cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-shadow: 0 0 20px rgba(241, 196, 15, 0.5);
+        }
         .win-mult { font-size: 80px; font-weight: 900; color: var(--gold); margin: 0; line-height: 1; }
         .win-amt { font-size: 40px; font-weight: bold; color: white; margin: 0; }
-        @keyframes winPop { 0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; } 15% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; } 100% { transform: translate(-50%, -70%) scale(0.8); opacity: 0; } }
-        .m-grid { display: grid; grid-template-columns: repeat(5, 60px); gap: 10px; justify-content: center; margin-top: 20px; }
-        .tile { width: 60px; height: 60px; background: #000; border: 1px solid #333; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 28px; }
-        .limbo-display { font-size: 80px; font-weight: 900; margin: 20px 0; color: var(--orange); }
-        .coin { width: 100px; height: 100px; margin: 20px auto; background: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 40px; border: 5px solid #d4af37; }
-        .coin.flipping { animation: flip 0.6s infinite linear; }
-        @keyframes flip { 0% { transform: rotateY(0deg); } 100% { transform: rotateY(360deg); } }
+        @keyframes winPop {
+            0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+            15% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
+            85% { transform: translate(-50%, -60%) scale(1); opacity: 1; }
+            100% { transform: translate(-50%, -70%) scale(0.8); opacity: 0; }
+        }
 
-        /* Roulette Slider */
-        .r-slider-wrap { position: relative; width: 100%; height: 80px; background: #111; border: 2px solid #333; overflow: hidden; border-radius: 10px; margin-bottom: 20px; }
-        .r-slider-inner { display: flex; position: absolute; left: 0; align-items: center; height: 100%; will-change: transform; }
-        .r-num { min-width: 80px; width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; font-weight: bold; border-right: 1px solid rgba(0,0,0,0.5); font-size: 24px; }
-        .r-pointer { position: absolute; left: 50%; top: 0; bottom: 0; width: 4px; background: var(--orange); z-index: 10; transform: translateX(-50%); box-shadow: 0 0 15px var(--orange); }
-        .r-grid { display: grid; grid-template-columns: 80px repeat(12, 1fr); gap: 5px; }
-        .cell { height: 50px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight: bold; border-radius: 4px; border: 2px solid transparent; font-size: 12px; }
+        /* Mines */
+        .m-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 60px);
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .tile {
+            width: 60px;
+            height: 60px;
+            background: #000;
+            border: 1px solid #333;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+            font-size: 28px;
+        }
+        .tile:hover { border-color: var(--orange); background: #0a0a0a; }
+
+        /* Limbo */
+        .limbo-display {
+            font-size: 80px;
+            font-weight: 900;
+            margin: 20px 0;
+            color: var(--orange);
+            text-shadow: 0 0 30px rgba(255, 153, 0, 0.3);
+        }
+
+        /* Coinflip */
+        .coin {
+            width: 100px;
+            height: 100px;
+            margin: 20px auto;
+            background: var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            border: 5px solid #d4af37;
+            box-shadow: 0 0 20px rgba(241, 196, 15, 0.4);
+        }
+        .coin.flipping { animation: flip 0.6s infinite linear; }
+        @keyframes flip {
+            0% { transform: rotateY(0deg); }
+            100% { transform: rotateY(360deg); }
+        }
+
+        /* Roulette */
+        .r-slider-wrap {
+            position: relative;
+            width: 100%;
+            height: 80px;
+            background: #111;
+            border: 2px solid #333;
+            overflow: hidden;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .r-slider-inner {
+            display: flex;
+            position: absolute;
+            left: 0;
+            align-items: center;
+            height: 100%;
+            will-change: transform;
+        }
+        .r-num {
+            min-width: 80px;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            border-right: 1px solid rgba(0,0,0,0.5);
+            font-size: 24px;
+        }
+        .r-pointer {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--orange);
+            z-index: 10;
+            transform: translateX(-50%);
+            box-shadow: 0 0 15px var(--orange);
+        }
+        .r-grid {
+            display: grid;
+            grid-template-columns: 80px repeat(12, 1fr);
+            gap: 5px;
+        }
+        .cell {
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 4px;
+            border: 2px solid transparent;
+            font-size: 12px;
+            transition: 0.1s;
+            position: relative;
+        }
         .cell.nula { background: var(--green); grid-row: span 3; height: 160px; font-size: 24px; }
         .cell.red { background: var(--red); }
         .cell.black { background: var(--black); }
         .cell.active { border-color: white !important; box-shadow: 0 0 12px #fff; }
-        .chip-overlay { position: absolute; width: 24px; height: 24px; background: var(--orange); border-radius: 50%; border: 2px dashed white; color: black; font-size: 9px; display: flex; align-items: center; justify-content: center; font-weight: bold; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 5; }
+        .chip-overlay {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background: var(--orange);
+            border-radius: 50%;
+            border: 2px dashed white;
+            color: black;
+            font-size: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 5;
+            pointer-events: none;
+        }
 
         /* Blackjack & Baccarat */
         .bj-area { display: flex; flex-direction: column; align-items: center; gap: 20px; padding: 20px; }
         .bj-hand { display: flex; gap: 10px; min-height: 120px; align-items: center; }
-        .card-ui { width: 70px; height: 100px; background: white; border-radius: 8px; color: black; display: flex; flex-direction: column; justify-content: center; align-items: center; font-weight: bold; font-size: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.5); border: 1px solid #ddd; }
+        .card-ui {
+            width: 70px;
+            height: 100px;
+            background: white;
+            border-radius: 8px;
+            color: black;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+            border: 1px solid #ddd;
+        }
         .card-ui.red { color: #e74c3c; }
         .bj-score { font-size: 14px; color: var(--orange); font-weight: bold; margin-top: 5px; }
+
     </style>
 </head>
 <body onclick="initAudio()">
@@ -94,8 +445,10 @@
     <div class="card" style="width: 320px; text-align: center; border: 2px solid var(--orange);">
         <h1 style="color:var(--orange); margin:0;">SWARMBET</h1>
         <p style="color:#555; font-size:12px; margin-bottom:20px;">EST. 2026</p>
+        
         <input type="text" id="user" placeholder="Username" style="width:80%; margin-bottom:10px;"><br>
         <input type="password" id="pass" placeholder="Password" style="width:80%; margin-bottom:20px;"><br>
+        
         <button class="btn-play" onclick="auth('login')" style="width:100%; margin-bottom:10px;">LOGIN</button>
         <button class="btn-play" onclick="auth('reg')" style="width:100%; background:#222; color:white;">REGISTER</button>
     </div>
@@ -104,12 +457,24 @@
 <div id="main-app" class="hidden" style="display: flex; width: 100%;">
     <div class="sidebar">
         <div class="logo">S<span>B</span></div>
-        <div class="nav-item active" id="nav-games" onclick="showPage('games')">🎮 Games</div>
-        <div class="nav-item" id="nav-history" onclick="showPage('history')">📜 Bet History</div>
-        <div class="nav-item" id="nav-rakeback" onclick="showPage('rakeback')">🎁 Promo Codes</div>
-        <div id="link-admin" class="nav-item hidden" onclick="showPage('admin')">⚙️ Admin Panel</div>
+        
+        <div class="nav-item active" id="nav-games" onclick="showPage('games')">
+            <span>🎮</span> Games
+        </div>
+        <div class="nav-item" id="nav-history" onclick="showPage('history')">
+            <span>📜</span> Bet History
+        </div>
+        <div class="nav-item" id="nav-rakeback" onclick="showPage('rakeback')">
+            <span>🎁</span> Promo Codes
+        </div>
+        <div id="link-admin" class="nav-item hidden" onclick="showPage('admin')">
+            <span>⚙️</span> Admin Panel
+        </div>
+
         <div style="margin-top: auto;">
-            <div class="nav-item" onclick="logout()">🚪 Logout</div>
+            <div class="nav-item" onclick="logout()">
+                <span>🚪</span> Logout
+            </div>
         </div>
     </div>
 
@@ -123,6 +488,7 @@
         </div>
 
         <div class="container">
+            
             <div id="page-games">
                 <div id="selection-menu">
                     <div class="section-title">ALL GAMES</div>
@@ -192,6 +558,7 @@
 
                 <div id="game-active-page" class="hidden">
                     <button class="btn-back" onclick="backToMenu()">← BACK TO MENU</button>
+                    
                     <div class="card" style="background:#0c0c0c;">
                         <div id="game-rps" class="hidden" style="text-align:center;">
                             <h2 style="color:var(--orange);">ROCK PAPER SCISSORS</h2>
@@ -240,16 +607,20 @@
                         <div id="game-roulette" class="hidden">
                             <h2 style="color:#1abc9c; text-align:center;">ROULETTE</h2>
                             <div id="r-status" style="text-align:center; color:var(--orange); font-weight:bold; margin-bottom:10px; height:20px;">PLACE YOUR BETS</div>
+                            
                             <div class="r-slider-wrap" id="r-wrap">
                                 <div class="r-pointer"></div>
                                 <div id="r-slider" class="r-slider-inner"></div>
                             </div>
+
                             <div class="r-grid" id="r-board"></div>
+
                             <div class="r-dozen-bets" style="display:grid; grid-template-columns: repeat(3, 1fr); gap:5px; margin-top:5px; margin-left:85px;">
                                 <button class="btn-extra" style="background:#222; border:1px solid #444; color:white; padding:10px; cursor:pointer;" onclick="setExtraBet('1st12', this)">1st 12 (3x)</button>
                                 <button class="btn-extra" style="background:#222; border:1px solid #444; color:white; padding:10px; cursor:pointer;" onclick="setExtraBet('2nd12', this)">2nd 12 (3x)</button>
                                 <button class="btn-extra" style="background:#222; border:1px solid #444; color:white; padding:10px; cursor:pointer;" onclick="setExtraBet('3rd12', this)">3rd 12 (3x)</button>
                             </div>
+
                             <div class="r-extra-bets" style="display:grid; grid-template-columns: repeat(6, 1fr); gap:5px; margin-top:10px; margin-left:85px;">
                                 <button class="btn-extra" style="background:#222; border:1px solid #444; color:white; padding:10px; cursor:pointer;" onclick="setExtraBet('1-18', this)">1 - 18</button>
                                 <button class="btn-extra" style="background:#222; border:1px solid #444; color:white; padding:10px; cursor:pointer;" onclick="setExtraBet('even', this)">EVEN</button>
@@ -258,6 +629,7 @@
                                 <button class="btn-extra" style="background:#222; border:1px solid #444; color:white; padding:10px; cursor:pointer;" onclick="setExtraBet('odd', this)">ODD</button>
                                 <button class="btn-extra" style="background:#222; border:1px solid #444; color:white; padding:10px; cursor:pointer;" onclick="setExtraBet('19-36', this)">19 - 36</button>
                             </div>
+
                             <div style="display:flex; gap:10px; margin-top:20px; justify-content:center; align-items:center;">
                                 BET PER CELL: <input type="number" id="r-bet" value="50">
                                 <button class="btn-play" id="r-spin" onclick="spinRoulette()">SPIN</button>
@@ -333,6 +705,7 @@
                             <h2 style="color:#f1c40f;">TOWER</h2>
                             <div id="tower-status" style="color:var(--orange); font-weight:bold; margin-bottom:10px;">VYBER DLAŽDICI</div>
                             <div id="tower-board" style="display: flex; flex-direction: column-reverse; gap: 5px; align-items: center;"></div>
+                            <br>
                             Bet: <input type="number" id="t-bet" value="50">
                             <button class="btn-play" id="t-start" onclick="startTower()">START</button>
                             <button id="t-cash" class="hidden btn-play" style="background:#2ecc71;" onclick="cashoutTower()">CASH OUT</button>
@@ -346,7 +719,12 @@
                     <h2 style="color:var(--orange)">Live Bet History</h2>
                     <table>
                         <thead>
-                            <tr><th>GAME</th><th>BET</th><th>MULTIPLIER</th><th>PAYOUT</th></tr>
+                            <tr>
+                                <th>GAME</th>
+                                <th>BET</th>
+                                <th>MULTIPLIER</th>
+                                <th>PAYOUT</th>
+                            </tr>
                         </thead>
                         <tbody id="history-body"></tbody>
                     </table>
@@ -356,6 +734,7 @@
             <div id="page-rakeback" class="hidden">
                 <div class="card" style="text-align: center;">
                     <h2 style="color:var(--orange)">Promo Codes</h2>
+                    <p style="color:#777;">Enter a code to receive instant stars.</p>
                     <input type="text" id="promo-input" placeholder="ENTER CODE HERE..." style="width:300px;"><br><br>
                     <button class="btn-play" onclick="redeemCode()">Redeem Reward</button>
                 </div>
@@ -380,6 +759,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </div>
@@ -389,6 +769,7 @@
 <script>
     const DB_URL = "https://casbss-c75a0-default-rtdb.europe-west1.firebasedatabase.app/users";
     const PROMO_URL = "https://casbss-c75a0-default-rtdb.europe-west1.firebasedatabase.app/promos";
+
     let currentUser = localStorage.getItem('swarm_user');
     let userData = null;
     let betHistory = [];
@@ -402,7 +783,12 @@
     };
 
     function initAudio() { audioReady = true; }
-    function play(name) { if(!audioReady) return; const a = new Audio(sfx[name]); a.volume = 0.4; a.play().catch(()=>{}); }
+    function play(name) { 
+        if(!audioReady) return;
+        const a = new Audio(sfx[name]);
+        a.volume = 0.4;
+        a.play().catch(()=>{});
+    }
 
     async function auth(type) {
         const u = document.getElementById('user').value.trim(), p = document.getElementById('pass').value;
@@ -477,8 +863,10 @@
 
     function renderHistory() {
         document.getElementById('history-body').innerHTML = betHistory.map(h => `
-            <tr><td>${h.game}</td><td>${h.bet} ⭐️</td><td>${h.mult.toFixed(2)}x</td>
-            <td class="${h.win > 0 ? 'status-win' : 'status-loss'}">${h.win > 0 ? '+'+h.win : h.win} ⭐️</td></tr>
+            <tr>
+                <td>${h.game}</td><td>${h.bet} ⭐️</td><td>${h.mult.toFixed(2)}x</td>
+                <td class="${h.win > 0 ? 'status-win' : 'status-loss'}">${h.win > 0 ? '+'+h.win : h.win} ⭐️</td>
+            </tr>
         `).join('');
     }
 
