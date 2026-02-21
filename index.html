@@ -1072,21 +1072,21 @@
                                         <span class="kab-bug-badge">EASY</span>
                                         <span class="kab-bug-emoji">🐞</span>
                                         <div class="kab-bug-name">Ladybug</div>
-                                        <div class="kab-bug-meta"><span>5</span> tokens/kill<br>Min bet: <span>50</span> ⭐<br><span style="color:#e74c3c">20%</span> elim risk</div>
+                                        <div class="kab-bug-meta"><span>5</span> tokens/kill<br>Min bet: <span>50</span> ⭐<br><span style="color:#e74c3c">20%</span> elim · <span style="color:#888">5%</span> zero token</div>
                                     </div>
                                     <div class="kab-bug-card" data-bug="spider" onclick="kabSelectBug('spider')">
                                         <div class="kab-sel-check">✓</div>
                                         <span class="kab-bug-badge">MEDIUM</span>
                                         <span class="kab-bug-emoji">🕷️</span>
                                         <div class="kab-bug-name">Spider</div>
-                                        <div class="kab-bug-meta"><span>7</span> tokens/kill<br>Min bet: <span>100</span> ⭐<br><span style="color:#e74c3c">40%</span> elim risk</div>
+                                        <div class="kab-bug-meta"><span>7</span> tokens/kill<br>Min bet: <span>100</span> ⭐<br><span style="color:#e74c3c">40%</span> elim · <span style="color:#888">10%</span> zero token</div>
                                     </div>
                                     <div class="kab-bug-card" data-bug="beetle" onclick="kabSelectBug('beetle')">
                                         <div class="kab-sel-check">✓</div>
                                         <span class="kab-bug-badge">HARD</span>
                                         <span class="kab-bug-emoji">🪲</span>
                                         <div class="kab-bug-name">King Beetle</div>
-                                        <div class="kab-bug-meta"><span>15</span> tokens/kill<br>Min bet: <span>300</span> ⭐<br><span style="color:#e74c3c">60%</span> elim risk</div>
+                                        <div class="kab-bug-meta"><span>10</span> tokens/kill<br>Min bet: <span>300</span> ⭐<br><span style="color:#e74c3c">60%</span> elim · <span style="color:#888">15%</span> zero token</div>
                                     </div>
                                 </div>
 
@@ -3176,11 +3176,11 @@
     // ═══════════════════════════════════════════════════════════
     const KAB_BUGS = {
         ladybug: { emoji:'🐞', name:'LADYBUG', label:'Ladybug', tokens:5, minBet:50, color:'#e74c3c', elimChance:0.20,
-            weights:[{mult:0.1,prob:38},{mult:0.2,prob:28},{mult:0.3,prob:14},{mult:0.4,prob:9},{mult:0.5,prob:5},{mult:0.6,prob:3},{mult:1,prob:2},{mult:2,prob:0.7},{mult:5,prob:0.28},{mult:10,prob:0.02}] },
+            weights:[{mult:0,prob:5},{mult:0.1,prob:36.1},{mult:0.2,prob:26.6},{mult:0.3,prob:13.3},{mult:0.4,prob:8.55},{mult:0.5,prob:4.75},{mult:0.6,prob:2.85},{mult:1,prob:1.9},{mult:2,prob:0.665},{mult:5,prob:0.266},{mult:10,prob:0.019}] },
         spider: { emoji:'🕷️', name:'SPIDER', label:'Spider', tokens:7, minBet:100, color:'#9b59b6', elimChance:0.40,
-            weights:[{mult:0.1,prob:34},{mult:0.2,prob:26},{mult:0.3,prob:15},{mult:0.4,prob:10},{mult:0.5,prob:7},{mult:0.6,prob:4},{mult:1,prob:2.5},{mult:2,prob:1},{mult:5,prob:0.48},{mult:10,prob:0.02}] },
-        beetle: { emoji:'🪲', name:'KING BEETLE', label:'King Beetle', tokens:15, minBet:300, color:'#f39c12', elimChance:0.60,
-            weights:[{mult:0.1,prob:30},{mult:0.2,prob:24},{mult:0.3,prob:16},{mult:0.4,prob:11},{mult:0.5,prob:8},{mult:0.6,prob:5},{mult:1,prob:3.5},{mult:2,prob:1.8},{mult:5,prob:0.68},{mult:10,prob:0.02}] }
+            weights:[{mult:0,prob:10},{mult:0.1,prob:30.6},{mult:0.2,prob:23.4},{mult:0.3,prob:13.5},{mult:0.4,prob:9},{mult:0.5,prob:6.3},{mult:0.6,prob:3.6},{mult:1,prob:2.25},{mult:2,prob:0.9},{mult:5,prob:0.432},{mult:10,prob:0.018}] },
+        beetle: { emoji:'🪲', name:'KING BEETLE', label:'King Beetle', tokens:10, minBet:300, color:'#f39c12', elimChance:0.60,
+            weights:[{mult:0,prob:15},{mult:0.1,prob:25.5},{mult:0.2,prob:20.4},{mult:0.3,prob:13.6},{mult:0.4,prob:9.35},{mult:0.5,prob:6.8},{mult:0.6,prob:4.25},{mult:1,prob:2.975},{mult:2,prob:1.53},{mult:5,prob:0.578},{mult:10,prob:0.017}] }
     };
     let kabSelectedBug = null;
     let kabAnimating = false;
@@ -3242,6 +3242,7 @@
     }
 
     function kabTokenColor(m) {
+        if (m === 0)  return '#2c2c2c';  // dark grey - dead token
         if (m >= 10) return '#f1c40f';   // gold - ultra rare
         if (m >= 5)  return '#e67e22';   // deep orange - rare
         if (m >= 2)  return '#ff9900';   // orange - uncommon
