@@ -978,11 +978,11 @@
                                 .kab-section-label { font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: #555; margin-bottom: 14px; display: flex; align-items: center; gap: 12px; }
                                 .kab-section-label::after { content: ''; flex: 1; height: 1px; background: #1e1e1e; }
                                 .kab-bug-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 28px; }
-                                .kab-bug-card { background: #0f0f0f; border: 1px solid #1e1e1e; border-radius: 14px; padding: 24px 14px 20px; text-align: center; cursor: pointer; transition: all 0.25s; position: relative; overflow: hidden; }
+                                .kab-bug-card { background: #0f0f0f; border: 1px solid #1e1e1e; border-radius: 14px; padding: 24px 14px 20px; text-align: center; cursor: pointer; transition: all 0.25s; position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; }
                                 .kab-bug-card[data-bug="ladybug"]:hover, .kab-bug-card[data-bug="ladybug"].kab-active { border-color: #e74c3c; box-shadow: 0 0 20px rgba(231,76,60,0.2); transform: translateY(-3px); }
                                 .kab-bug-card[data-bug="spider"]:hover, .kab-bug-card[data-bug="spider"].kab-active { border-color: #9b59b6; box-shadow: 0 0 20px rgba(155,89,182,0.2); transform: translateY(-3px); }
                                 .kab-bug-card[data-bug="beetle"]:hover, .kab-bug-card[data-bug="beetle"].kab-active { border-color: #f39c12; box-shadow: 0 0 20px rgba(243,156,18,0.2); transform: translateY(-3px); }
-                                .kab-bug-emoji { width: 56px; height: 56px; margin-bottom: 10px; display: block; transition: transform 0.3s; object-fit: contain; }
+                                .kab-bug-emoji { width: 80px; height: 80px; margin: 0 auto 10px auto; display: block; transition: transform 0.3s; object-fit: contain; }
                                 .kab-bug-card:hover .kab-bug-emoji, .kab-bug-card.kab-active .kab-bug-emoji { transform: scale(1.1) rotate(-5deg); }
                                 .kab-bug-name { font-size: 17px; font-weight: 900; letter-spacing: 2px; margin-bottom: 5px; }
                                 .kab-bug-card[data-bug="ladybug"] .kab-bug-name { color: #e74c3c; }
