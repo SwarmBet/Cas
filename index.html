@@ -1027,16 +1027,21 @@
                                 @keyframes kabSplat { 0% { transform: scale(0) rotate(-20deg); } 100% { transform: scale(1) rotate(0deg); } }
                                 .kab-kill-text { font-size: 22px; font-weight: 900; letter-spacing: 4px; color: #e74c3c; margin-top: 8px; animation: kabPulse 0.5s ease; }
                                 @keyframes kabPulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+                                .kab-arena-elim { text-align: center; padding: 20px; }
+                                .kab-elim-emoji { font-size: 64px; display: block; animation: kabElimShake 0.55s ease; }
+                                @keyframes kabElimShake { 0%,100%{transform:rotate(0) scale(1)} 20%{transform:rotate(-15deg) scale(1.25)} 45%{transform:rotate(18deg) scale(1.3)} 65%{transform:rotate(-10deg) scale(1.15)} 80%{transform:rotate(8deg) scale(1.05)} }
+                                .kab-elim-text { font-size: 22px; font-weight: 900; letter-spacing: 4px; color: #e74c3c; margin-top: 10px; animation: kabPulse 0.5s ease; }
+                                .kab-elim-sub { font-size: 11px; color: #555; margin-top: 6px; letter-spacing: 2px; text-transform: uppercase; }
                                 .kab-tokens-area { margin-bottom: 20px; }
                                 .kab-tokens-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
                                 .kab-tokens-title { font-size: 13px; font-weight: 700; color: var(--orange); letter-spacing: 1px; }
                                 .kab-tokens-total { font-size: 13px; color: #555; }
                                 .kab-tokens-total span { color: #f1c40f; font-weight: 700; }
-                                .kab-tokens-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
-                                .kab-token { width: 64px; height: 64px; border-radius: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 1px solid var(--kab-tok-color, #333); background: #0a0a0a; animation: kabTokenPop 0.3s cubic-bezier(0.175,0.885,0.32,1.275); }
-                                @keyframes kabTokenPop { 0% { transform: scale(0) rotate(-10deg); opacity: 0; } 100% { transform: scale(1) rotate(0); opacity: 1; } }
-                                .kab-token .tok-mult { font-size: 15px; font-weight: 900; color: var(--kab-tok-color); font-family: monospace; }
-                                .kab-token .tok-label { font-size: 8px; color: #333; letter-spacing: 1px; }
+                                .kab-tokens-grid { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; }
+                                .kab-token { width: 68px; height: 68px; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--kab-tok-color, #ff9900); border: 3px solid rgba(0,0,0,0.3); box-shadow: 0 4px 14px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.15); animation: kabTokenPop 0.35s cubic-bezier(0.175,0.885,0.32,1.275); }
+                                @keyframes kabTokenPop { 0% { transform: scale(0) rotate(-15deg); opacity: 0; } 80% { transform: scale(1.12) rotate(3deg); } 100% { transform: scale(1) rotate(0); opacity: 1; } }
+                                .kab-token .tok-mult { font-size: 14px; font-weight: 900; color: #000; font-family: monospace; line-height: 1; }
+                                .kab-token .tok-label { font-size: 7px; color: rgba(0,0,0,0.55); letter-spacing: 1px; font-weight: 700; margin-top: 2px; }
                                 .kab-result-banner { background: #0f0f0f; border: 1px solid #1e1e1e; border-radius: 12px; padding: 18px 22px; display: flex; justify-content: space-between; align-items: center; }
                                 .kab-result-banner.kab-win { border-color: #2ecc71; background: #091a0f; }
                                 .kab-result-banner.kab-loss { border-color: #e74c3c; background: #1a0909; }
@@ -1067,21 +1072,21 @@
                                         <span class="kab-bug-badge">EASY</span>
                                         <span class="kab-bug-emoji">🐞</span>
                                         <div class="kab-bug-name">Ladybug</div>
-                                        <div class="kab-bug-meta"><span>5</span> tokens/kill<br>Min bet: <span>50</span> ⭐</div>
+                                        <div class="kab-bug-meta"><span>5</span> tokens/kill<br>Min bet: <span>50</span> ⭐<br><span style="color:#e74c3c">20%</span> elim risk</div>
                                     </div>
                                     <div class="kab-bug-card" data-bug="spider" onclick="kabSelectBug('spider')">
                                         <div class="kab-sel-check">✓</div>
                                         <span class="kab-bug-badge">MEDIUM</span>
                                         <span class="kab-bug-emoji">🕷️</span>
                                         <div class="kab-bug-name">Spider</div>
-                                        <div class="kab-bug-meta"><span>7</span> tokens/kill<br>Min bet: <span>100</span> ⭐</div>
+                                        <div class="kab-bug-meta"><span>7</span> tokens/kill<br>Min bet: <span>100</span> ⭐<br><span style="color:#e74c3c">40%</span> elim risk</div>
                                     </div>
                                     <div class="kab-bug-card" data-bug="beetle" onclick="kabSelectBug('beetle')">
                                         <div class="kab-sel-check">✓</div>
                                         <span class="kab-bug-badge">HARD</span>
                                         <span class="kab-bug-emoji">🪲</span>
                                         <div class="kab-bug-name">King Beetle</div>
-                                        <div class="kab-bug-meta"><span>15</span> tokens/kill<br>Min bet: <span>300</span> ⭐</div>
+                                        <div class="kab-bug-meta"><span>15</span> tokens/kill<br>Min bet: <span>300</span> ⭐<br><span style="color:#e74c3c">60%</span> elim risk</div>
                                     </div>
                                 </div>
 
@@ -1122,6 +1127,11 @@
                                     <div class="kab-arena-kill hidden" id="kabArenaKill">
                                         <div class="kab-splat">💀</div>
                                         <div class="kab-kill-text">ELIMINATED!</div>
+                                    </div>
+                                    <div class="kab-arena-elim hidden" id="kabArenaElim">
+                                        <span class="kab-elim-emoji" id="kabElimEmoji">🐞</span>
+                                        <div class="kab-elim-text">YOU GOT ELIMINATED!</div>
+                                        <div class="kab-elim-sub" id="kabElimSub">The bug fought back — bet lost</div>
                                     </div>
                                 </div>
 
@@ -3165,12 +3175,12 @@
     //  KILL A BUG GAME
     // ═══════════════════════════════════════════════════════════
     const KAB_BUGS = {
-        ladybug: { emoji:'🐞', name:'LADYBUG', label:'Ladybug', tokens:5, minBet:50, color:'#e74c3c',
-            weights:[{mult:0.1,prob:25},{mult:0.2,prob:20},{mult:0.3,prob:15},{mult:0.4,prob:12},{mult:0.5,prob:10},{mult:0.6,prob:7},{mult:1,prob:5},{mult:2,prob:3},{mult:5,prob:2.6},{mult:10,prob:0.2}] },
-        spider: { emoji:'🕷️', name:'SPIDER', label:'Spider', tokens:7, minBet:100, color:'#9b59b6',
-            weights:[{mult:0.1,prob:20},{mult:0.2,prob:18},{mult:0.3,prob:15},{mult:0.4,prob:12},{mult:0.5,prob:10},{mult:0.6,prob:8},{mult:1,prob:6},{mult:2,prob:5},{mult:5,prob:5.8},{mult:10,prob:0.2}] },
-        beetle: { emoji:'🪲', name:'KING BEETLE', label:'King Beetle', tokens:15, minBet:300, color:'#f39c12',
-            weights:[{mult:0.1,prob:15},{mult:0.2,prob:14},{mult:0.3,prob:12},{mult:0.4,prob:10},{mult:0.5,prob:9},{mult:0.6,prob:8},{mult:1,prob:7},{mult:2,prob:6},{mult:5,prob:7.8},{mult:10,prob:0.2}] }
+        ladybug: { emoji:'🐞', name:'LADYBUG', label:'Ladybug', tokens:5, minBet:50, color:'#e74c3c', elimChance:0.20,
+            weights:[{mult:0.1,prob:38},{mult:0.2,prob:28},{mult:0.3,prob:14},{mult:0.4,prob:9},{mult:0.5,prob:5},{mult:0.6,prob:3},{mult:1,prob:2},{mult:2,prob:0.7},{mult:5,prob:0.28},{mult:10,prob:0.02}] },
+        spider: { emoji:'🕷️', name:'SPIDER', label:'Spider', tokens:7, minBet:100, color:'#9b59b6', elimChance:0.40,
+            weights:[{mult:0.1,prob:34},{mult:0.2,prob:26},{mult:0.3,prob:15},{mult:0.4,prob:10},{mult:0.5,prob:7},{mult:0.6,prob:4},{mult:1,prob:2.5},{mult:2,prob:1},{mult:5,prob:0.48},{mult:10,prob:0.02}] },
+        beetle: { emoji:'🪲', name:'KING BEETLE', label:'King Beetle', tokens:15, minBet:300, color:'#f39c12', elimChance:0.60,
+            weights:[{mult:0.1,prob:30},{mult:0.2,prob:24},{mult:0.3,prob:16},{mult:0.4,prob:11},{mult:0.5,prob:8},{mult:0.6,prob:5},{mult:1,prob:3.5},{mult:2,prob:1.8},{mult:5,prob:0.68},{mult:10,prob:0.02}] }
     };
     let kabSelectedBug = null;
     let kabAnimating = false;
@@ -3183,6 +3193,7 @@
         document.getElementById('kabArenaIdle').classList.remove('hidden');
         document.getElementById('kabArenaLive').classList.add('hidden');
         document.getElementById('kabArenaKill').classList.add('hidden');
+        document.getElementById('kabArenaElim').classList.add('hidden');
         document.getElementById('kabTokensArea').classList.add('hidden');
         document.getElementById('kabKillBtn').disabled = true;
         const arena = document.getElementById('kabArena');
@@ -3231,11 +3242,11 @@
     }
 
     function kabTokenColor(m) {
-        if (m >= 10) return '#f1c40f';
-        if (m >= 5) return '#e67e22';
-        if (m >= 2) return '#3498db';
-        if (m >= 1) return '#2ecc71';
-        return '#555';
+        if (m >= 10) return '#f1c40f';   // gold - ultra rare
+        if (m >= 5)  return '#e67e22';   // deep orange - rare
+        if (m >= 2)  return '#ff9900';   // orange - uncommon
+        if (m >= 1)  return '#ff9900';   // orange
+        return '#cc6600';                // dark orange - most common losses
     }
 
     async function kabKill() {
@@ -3256,13 +3267,66 @@
         kabAnimating = true;
         document.getElementById('kabKillBtn').disabled = true;
         document.getElementById('kabTokensArea').classList.add('hidden');
+
+        // Deduct bet immediately
         userData.chips -= bet;
         addProfit('killabug', -bet);
         updateUI();
+
+        // Hide live, show suspense pause
         document.getElementById('kabArenaLive').classList.add('hidden');
         document.getElementById('kabArenaIdle').classList.add('hidden');
+        document.getElementById('kabArenaElim').classList.add('hidden');
+
+        // ── ELIMINATION CHECK ──
+        const gotEliminated = Math.random() < bug.elimChance;
+
+        if (gotEliminated) {
+            // Show the bug striking back
+            document.getElementById('kabArenaElim').classList.remove('hidden');
+            document.getElementById('kabElimEmoji').textContent = bug.emoji;
+            document.getElementById('kabElimSub').textContent = `${bug.label} fought back — bet lost!`;
+
+            // Flash arena red
+            const arena = document.getElementById('kabArena');
+            arena.style.borderColor = '#e74c3c';
+            arena.style.boxShadow = '0 0 30px rgba(231,76,60,0.4)';
+
+            // Show loss result banner
+            await new Promise(r => setTimeout(r, 900));
+            const area = document.getElementById('kabTokensArea');
+            area.classList.remove('hidden');
+            document.getElementById('kabTokensGrid').innerHTML = `<div style="color:#e74c3c;font-size:13px;letter-spacing:2px;padding:8px 0;">⚠️ THE BUG ELIMINATED YOU — NO TOKENS</div>`;
+            document.getElementById('kabTokensTotal').innerHTML = `Total multiplier: <span style="color:#e74c3c">0×</span>`;
+            const banner = document.getElementById('kabResultBanner');
+            banner.className = 'kab-result-banner kab-loss';
+            document.getElementById('kabResultLabel').textContent = '☠️ ELIMINATED';
+            document.getElementById('kabResultAmount').textContent = `-${bet.toLocaleString()}`;
+            document.getElementById('kabResultMult').innerHTML = `<span>${bug.label}</span> eliminated you — full bet lost`;
+            document.getElementById('kabNewBalance').textContent = userData.chips.toLocaleString();
+
+            // History row
+            kabHistoryRows.unshift({bug, bet, totalMult: 0, reward: 0, bal: userData.chips, isWin: false, eliminated: true});
+            if (kabHistoryRows.length > 20) kabHistoryRows.pop();
+            document.getElementById('kabHistoryBody').innerHTML = kabHistoryRows.map(row =>
+                `<tr><td>${row.bug.emoji}${row.eliminated ? '⚔️' : ''}</td><td style="font-family:monospace;font-size:12px">${row.bet.toLocaleString()}</td><td class="kab-col-mult">${row.totalMult.toFixed(2)}×</td><td class="${row.isWin?'kab-col-win':'kab-col-loss'}">${row.eliminated ? '☠️ ELIM' : '+'+row.reward.toLocaleString()}</td><td style="font-family:monospace;font-size:12px;color:#555">${row.bal.toLocaleString()}</td></tr>`
+            ).join('');
+
+            await new Promise(r => setTimeout(r, 700));
+            document.getElementById('kabKillBtn').disabled = false;
+            kabAnimating = false;
+            // Reset arena border to bug color
+            arena.style.borderColor = bug.color + '44';
+            arena.style.boxShadow = `0 0 24px ${bug.color}15`;
+            document.getElementById('kabArenaElim').classList.add('hidden');
+            document.getElementById('kabArenaLive').classList.remove('hidden');
+            return;
+        }
+
+        // ── NORMAL KILL FLOW ──
         document.getElementById('kabArenaKill').classList.remove('hidden');
         await new Promise(r => setTimeout(r, 700));
+
         const tokens = [];
         for (let i = 0; i < bug.tokens; i++) tokens.push(kabWeightedRandom(bug.weights));
         const totalMult = tokens.reduce((s,m) => s+m, 0);
@@ -3293,12 +3357,14 @@
         addProfit('killabug', reward);
         updateUI();
         document.getElementById('kabNewBalance').textContent = userData.chips.toLocaleString();
-        // history
-        kabHistoryRows.unshift({bug, bet, totalMult, reward, bal: userData.chips, isWin});
+
+        // History
+        kabHistoryRows.unshift({bug, bet, totalMult, reward, bal: userData.chips, isWin, eliminated: false});
         if (kabHistoryRows.length > 20) kabHistoryRows.pop();
         document.getElementById('kabHistoryBody').innerHTML = kabHistoryRows.map(row =>
-            `<tr><td>${row.bug.emoji}</td><td style="font-family:monospace;font-size:12px">${row.bet.toLocaleString()}</td><td class="kab-col-mult">${row.totalMult.toFixed(2)}×</td><td class="${row.isWin?'kab-col-win':'kab-col-loss'}">+${row.reward.toLocaleString()}</td><td style="font-family:monospace;font-size:12px;color:#555">${row.bal.toLocaleString()}</td></tr>`
+            `<tr><td>${row.bug.emoji}${row.eliminated ? '⚔️' : ''}</td><td style="font-family:monospace;font-size:12px">${row.bet.toLocaleString()}</td><td class="kab-col-mult">${row.totalMult.toFixed(2)}×</td><td class="${row.isWin?'kab-col-win':'kab-col-loss'}">${row.eliminated ? '☠️ ELIM' : '+'+row.reward.toLocaleString()}</td><td style="font-family:monospace;font-size:12px;color:#555">${row.bal.toLocaleString()}</td></tr>`
         ).join('');
+
         await new Promise(r => setTimeout(r, 600));
         document.getElementById('kabKillBtn').disabled = false;
         kabAnimating = false;
