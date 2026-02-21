@@ -839,19 +839,29 @@
 
             <div id="page-admin" class="hidden">
                 <div class="card">
-                    <h2 style="color:var(--orange)">Admin Dashboard</h2>
+                    <h2 style="color:var(--orange); margin-bottom:20px;">⚙️ Admin Dashboard</h2>
                     <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
-                        <div style="background:#111; padding:20px; border-radius:10px;">
-                            <h3>Give Stars</h3>
-                            <input type="text" id="adm-target" placeholder="Username" style="width:100%;"><br><br>
-                            <input type="number" id="adm-amount" placeholder="Amount" style="width:100%;"><br><br>
-                            <button class="btn-play" onclick="adminGiveChips()" style="width:100%;">SEND</button>
+                        <div style="background:#111; padding:20px; border-radius:10px; border:1px solid #222;">
+                            <h3 style="color:var(--orange); margin-top:0;">⭐ Give Stars</h3>
+                            <input type="text" id="adm-target" placeholder="Discord ID or username" style="width:100%; box-sizing:border-box;"><br><br>
+                            <input type="number" id="adm-amount" placeholder="Amount" style="width:100%; box-sizing:border-box;"><br><br>
+                            <button class="btn-play" onclick="adminGiveChips()" style="width:100%;">SEND ⭐</button>
                         </div>
-                        <div style="background:#111; padding:20px; border-radius:10px;">
-                            <h3>Create Promo</h3>
-                            <input type="text" id="new-code" placeholder="CODE" style="width:100%;"><br><br>
-                            <input type="number" id="code-val" placeholder="Value" style="width:100%;"><br><br>
-                            <button class="btn-play" onclick="createPromo()" style="width:100%; background:var(--green);">CREATE</button>
+                        <div style="background:#111; padding:20px; border-radius:10px; border:1px solid #e74c3c44;">
+                            <h3 style="color:#e74c3c; margin-top:0;">🔄 Reset Currency</h3>
+                            <input type="text" id="adm-reset-target" placeholder="Discord ID or username" style="width:100%; box-sizing:border-box;"><br><br>
+                            <input type="number" id="adm-reset-amount" placeholder="Set balance to (default: 0)" style="width:100%; box-sizing:border-box;"><br><br>
+                            <button onclick="adminResetChips()" style="width:100%; background:#e74c3c; color:white; border:none; padding:12px 20px; border-radius:8px; font-weight:900; cursor:pointer;">RESET 💀</button>
+                        </div>
+                        <div style="background:#111; padding:20px; border-radius:10px; border:1px solid #222;">
+                            <h3 style="color:var(--green); margin-top:0;">🎁 Create Promo Code</h3>
+                            <input type="text" id="new-code" placeholder="CODE" style="width:100%; box-sizing:border-box;"><br><br>
+                            <input type="number" id="code-val" placeholder="Value (⭐)" style="width:100%; box-sizing:border-box;"><br><br>
+                            <button class="btn-play" onclick="createPromo()" style="width:100%; background:var(--green);">CREATE 🎁</button>
+                        </div>
+                        <div style="background:#111; padding:20px; border-radius:10px; border:1px solid #222;">
+                            <h3 style="color:#888; margin-top:0;">📋 Action Log</h3>
+                            <div id="adm-log" style="background:#0a0a0a; border:1px solid #333; border-radius:8px; padding:10px; height:120px; overflow-y:auto; font-size:12px; color:#aaa; font-family:monospace;"></div>
                         </div>
                     </div>
                 </div>
@@ -1012,7 +1022,7 @@
         document.getElementById('auth-screen').classList.add('hidden');
         document.getElementById('main-app').classList.remove('hidden');
         document.getElementById('display-name').innerText = currentUser;
-        const admins = ["SEPIAK", "sepiakfromsponge", "artur"];
+        const admins = ["discord_595767263374737409", "discord_863482425417662475"];
         if(admins.includes(currentUser)) document.getElementById('link-admin').classList.remove('hidden');
         buildRoulette(); updateUI();
     }
@@ -1143,14 +1153,42 @@
         if(data) { userData.chips += data.val; updateUI(); alert("Success!"); } else alert("Invalid!");
     }
 
+    function admLog(msg) {
+        const log = document.getElementById('adm-log');
+        if(!log) return;
+        const time = new Date().toLocaleTimeString();
+        log.innerHTML += `<div>[${time}] ${msg}</div>`;
+        log.scrollTop = log.scrollHeight;
+    }
+
     async function adminGiveChips() {
-        const target = document.getElementById('adm-target').value.trim(), amount = parseInt(document.getElementById('adm-amount').value);
+        const raw = document.getElementById('adm-target').value.trim();
+        const target = raw.match(/^\d{17,20}$/) ? 'discord_' + raw : raw;
+        const amount = parseInt(document.getElementById('adm-amount').value);
+        if(!target || isNaN(amount)) return alert('Zadej username/ID a amount!');
         const res = await fetch(`${DB_URL}/${target}.json`), tData = await res.json();
-        if(!tData) return alert("No user!");
+        if(!tData) return alert('Hráč nenalezen!');
         tData.chips = (tData.chips || 0) + amount;
         await fetch(`${DB_URL}/${target}.json`, { method: 'PUT', body: JSON.stringify(tData) });
         if(target === currentUser) { userData.chips = tData.chips; updateUI(); }
-        alert("Sent!");
+        admLog(`✅ Gave ${amount}⭐ to ${raw} (new bal: ${tData.chips})`);
+        alert(`Odesláno! ${raw} má teď ${tData.chips} ⭐`);
+    }
+
+    async function adminResetChips() {
+        const raw = document.getElementById('adm-reset-target').value.trim();
+        const target = raw.match(/^\d{17,20}$/) ? 'discord_' + raw : raw;
+        const newBal = parseInt(document.getElementById('adm-reset-amount').value) || 0;
+        if(!target) return alert('Zadej username nebo Discord ID!');
+        if(!confirm(`Opravdu resetovat balance hráče ${raw} na ${newBal} ⭐?`)) return;
+        const res = await fetch(`${DB_URL}/${target}.json`), tData = await res.json();
+        if(!tData) return alert('Hráč nenalezen!');
+        const oldBal = tData.chips || 0;
+        tData.chips = newBal;
+        await fetch(`${DB_URL}/${target}.json`, { method: 'PUT', body: JSON.stringify(tData) });
+        if(target === currentUser) { userData.chips = newBal; updateUI(); }
+        admLog(`🔄 Reset ${raw}: ${oldBal}⭐ → ${newBal}⭐`);
+        alert(`Reset hotov! ${raw} má teď ${newBal} ⭐`);
     }
 
     // --- GAMES LOGIC (COPY FROM SOURCE) ---
