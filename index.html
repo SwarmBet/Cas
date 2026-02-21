@@ -182,32 +182,19 @@
     <div class="card" style="width: 360px; text-align: center; border: 2px solid var(--orange);">
         <h1 style="color:var(--orange); margin:0; font-size:32px; letter-spacing:2px;">SWARMBET</h1>
         <p style="color:#555; font-size:12px; margin-bottom:28px;">EST. 2026 · STAR PREMIUM</p>
-
-        <!-- Discord Login Button -->
-        <button id="discord-login-btn" onclick="discordLogin()" style="
-            width:100%; padding:14px; border-radius:10px; border:none;
-            background:#5865F2; color:white; font-size:16px; font-weight:900;
-            cursor:pointer; display:flex; align-items:center; justify-content:center;
-            gap:12px; margin-bottom:16px; transition:0.2s; letter-spacing:0.5px;
-            box-shadow: 0 4px 20px rgba(88,101,242,0.4);
-        " onmouseover="this.style.background='#4752C4'" onmouseout="this.style.background='#5865F2'">
-            <svg width="22" height="22" viewBox="0 0 71 55" fill="white" xmlns="http://www.w3.org/2000/svg">
-                <path d="M60.1045 4.8978C55.5792 2.8214 50.7265 1.2916 45.6527 0.41542C45.5603 0.39851 45.468 0.44077 45.4204 0.52529C44.7963 1.6353 44.105 3.0834 43.6209 4.2216C38.1637 3.4046 32.7345 3.4046 27.3892 4.2216C26.905 3.0581 26.1886 1.6353 25.5617 0.52529C25.5141 0.44359 25.4218 0.40133 25.3294 0.41542C20.2584 1.2888 15.4057 2.8186 10.8776 4.8978C10.8384 4.9147 10.8048 4.9429 10.7825 4.9795C1.57795 18.7309 -0.943561 32.1443 0.293408 45.3914C0.299005 45.4562 0.335386 45.5182 0.385761 45.5576C6.45866 50.0174 12.3413 52.7249 18.1147 54.5195C18.2071 54.5477 18.305 54.5139 18.3638 54.4378C19.7295 52.5728 20.9469 50.6063 21.9907 48.5383C22.0523 48.4172 21.9935 48.2735 21.8676 48.2256C19.9366 47.4931 18.0979 46.6 16.3292 45.5858C16.1893 45.5041 16.1781 45.304 16.3068 45.2082C16.679 44.9293 17.0513 44.6391 17.4067 44.3461C17.471 44.2926 17.5606 44.2813 17.6362 44.3151C29.2558 49.6202 41.8354 49.6202 53.3179 44.3151C53.3935 44.2785 53.4831 44.2898 53.5502 44.3433C53.9057 44.6363 54.2779 44.9293 54.6529 45.2082C54.7816 45.304 54.7732 45.5041 54.6333 45.5858C52.8646 46.6197 51.0259 47.4931 49.0921 48.2228C48.9662 48.2707 48.9102 48.4172 48.9718 48.5383C50.038 50.6034 51.2554 52.5699 52.5959 54.435C52.6519 54.5139 52.7526 54.5477 52.845 54.5195C58.6464 52.7249 64.529 50.0174 70.6019 45.5576C70.6551 45.5182 70.6887 45.459 70.6943 45.3942C72.1747 30.0791 68.2147 16.7757 60.1968 4.9823C60.1772 4.9429 60.1437 4.9147 60.1045 4.8978Z"/>
-            </svg>
+        <button id="discord-login-btn" onclick="discordLogin()" style="width:100%; padding:14px; border-radius:10px; border:none; background:#5865F2; color:white; font-size:16px; font-weight:900; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:12px; margin-bottom:16px; transition:0.2s; letter-spacing:0.5px; box-shadow: 0 4px 20px rgba(88,101,242,0.4);" onmouseover="this.style.background='#4752C4'" onmouseout="this.style.background='#5865F2'">
+            <svg width="22" height="22" viewBox="0 0 71 55" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M60.1045 4.8978C55.5792 2.8214 50.7265 1.2916 45.6527 0.41542C45.5603 0.39851 45.468 0.44077 45.4204 0.52529C44.7963 1.6353 44.105 3.0834 43.6209 4.2216C38.1637 3.4046 32.7345 3.4046 27.3892 4.2216C26.905 3.0581 26.1886 1.6353 25.5617 0.52529C25.5141 0.44359 25.4218 0.40133 25.3294 0.41542C20.2584 1.2888 15.4057 2.8186 10.8776 4.8978C10.8384 4.9147 10.8048 4.9429 10.7825 4.9795C1.57795 18.7309 -0.943561 32.1443 0.293408 45.3914C0.299005 45.4562 0.335386 45.5182 0.385761 45.5576C6.45866 50.0174 12.3413 52.7249 18.1147 54.5195C18.2071 54.5477 18.305 54.5139 18.3638 54.4378C19.7295 52.5728 20.9469 50.6063 21.9907 48.5383C22.0523 48.4172 21.9935 48.2735 21.8676 48.2256C19.9366 47.4931 18.0979 46.6 16.3292 45.5858C16.1893 45.5041 16.1781 45.304 16.3068 45.2082C16.679 44.9293 17.0513 44.6391 17.4067 44.3461C17.471 44.2926 17.5606 44.2813 17.6362 44.3151C29.2558 49.6202 41.8354 49.6202 53.3179 44.3151C53.3935 44.2785 53.4831 44.2898 53.5502 44.3433C53.9057 44.6363 54.2779 44.9293 54.6529 45.2082C54.7816 45.304 54.7732 45.5041 54.6333 45.5858C52.8646 46.6197 51.0259 47.4931 49.0921 48.2228C48.9662 48.2707 48.9102 48.4172 48.9718 48.5383C50.038 50.6034 51.2554 52.5699 52.5959 54.435C52.6519 54.5139 52.7526 54.5477 52.845 54.5195C58.6464 52.7249 64.529 50.0174 70.6019 45.5576C70.6551 45.5182 70.6887 45.459 70.6943 45.3942C72.1747 30.0791 68.2147 16.7757 60.1968 4.9823C60.1772 4.9429 60.1437 4.9147 60.1045 4.8978Z"/></svg>
             Login with Discord
         </button>
-
         <div style="display:flex; align-items:center; gap:10px; margin-bottom:16px;">
             <div style="flex:1; height:1px; background:#333;"></div>
             <span style="color:#555; font-size:12px;">or use username</span>
             <div style="flex:1; height:1px; background:#333;"></div>
         </div>
-
         <input type="text" id="user" placeholder="Username" style="width:80%; margin-bottom:10px;"><br>
         <input type="password" id="pass" placeholder="Password" style="width:80%; margin-bottom:20px;"><br>
         <button class="btn-play" onclick="auth('login')" style="width:100%; margin-bottom:10px;">LOGIN</button>
         <button class="btn-play" onclick="auth('reg')" style="width:100%; background:#222; color:white;">REGISTER</button>
-
         <div id="discord-status" style="margin-top:14px; font-size:12px; color:#666;"></div>
     </div>
 </div>
@@ -215,35 +202,18 @@
 <!-- Discord OAuth2 Config Modal -->
 <div id="discord-config-modal" style="display:none; position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.85); justify-content:center; align-items:center;">
     <div class="card" style="width:400px; border:2px solid #5865F2; text-align:center;">
-        <div style="font-size:36px; margin-bottom:10px;">
-            <svg width="40" height="32" viewBox="0 0 71 55" fill="#5865F2" xmlns="http://www.w3.org/2000/svg">
-                <path d="M60.1045 4.8978C55.5792 2.8214 50.7265 1.2916 45.6527 0.41542C45.5603 0.39851 45.468 0.44077 45.4204 0.52529C44.7963 1.6353 44.105 3.0834 43.6209 4.2216C38.1637 3.4046 32.7345 3.4046 27.3892 4.2216C26.905 3.0581 26.1886 1.6353 25.5617 0.52529C25.5141 0.44359 25.4218 0.40133 25.3294 0.41542C20.2584 1.2888 15.4057 2.8186 10.8776 4.8978C10.8384 4.9147 10.8048 4.9429 10.7825 4.9795C1.57795 18.7309 -0.943561 32.1443 0.293408 45.3914C0.299005 45.4562 0.335386 45.5182 0.385761 45.5576C6.45866 50.0174 12.3413 52.7249 18.1147 54.5195C18.2071 54.5477 18.305 54.5139 18.3638 54.4378C19.7295 52.5728 20.9469 50.6063 21.9907 48.5383C22.0523 48.4172 21.9935 48.2735 21.8676 48.2256C19.9366 47.4931 18.0979 46.6 16.3292 45.5858C16.1893 45.5041 16.1781 45.304 16.3068 45.2082C16.679 44.9293 17.0513 44.6391 17.4067 44.3461C17.471 44.2926 17.5606 44.2813 17.6362 44.3151C29.2558 49.6202 41.8354 49.6202 53.3179 44.3151C53.3935 44.2785 53.4831 44.2898 53.5502 44.3433C53.9057 44.6363 54.2779 44.9293 54.6529 45.2082C54.7816 45.304 54.7732 45.5041 54.6333 45.5858C52.8646 46.6197 51.0259 47.4931 49.0921 48.2228C48.9662 48.2707 48.9102 48.4172 48.9718 48.5383C50.038 50.6034 51.2554 52.5699 52.5959 54.435C52.6519 54.5139 52.7526 54.5477 52.845 54.5195C58.6464 52.7249 64.529 50.0174 70.6019 45.5576C70.6551 45.5182 70.6887 45.459 70.6943 45.3942C72.1747 30.0791 68.2147 16.7757 60.1968 4.9823C60.1772 4.9429 60.1437 4.9147 60.1045 4.8978Z"/>
-            </svg>
-        </div>
+        <div style="font-size:36px; margin-bottom:10px;"><svg width="40" height="32" viewBox="0 0 71 55" fill="#5865F2" xmlns="http://www.w3.org/2000/svg"><path d="M60.1045 4.8978C55.5792 2.8214 50.7265 1.2916 45.6527 0.41542C45.5603 0.39851 45.468 0.44077 45.4204 0.52529C44.7963 1.6353 44.105 3.0834 43.6209 4.2216C38.1637 3.4046 32.7345 3.4046 27.3892 4.2216C26.905 3.0581 26.1886 1.6353 25.5617 0.52529C25.5141 0.44359 25.4218 0.40133 25.3294 0.41542C20.2584 1.2888 15.4057 2.8186 10.8776 4.8978C10.8384 4.9147 10.8048 4.9429 10.7825 4.9795C1.57795 18.7309 -0.943561 32.1443 0.293408 45.3914C0.299005 45.4562 0.335386 45.5182 0.385761 45.5576C6.45866 50.0174 12.3413 52.7249 18.1147 54.5195C18.2071 54.5477 18.305 54.5139 18.3638 54.4378C19.7295 52.5728 20.9469 50.6063 21.9907 48.5383C22.0523 48.4172 21.9935 48.2735 21.8676 48.2256C19.9366 47.4931 18.0979 46.6 16.3292 45.5858C16.1893 45.5041 16.1781 45.304 16.3068 45.2082C16.679 44.9293 17.0513 44.6391 17.4067 44.3461C17.471 44.2926 17.5606 44.2813 17.6362 44.3151C29.2558 49.6202 41.8354 49.6202 53.3179 44.3151C53.3935 44.2785 53.4831 44.2898 53.5502 44.3433C53.9057 44.6363 54.2779 44.9293 54.6529 45.2082C54.7816 45.304 54.7732 45.5041 54.6333 45.5858C52.8646 46.6197 51.0259 47.4931 49.0921 48.2228C48.9662 48.2707 48.9102 48.4172 48.9718 48.5383C50.038 50.6034 51.2554 52.5699 52.5959 54.435C52.6519 54.5139 52.7526 54.5477 52.845 54.5195C58.6464 52.7249 64.529 50.0174 70.6019 45.5576C70.6551 45.5182 70.6887 45.459 70.6943 45.3942C72.1747 30.0791 68.2147 16.7757 60.1968 4.9823C60.1772 4.9429 60.1437 4.9147 60.1045 4.8978Z"/></svg></div>
         <h2 style="color:#5865F2; margin:0 0 8px;">Discord OAuth2 Setup</h2>
         <p style="color:#888; font-size:13px; margin-bottom:20px;">Zadej svůj Discord Application Client ID a Redirect URI z <a href="https://discord.com/developers/applications" target="_blank" style="color:#5865F2;">Discord Developer Portal</a></p>
-
         <div style="text-align:left; margin-bottom:12px;">
             <label style="color:#aaa; font-size:12px; display:block; margin-bottom:5px;">CLIENT ID</label>
             <input type="text" id="dc-client-id" placeholder="npr. 1234567890123456789" style="width:100%; box-sizing:border-box; background:#0a0a0a; border:1px solid #5865F2; color:white; padding:10px; border-radius:8px; font-size:14px;">
         </div>
         <div style="text-align:left; margin-bottom:20px;">
-            <label style="color:#aaa; font-size:12px; display:block; margin-bottom:5px;">REDIRECT URI (musí být v Discord Dev Portal)</label>
-            <input type="text" id="dc-redirect" placeholder="https://tvojastranka.com/callback" style="width:100%; box-sizing:border-box; background:#0a0a0a; border:1px solid #5865F2; color:white; padding:10px; border-radius:8px; font-size:14px;">
+            <label style="color:#aaa; font-size:12px; display:block; margin-bottom:5px;">REDIRECT URI</label>
+            <input type="text" id="dc-redirect" placeholder="https://tvojastranka.com/" style="width:100%; box-sizing:border-box; background:#0a0a0a; border:1px solid #5865F2; color:white; padding:10px; border-radius:8px; font-size:14px;">
             <small style="color:#555;">Auto-detekováno: <span id="dc-auto-redirect" style="color:#f39c12;"></span></small>
         </div>
-
-        <div style="background:#0a1a2a; border:1px solid #1e3a5a; border-radius:8px; padding:12px; margin-bottom:20px; text-align:left;">
-            <p style="color:#f39c12; font-size:12px; font-weight:bold; margin:0 0 6px;">📋 Návod:</p>
-            <ol style="color:#888; font-size:12px; margin:0; padding-left:18px; line-height:1.8;">
-                <li>Jdi na <strong style="color:#5865F2;">discord.com/developers/applications</strong></li>
-                <li>Vytvoř novou aplikaci nebo otevři existující</li>
-                <li>Zkopíruj <strong>CLIENT ID</strong> z General Information</li>
-                <li>V OAuth2 → Redirects přidej svoji URL adresu</li>
-                <li>Sem zadej stejnou URL jako Redirect URI</li>
-            </ol>
-        </div>
-
         <div style="display:flex; gap:10px;">
             <button onclick="saveDiscordConfig()" style="flex:1; background:#5865F2; color:white; border:none; padding:12px; border-radius:8px; font-weight:900; cursor:pointer; font-size:14px;">ULOŽIT & PŘIHLÁSIT</button>
             <button onclick="document.getElementById('discord-config-modal').style.display='none'" style="background:#333; color:white; border:none; padding:12px 16px; border-radius:8px; cursor:pointer;">✕</button>
@@ -472,7 +442,9 @@
                                 <span class="profit-val zero" id="d-profit">+0 ⭐</span>
                             </div>
                             Guess (1-6): <input type="number" id="d-num" value="1" min="1" max="6">
-                            Bet: <input type="number" id="d-bet" value="50">
+                            Bet: <input type="number" id="d-bet" value="50" style="width:80px;">
+                            <button class="m-bet-btn" style="background:#1e2a3a;border:none;color:#aaa;padding:8px 12px;cursor:pointer;font-size:12px;font-weight:700;border-radius:4px;" onclick="document.getElementById('d-bet').value=Math.max(50,Math.floor(parseInt(document.getElementById('d-bet').value||50)/2))">½</button>
+                            <button class="m-bet-btn" style="background:#1e2a3a;border:none;color:#aaa;padding:8px 12px;cursor:pointer;font-size:12px;font-weight:700;border-radius:4px;" onclick="document.getElementById('d-bet').value=Math.min(1000,parseInt(document.getElementById('d-bet').value||50)*2)">2×</button>
                             <button class="btn-play" onclick="playDice()">ROLL</button>
                             <div id="d-res" style="font-size:100px; margin:20px;">🎲</div>
                         </div>
@@ -488,7 +460,9 @@
                                 <option value="H">HEADS (⭐)</option>
                                 <option value="T">TAILS (💎)</option>
                             </select>
-                            Bet: <input type="number" id="cf-bet" value="50" min="50" max="1000">
+                            Bet: <input type="number" id="cf-bet" value="50" min="50" max="1000" style="width:80px;">
+                            <button class="m-bet-btn" style="background:#1e2a3a;border:none;color:#aaa;padding:8px 12px;cursor:pointer;font-size:12px;font-weight:700;border-radius:4px;" onclick="document.getElementById('cf-bet').value=Math.max(50,Math.floor(parseInt(document.getElementById('cf-bet').value||50)/2))">½</button>
+                            <button class="m-bet-btn" style="background:#1e2a3a;border:none;color:#aaa;padding:8px 12px;cursor:pointer;font-size:12px;font-weight:700;border-radius:4px;" onclick="document.getElementById('cf-bet').value=Math.min(1000,parseInt(document.getElementById('cf-bet').value||50)*2)">2×</button>
                             <button class="btn-play" id="cf-btn" onclick="playCoinFlip()">FLIP</button>
                         </div>
 
@@ -518,7 +492,9 @@
                                 <button class="btn-extra" style="background:#222; border:1px solid #444; color:white; padding:10px; cursor:pointer;" onclick="setExtraBet('19-36', this)">19 - 36</button>
                             </div>
                             <div style="display:flex; gap:10px; margin-top:20px; justify-content:center; align-items:center;">
-                                BET PER CELL: <input type="number" id="r-bet" value="50" min="50" max="1000">
+                                BET PER CELL: <input type="number" id="r-bet" value="50" min="50" max="1000" style="width:80px;">
+                                <button class="m-bet-btn" style="background:#1e2a3a;border:none;color:#aaa;padding:8px 12px;cursor:pointer;font-size:12px;font-weight:700;border-radius:4px;" onclick="document.getElementById('r-bet').value=Math.max(50,Math.floor(parseInt(document.getElementById('r-bet').value||50)/2))">½</button>
+                                <button class="m-bet-btn" style="background:#1e2a3a;border:none;color:#aaa;padding:8px 12px;cursor:pointer;font-size:12px;font-weight:700;border-radius:4px;" onclick="document.getElementById('r-bet').value=Math.min(1000,parseInt(document.getElementById('r-bet').value||50)*2)">2×</button>
                                 <button class="btn-play" id="r-spin" onclick="spinRoulette()">SPIN</button>
                                 <button class="btn-play" style="background:#444; color:white;" onclick="clearRouletteBets()">CLEAR</button>
                             </div>
@@ -549,6 +525,8 @@
                                 </div>
                                 <div id="bj-controls" style="display:flex; gap:10px; margin-top:10px; flex-wrap:wrap; justify-content:center;">
                                     Bet: <input type="number" id="bj-bet" value="100" min="50" max="1000" style="width:80px;">
+                                    <button class="m-bet-btn" style="background:#1e2a3a;border:none;color:#aaa;padding:8px 12px;cursor:pointer;font-size:12px;font-weight:700;border-radius:4px;" onclick="document.getElementById('bj-bet').value=Math.max(50,Math.floor(parseInt(document.getElementById('bj-bet').value||100)/2))">½</button>
+                                    <button class="m-bet-btn" style="background:#1e2a3a;border:none;color:#aaa;padding:8px 12px;cursor:pointer;font-size:12px;font-weight:700;border-radius:4px;" onclick="document.getElementById('bj-bet').value=Math.min(1000,parseInt(document.getElementById('bj-bet').value||100)*2)">2×</button>
                                     <button class="btn-play" id="bj-deal-btn" onclick="startBlackjack()">DEAL</button>
                                     <button class="btn-play hidden" id="bj-hit-btn" onclick="bjHit()" style="background:#3498db; color:white;">HIT</button>
                                     <button class="btn-play hidden" id="bj-stand-btn" onclick="bjStand()" style="background:#9b59b6; color:white;">STAND</button>
@@ -593,7 +571,9 @@
                                         <span style="color:#888;">Session Profit</span>
                                         <span class="profit-val zero" id="bac-profit">+0 ⭐</span>
                                     </div>
-                                    Bet: <input type="number" id="bac-bet" value="100" min="50" max="1000" style="width:80px;"><br><br>
+                                    Bet: <input type="number" id="bac-bet" value="100" min="50" max="1000" style="width:80px;">
+                                    <button class="m-bet-btn" style="background:#1e2a3a;border:none;color:#aaa;padding:8px 12px;cursor:pointer;font-size:12px;font-weight:700;border-radius:4px;" onclick="document.getElementById('bac-bet').value=Math.max(50,Math.floor(parseInt(document.getElementById('bac-bet').value||100)/2))">½</button>
+                                    <button class="m-bet-btn" style="background:#1e2a3a;border:none;color:#aaa;padding:8px 12px;cursor:pointer;font-size:12px;font-weight:700;border-radius:4px;" onclick="document.getElementById('bac-bet').value=Math.min(1000,parseInt(document.getElementById('bac-bet').value||100)*2)">2×</button><br><br>
                                     <button class="btn-play" onclick="playBaccarat('P')" style="background:#3498db; color:white;">PLAYER (2x)</button>
                                     <button class="btn-play" onclick="playBaccarat('T')" style="background:#95a5a6; color:white;">TIE (9x)</button>
                                     <button class="btn-play" onclick="playBaccarat('B')" style="background:#e74c3c; color:white;">BANKER (1.95x)</button>
@@ -618,23 +598,162 @@
                                 <span class="profit-val zero" id="c-profit">+0 ⭐</span>
                             </div>
                             <div id="crash-display" style="font-size: 80px; font-weight: 900; margin: 30px 0;">1.00x</div>
-                            Bet: <input type="number" id="c-bet" value="50" min="50" max="1000">
+                            Bet: <input type="number" id="c-bet" value="50" min="50" max="1000" style="width:80px;">
+                            <button class="m-bet-btn" style="background:#1e2a3a;border:none;color:#aaa;padding:8px 12px;cursor:pointer;font-size:12px;font-weight:700;border-radius:4px;" onclick="document.getElementById('c-bet').value=Math.max(50,Math.floor(parseInt(document.getElementById('c-bet').value||50)/2))">½</button>
+                            <button class="m-bet-btn" style="background:#1e2a3a;border:none;color:#aaa;padding:8px 12px;cursor:pointer;font-size:12px;font-weight:700;border-radius:4px;" onclick="document.getElementById('c-bet').value=Math.min(1000,parseInt(document.getElementById('c-bet').value||50)*2)">2×</button>
                             <button class="btn-play" id="c-start" onclick="startCrash()">START</button>
                             <button id="c-cash" class="hidden btn-play" style="background:#2ecc71;" onclick="cashoutCrash()">CASH OUT</button>
                             <div id="crash-history" style="display:flex; justify-content:center; gap:10px; color:#555; margin-top:20px;"></div>
                         </div>
 
-                        <div id="game-tower" class="hidden" style="text-align:center;">
-                            <h2 style="color:#f1c40f;">TOWER</h2>
-                            <div class="profit-bar" style="max-width:400px;margin:0 auto 12px;">
-                                <span style="color:#888;">Session Profit</span>
-                                <span class="profit-val zero" id="t-profit">+0 ⭐</span>
+                        <div id="game-tower" class="hidden">
+                            <style>
+                                /* ===== TOWER LAYOUT ===== */
+                                /* ===== TOWER - SWARMBET ORANGE/BLACK THEME ===== */
+                                .tw-wrap { display:flex; height:calc(100vh - 130px); min-height:560px; overflow:hidden; }
+
+                                /* Left panel */
+                                .tw-panel { width:300px; flex-shrink:0; background:#111; border-right:1px solid #222; padding:24px 20px; display:flex; flex-direction:column; gap:16px; overflow-y:auto; }
+                                .tw-panel-title { font-size:18px; font-weight:800; color:var(--orange); display:flex; align-items:center; gap:8px; margin-bottom:4px; }
+                                .tw-label { font-size:11px; color:#666; text-transform:uppercase; letter-spacing:1px; margin-bottom:6px; font-weight:600; }
+
+                                /* Bet row */
+                                .tw-bet-row { display:flex; align-items:center; background:#000; border:1px solid #333; border-radius:8px; overflow:hidden; }
+                                .tw-bet-row input { border:none; background:transparent; color:var(--orange); padding:11px 14px; font-size:15px; font-weight:600; flex:1; width:0; outline:none; }
+                                .tw-bet-half-2x { display:flex; border-left:1px solid #333; }
+                                .tw-bet-half-2x button { background:#1a1a1a; border:none; color:#888; padding:11px 14px; cursor:pointer; font-size:13px; font-weight:700; border-right:1px solid #222; transition:0.15s; }
+                                .tw-bet-half-2x button:last-child { border-right:none; }
+                                .tw-bet-half-2x button:hover { background:#2a2a2a; color:var(--orange); }
+
+                                /* Risk dropdown */
+                                .tw-risk-wrap { position:relative; }
+                                .tw-risk-wrap::after { content:'▼'; position:absolute; right:14px; top:50%; transform:translateY(-50%); color:var(--orange); font-size:10px; pointer-events:none; }
+                                .tw-risk-dropdown { position:absolute; top:100%; left:0; right:0; background:#1a1a1a; border:1px solid var(--orange); border-radius:8px; z-index:200; overflow:hidden; display:none; margin-top:4px; box-shadow:0 8px 32px rgba(0,0,0,0.8),0 0 20px rgba(255,153,0,0.1); }
+                                .tw-risk-dropdown.open { display:block; }
+                                .tw-risk-option { display:flex; align-items:center; justify-content:space-between; padding:10px 14px; cursor:pointer; font-size:14px; font-weight:700; color:white; transition:background 0.15s; }
+                                .tw-risk-option:hover, .tw-risk-option.selected { background:rgba(255,153,0,0.15); color:var(--orange); }
+                                .tw-risk-icons { display:flex; gap:4px; align-items:center; }
+                                .tw-icon-gem { width:14px; height:14px; background:#27ae60; clip-path:polygon(50% 0%,100% 40%,50% 100%,0% 40%); flex-shrink:0; }
+                                .tw-icon-bomb { width:13px; height:13px; background:#e74c3c; clip-path:polygon(50% 0%,100% 40%,50% 100%,0% 40%); flex-shrink:0; }
+
+                                /* Buttons */
+                                .tw-start-btn { width:100%; background:var(--orange); border:none; color:black; padding:14px; border-radius:8px; font-size:15px; font-weight:900; cursor:pointer; transition:0.2s; letter-spacing:0.5px; }
+                                .tw-start-btn:hover { background:#ffaa22; }
+                                .tw-start-btn:disabled { background:#333; color:#666; cursor:default; }
+                                .tw-cash-btn { width:100%; background:linear-gradient(135deg,#ff9900,#cc7700); border:none; color:black; padding:14px; border-radius:8px; font-size:15px; font-weight:900; cursor:pointer; letter-spacing:0.5px; transition:0.2s; }
+                                .tw-cash-btn:hover { background:linear-gradient(135deg,#ffaa22,#ff9900); }
+
+                                /* Profit box */
+                                .tw-profit-box { background:#000; border:1px solid #333; border-radius:8px; padding:10px 14px; display:flex; justify-content:space-between; align-items:center; font-size:13px; }
+                                .tw-mult-big { font-size:32px; font-weight:900; color:var(--orange); text-align:center; line-height:1; }
+                                .tw-sub-status { text-align:center; font-size:12px; color:#666; margin-top:4px; }
+
+                                /* Arena */
+                                .tw-arena { flex:1; background:radial-gradient(ellipse at center,#1a0d00 0%,#0a0500 60%,#000 100%); display:flex; align-items:center; justify-content:center; padding:20px; overflow:hidden; position:relative; }
+                                .tw-arena::before, .tw-arena::after { content:''; position:absolute; top:0; bottom:0; width:55px; background:linear-gradient(180deg,#1a0d00 0%,#120900 40%,#0a0500 100%); border:2px solid #3a2000; border-top:none; border-bottom:none; box-shadow:inset 0 0 20px rgba(255,153,0,0.05); }
+                                .tw-arena::before { left:30px; border-radius:6px 6px 0 0; }
+                                .tw-arena::after  { right:30px; border-radius:6px 6px 0 0; }
+
+                                /* Board */
+                                .tw-board-outer { position:relative; z-index:2; background:#0d0800; border:2px solid #3a2000; border-radius:6px; padding:6px; box-shadow:0 0 60px rgba(0,0,0,0.9),0 0 30px rgba(255,153,0,0.05); width:min(500px,calc(100% - 140px)); height:min(590px,calc(100% - 20px)); display:flex; flex-direction:column; gap:4px; box-sizing:border-box; }
+
+                                /* Rows */
+                                .tw-row { display:flex; gap:4px; flex:1; min-height:0; }
+
+                                /* Tiles */
+                                .tw-tile { flex:1; min-width:0; min-height:0; border-radius:5px; display:flex; align-items:flex-end; justify-content:center; padding-bottom:5px; font-size:20px; cursor:default; position:relative; overflow:hidden; transition:transform 0.12s,border-color 0.12s,box-shadow 0.12s,opacity 0.2s; border:1.5px solid #3a2000; }
+                                .tw-tile::before { content:''; position:absolute; inset:0; background:repeating-linear-gradient(0deg,transparent,transparent 18px,rgba(0,0,0,0.35) 18px,rgba(0,0,0,0.35) 19px),repeating-linear-gradient(90deg,transparent,transparent 28px,rgba(0,0,0,0.25) 28px,rgba(0,0,0,0.25) 29px); pointer-events:none; border-radius:4px; }
+                                .tw-tile-badge { position:relative; z-index:2; font-size:10px; font-weight:800; color:var(--orange); background:rgba(20,10,0,0.85); border:1px solid rgba(255,153,0,0.35); border-radius:20px; padding:2px 8px; letter-spacing:0.2px; pointer-events:none; white-space:nowrap; }
+                                .tw-tile.tw-inactive { background:linear-gradient(160deg,#1a0e00 0%,#110900 100%); border-color:#2a1500; opacity:0.6; }
+                                .tw-tile.tw-active { background:linear-gradient(160deg,#231200 0%,#1a0d00 100%); border-color:#4a2800; opacity:1; cursor:pointer; }
+                                .tw-tile.tw-active .tw-tile-badge { color:#ffcc44; background:rgba(30,15,0,0.9); border-color:rgba(255,153,0,0.7); box-shadow:0 0 8px rgba(255,153,0,0.3); }
+                                .tw-tile.tw-active:hover { background:linear-gradient(160deg,#3a2000 0%,#2a1500 100%); border-color:var(--orange); box-shadow:0 0 16px rgba(255,153,0,0.4); transform:scale(1.03); }
+                                .tw-tile.tw-gem { background:linear-gradient(160deg,#0d3a20 0%,#0a2818 100%); border-color:#27ae60; box-shadow:0 0 14px rgba(39,174,96,0.4); cursor:default; animation:twReveal 0.25s ease; }
+                                .tw-tile.tw-gem .tw-tile-badge { color:#4ade80; background:rgba(5,30,15,0.85); border-color:rgba(39,174,96,0.5); }
+                                .tw-tile.tw-bomb { background:linear-gradient(160deg,#3a0d0d 0%,#280808 100%); border-color:#e74c3c; box-shadow:0 0 14px rgba(231,76,60,0.4); cursor:default; animation:twReveal 0.25s ease; }
+                                .tw-tile.tw-safe { background:linear-gradient(160deg,#110900 0%,#0a0500 100%); border-color:#1a0a00; opacity:0.25; cursor:default; }
+                                @keyframes twReveal { from { transform:scale(0.85); opacity:0; } to { transform:scale(1); opacity:1; } }
+                            </style>
+
+                            <div class="tw-wrap">
+                                <!-- ── Left panel ── -->
+                                <div class="tw-panel">
+                                    <div class="tw-panel-title">🏰 Tower</div>
+
+                                    <div class="tw-profit-box">
+                                        <span style="color:#888; font-size:12px;">Session Profit</span>
+                                        <span class="profit-val zero" id="t-profit" style="font-weight:700;">+0 ⭐</span>
+                                    </div>
+
+                                    <div>
+                                        <div class="tw-label">Bet Amount</div>
+                                        <div class="tw-bet-row">
+                                            <input type="number" id="t-bet" value="50" min="50" max="1000">
+                                            <div class="tw-bet-half-2x">
+                                                <button onclick="document.getElementById('t-bet').value=Math.max(50,Math.floor(parseInt(document.getElementById('t-bet').value||50)/2))">½</button>
+                                                <button onclick="document.getElementById('t-bet').value=Math.min(1000,parseInt(document.getElementById('t-bet').value||50)*2)">2×</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <div class="tw-label">Risk</div>
+                                        <div class="tw-risk-wrap" id="tw-risk-wrap">
+                                            <div id="tw-risk-display" onclick="toggleRiskDropdown()" style="display:flex;align-items:center;justify-content:space-between;background:#1a1a1a;border:1px solid #333;border-radius:8px;padding:11px 14px;cursor:pointer;font-weight:700;color:white;font-size:14px;">
+                                                <span id="tw-risk-label">Medium</span>
+                                                <span style="color:#ff9900;font-size:10px;" id="tw-risk-arrow">▼</span>
+                                            </div>
+                                            <div class="tw-risk-dropdown" id="tw-risk-dropdown">
+                                                <div class="tw-risk-option" onclick="selectRisk('easy','Easy')">
+                                                    <span>Easy</span>
+                                                    <span class="tw-risk-icons"><div class="tw-icon-gem"></div><div class="tw-icon-gem"></div><div class="tw-icon-gem"></div><div class="tw-icon-bomb"></div></span>
+                                                </div>
+                                                <div class="tw-risk-option selected" id="tw-opt-medium" onclick="selectRisk('medium','Medium')">
+                                                    <span>Medium</span>
+                                                    <span class="tw-risk-icons"><div class="tw-icon-gem"></div><div class="tw-icon-gem"></div><div class="tw-icon-bomb"></div></span>
+                                                </div>
+                                                <div class="tw-risk-option" onclick="selectRisk('hard','Hard')">
+                                                    <span>Hard</span>
+                                                    <span class="tw-risk-icons"><div class="tw-icon-gem"></div><div class="tw-icon-bomb"></div></span>
+                                                </div>
+                                                <div class="tw-risk-option" onclick="selectRisk('expert','Expert')">
+                                                    <span>Expert</span>
+                                                    <span class="tw-risk-icons"><div class="tw-icon-gem"></div><div class="tw-icon-bomb"></div><div class="tw-icon-bomb"></div></span>
+                                                </div>
+                                                <div class="tw-risk-option" onclick="selectRisk('master','Master')">
+                                                    <span>Master</span>
+                                                    <span class="tw-risk-icons"><div class="tw-icon-gem"></div><div class="tw-icon-bomb"></div><div class="tw-icon-bomb"></div><div class="tw-icon-bomb"></div></span>
+                                                </div>
+                                            </div>
+                                            <!-- hidden select for compatibility -->
+                                            <select id="t-risk" style="display:none;">
+                                                <option value="easy">Easy</option>
+                                                <option value="medium" selected>Medium</option>
+                                                <option value="hard">Hard</option>
+                                                <option value="expert">Expert</option>
+                                                <option value="master">Master</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <button class="tw-start-btn" id="t-start" onclick="startTower()">▶ Bet</button>
+                                    <button id="t-cash" class="tw-cash-btn hidden" onclick="cashoutTower()">💰 Cash Out</button>
+
+                                    <div>
+                                        <div class="tw-label">Total Profit (<span id="t-mult-disp">1.00×</span>)</div>
+                                        <div class="tw-bet-row" style="pointer-events:none;">
+                                            <input type="text" id="t-profit-disp" value="0.00 ⭐" style="color:var(--orange);" readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="tw-sub-status" id="tower-status">Place your bet and start</div>
+                                </div>
+
+                                <!-- ── Arena ── -->
+                                <div class="tw-arena">
+                                    <div class="tw-board-outer" id="tower-board"></div>
+                                </div>
                             </div>
-                            <div id="tower-status" style="color:var(--orange); font-weight:bold; margin-bottom:10px;">CHOOSE A TILE</div>
-                            <div id="tower-board" style="display: flex; flex-direction: column-reverse; gap: 5px; align-items: center;"></div>
-                            Bet: <input type="number" id="t-bet" value="50" min="50" max="1000">
-                            <button class="btn-play" id="t-start" onclick="startTower()">START</button>
-                            <button id="t-cash" class="hidden btn-play" style="background:#2ecc71;" onclick="cashoutTower()">CASH OUT</button>
                         </div>
 
                         <div id="game-royaljelly" class="hidden">
@@ -661,7 +780,7 @@
                             </style>
                             <div style="text-align:center; margin-bottom:16px;">
                                 <h2 style="color:#f1c40f; margin:0;">🐝 ROYAL JELLY</h2>
-                                <p style="color:#888; font-size:13px; margin:4px 0;">Your bee vs Bot bee — highest coins wins!</p>
+                                <p style="color:#888; font-size:13px; margin:4px 0;">Your bee vs Bot bee — highest coins wins! 1 coin = 0.01× multiplier</p>
                                 <div class="profit-bar" style="max-width:400px;margin:8px auto;">
                                     <span style="color:#888;">Session Profit</span>
                                     <span class="profit-val zero" id="rj-profit">+0 ⭐</span>
@@ -669,6 +788,8 @@
                             </div>
                             <div style="text-align:center; margin-bottom:12px;">
                                 Bet: <input type="number" id="rj-bet" value="50" min="50" max="1000" style="width:90px; display:inline-block;">
+                                <button class="m-bet-btn" style="background:#1e2a3a;border:none;color:#aaa;padding:8px 12px;cursor:pointer;font-size:12px;font-weight:700;border-radius:4px;" onclick="document.getElementById('rj-bet').value=Math.max(50,Math.floor(parseInt(document.getElementById('rj-bet').value||50)/2))">½</button>
+                                <button class="m-bet-btn" style="background:#1e2a3a;border:none;color:#aaa;padding:8px 12px;cursor:pointer;font-size:12px;font-weight:700;border-radius:4px;" onclick="document.getElementById('rj-bet').value=Math.min(1000,parseInt(document.getElementById('rj-bet').value||50)*2)">2×</button>
                             </div>
                             <div class="rj-wrap">
                                 <div class="rj-card rj-bee-card-anim" id="rj-player-card">
@@ -694,7 +815,7 @@
                             <div style="text-align:center; margin-top:20px;">
                                 <div style="font-size:11px; color:#555; max-width:500px; margin:0 auto; line-height:1.6;">
                                     Rarity chances: Rare 20% · Epic 7% · Legendary 3% · Mythic 0.05%<br>
-                                    Win = get your bee's coins ⭐ · Lose = nothing back 💔
+                                    Win = bet × (yourBee.coins × 0.01) ⭐ · Lose = nothing back 💔
                                 </div>
                             </div>
                         </div>
@@ -884,7 +1005,6 @@
     // ═══════════════════════════════════════════════
     // DISCORD OAUTH2 SYSTEM
     // ═══════════════════════════════════════════════
-
     let DISCORD_CLIENT_ID = '1473435482590281862';
     let DISCORD_REDIRECT   = 'https://swarmbet.github.io/Cas/';
 
@@ -899,7 +1019,7 @@
         if(!DISCORD_CLIENT_ID) {
             const modal = document.getElementById('discord-config-modal');
             modal.style.display = 'flex';
-            document.getElementById('dc-redirect').value  = DISCORD_REDIRECT;
+            document.getElementById('dc-redirect').value = DISCORD_REDIRECT;
             document.getElementById('dc-auto-redirect').textContent = DISCORD_REDIRECT;
             return;
         }
@@ -911,10 +1031,9 @@
         const red = document.getElementById('dc-redirect').value.trim();
         if(!id) { alert('Zadej Client ID!'); return; }
         if(!red) { alert('Zadej Redirect URI!'); return; }
-        DISCORD_CLIENT_ID = id;
-        DISCORD_REDIRECT  = red;
+        DISCORD_CLIENT_ID = id; DISCORD_REDIRECT = red;
         localStorage.setItem('swarm_dc_client_id', id);
-        localStorage.setItem('swarm_dc_redirect',  red);
+        localStorage.setItem('swarm_dc_redirect', red);
         document.getElementById('discord-config-modal').style.display = 'none';
         startDiscordOAuth();
     }
@@ -922,13 +1041,7 @@
     function startDiscordOAuth() {
         const state = Math.random().toString(36).substring(2, 15);
         localStorage.setItem('swarm_oauth_state', state);
-        const params = new URLSearchParams({
-            client_id:     DISCORD_CLIENT_ID,
-            redirect_uri:  DISCORD_REDIRECT,
-            response_type: 'token',
-            scope:         'identify',
-            state:         state
-        });
+        const params = new URLSearchParams({ client_id: DISCORD_CLIENT_ID, redirect_uri: DISCORD_REDIRECT, response_type: 'token', scope: 'identify', state });
         const statusEl = document.getElementById('discord-status');
         if(statusEl) statusEl.textContent = '🔄 Přesměrování na Discord...';
         window.location.href = 'https://discord.com/oauth2/authorize?' + params.toString();
@@ -943,35 +1056,24 @@
         const savedState = localStorage.getItem('swarm_oauth_state');
         if(!accessToken) return false;
         history.replaceState(null, '', window.location.pathname + window.location.search);
-        if(returnedState && savedState && returnedState !== savedState) {
-            alert('❌ OAuth state mismatch!'); return false;
-        }
+        if(returnedState && savedState && returnedState !== savedState) { alert('❌ OAuth state mismatch!'); return false; }
         localStorage.removeItem('swarm_oauth_state');
         const statusEl = document.getElementById('discord-status');
         if(statusEl) statusEl.textContent = '⏳ Získávání Discord profilu...';
         try {
-            const userRes = await fetch('https://discord.com/api/users/@me', {
-                headers: { 'Authorization': 'Bearer ' + accessToken }
-            });
+            const userRes = await fetch('https://discord.com/api/users/@me', { headers: { 'Authorization': 'Bearer ' + accessToken } });
             if(!userRes.ok) throw new Error('Discord API ' + userRes.status);
             const dcUser = await userRes.json();
             const discordUsername = 'discord_' + dcUser.id;
             const displayName = dcUser.username + (dcUser.discriminator && dcUser.discriminator !== '0' ? '#' + dcUser.discriminator : '');
-            const avatarUrl = dcUser.avatar
-                ? `https://cdn.discordapp.com/avatars/${dcUser.id}/${dcUser.avatar}.png`
-                : `https://cdn.discordapp.com/embed/avatars/${parseInt(dcUser.id) % 6}.png`;
+            const avatarUrl = dcUser.avatar ? `https://cdn.discordapp.com/avatars/${dcUser.id}/${dcUser.avatar}.png` : `https://cdn.discordapp.com/embed/avatars/${parseInt(dcUser.id) % 6}.png`;
             const res = await fetch(`${DB_URL}/${discordUsername}.json`);
             let user = await res.json();
             if(!user) {
                 user = { chips: 500, discord: true, displayName, avatarUrl };
                 await fetch(`${DB_URL}/${discordUsername}.json`, { method: 'PUT', body: JSON.stringify(user) });
-            } else {
-                user.displayName = displayName;
-                user.avatarUrl   = avatarUrl;
-                user.discord     = true;
-            }
-            currentUser = discordUsername;
-            userData    = user;
+            } else { user.displayName = displayName; user.avatarUrl = avatarUrl; user.discord = true; }
+            currentUser = discordUsername; userData = user;
             localStorage.setItem('swarm_user', discordUsername);
             loginSuccess();
             injectDiscordAvatar(displayName, avatarUrl);
@@ -986,10 +1088,7 @@
     function injectDiscordAvatar(displayName, avatarUrl) {
         const nameEl = document.getElementById('display-name');
         if(!nameEl) return;
-        nameEl.innerHTML = `
-            <img src="${avatarUrl}" style="width:28px;height:28px;border-radius:50%;border:2px solid #5865F2;vertical-align:middle;margin-right:8px;" onerror="this.style.display='none'">
-            <span style="color:#5865F2;">${displayName}</span>
-        `;
+        nameEl.innerHTML = `<img src="${avatarUrl}" style="width:28px;height:28px;border-radius:50%;border:2px solid #5865F2;vertical-align:middle;margin-right:8px;" onerror="this.style.display='none'"><span style="color:#5865F2;">${displayName}</span>`;
     }
 
     const sfx = {
@@ -1025,6 +1124,10 @@
         const admins = ["discord_595767263374737409", "discord_863482425417662475"];
         if(admins.includes(currentUser)) document.getElementById('link-admin').classList.remove('hidden');
         buildRoulette(); updateUI();
+        // Tower risk change → rebuild board preview
+        document.getElementById('t-risk')?.addEventListener('change', function() {
+            if(!tActive) { tCurrentRisk = this.value; buildTowerBoard(); }
+        });
     }
 
     function logout() { localStorage.removeItem('swarm_user'); location.reload(); }
@@ -1050,14 +1153,12 @@
         el.textContent = (v >= 0 ? '+' : '') + Math.floor(v) + ' ⭐';
         el.className = 'profit-val ' + (v > 0 ? 'pos' : v < 0 ? 'neg' : 'zero');
     }
-    const MAX_COINS = 5000;
     const MIN_BET = 50;
     const MAX_BET = 1000;
     function clampBet(v) { return Math.max(MIN_BET, Math.min(MAX_BET, parseInt(v) || MIN_BET)); }
 
     function updateUI() {
         if(!userData) return;
-        if(userData.chips > MAX_COINS) userData.chips = MAX_COINS;
         document.getElementById('display-chips').innerText = Math.floor(userData.chips);
         fetch(`${DB_URL}/${currentUser}.json`, { method: 'PUT', body: JSON.stringify(userData) });
     }
@@ -1072,6 +1173,7 @@
         });
         document.getElementById('game-'+g).classList.remove('hidden');
         if(g==='royaljelly') rjInit();
+        if(g==='tower') buildTowerBoard();
     }
 
     function backToMenu() {
@@ -1088,49 +1190,9 @@
         setTimeout(() => div.remove(), 3000);
     }
 
-    const DISCORD_WEBHOOK = 'https://discord.com/api/webhooks/1474553214715170917/XnmolgPPEt7chlQfAJTSNDApElAx-l-yMmb7R84AwZ1QhUypZLWbnwTGDesVJLpdhI43';
-
-    const GAME_ICONS = {
-        'Mines': '💣', 'Dice': '🎲', 'CoinFlip': '🪙', 'Roulette': '🎡',
-        'Blackjack': '🃏', 'Baccarat': '🎴', 'Crash': '📈', 'Tower': '🏰',
-        'Royal Jelly': '🍯'
-    };
-
-    async function sendDiscordResult(game, bet, mult, win) {
-        const isWin = win > 0;
-        const icon = GAME_ICONS[game] || '🎮';
-        const player = currentUser || 'Player';
-        const color = isWin ? 0x27ae60 : 0xe74c3c;
-        const resultText = isWin ? '+' + Math.floor(win) + ' ⭐' : Math.floor(win) + ' ⭐';
-        const embed = {
-            embeds: [{
-                color: color,
-                author: { name: icon + ' ' + game },
-                title: isWin ? '🏆 WIN!' : '💀 LOSS',
-                fields: [
-                    { name: '👤 Player',     value: player,                             inline: true },
-                    { name: '💰 Bet',        value: bet + ' ⭐',                        inline: true },
-                    { name: '📊 Multiplier', value: mult.toFixed(2) + 'x',             inline: true },
-                    { name: '🏅 Result',     value: resultText,                         inline: true },
-                    { name: '🏦 Balance',    value: Math.floor(userData.chips) + ' ⭐', inline: true },
-                ],
-                timestamp: new Date().toISOString(),
-                footer: { text: 'SwarmBet Casino' }
-            }]
-        };
-        try {
-            await fetch(DISCORD_WEBHOOK, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(embed)
-            });
-        } catch(e) { /* silent fail */ }
-    }
-
     function addHistory(game, bet, mult, win) {
         betHistory.unshift({ game, bet, mult, win: Math.floor(win) });
         if(betHistory.length > 15) betHistory.pop();
-        sendDiscordResult(game, bet, mult, win);
     }
 
     function renderHistory() {
@@ -1163,7 +1225,7 @@
 
     async function adminGiveChips() {
         const raw = document.getElementById('adm-target').value.trim();
-        const target = raw.match(/^\d{17,20}$/) ? 'discord_' + raw : raw;
+        const target = /^\d{17,20}$/.test(raw) ? 'discord_' + raw : raw;
         const amount = parseInt(document.getElementById('adm-amount').value);
         if(!target || isNaN(amount)) return alert('Zadej username/ID a amount!');
         const res = await fetch(`${DB_URL}/${target}.json`), tData = await res.json();
@@ -1177,7 +1239,7 @@
 
     async function adminResetChips() {
         const raw = document.getElementById('adm-reset-target').value.trim();
-        const target = raw.match(/^\d{17,20}$/) ? 'discord_' + raw : raw;
+        const target = /^\d{17,20}$/.test(raw) ? 'discord_' + raw : raw;
         const newBal = parseInt(document.getElementById('adm-reset-amount').value) || 0;
         if(!target) return alert('Zadej username nebo Discord ID!');
         if(!confirm(`Opravdu resetovat balance hráče ${raw} na ${newBal} ⭐?`)) return;
@@ -1432,29 +1494,179 @@
     }
 
     // TOWER
-    let tActive = false, tLevel = 0, tBet = 0, tMults = [1.2, 1.6, 2.1, 3.0, 4.5, 7.0, 12.0, 25.0];
+    // TOWER
+    function toggleRiskDropdown() {
+        if(tActive) return;
+        const dd = document.getElementById('tw-risk-dropdown');
+        const arrow = document.getElementById('tw-risk-arrow');
+        const open = dd.classList.toggle('open');
+        arrow.textContent = open ? '▲' : '▼';
+    }
+    function selectRisk(value, label) {
+        if(tActive) return;
+        document.getElementById('t-risk').value = value;
+        document.getElementById('tw-risk-label').textContent = label;
+        document.querySelectorAll('.tw-risk-option').forEach(o => o.classList.remove('selected'));
+        document.getElementById('tw-risk-dropdown').classList.remove('open');
+        document.getElementById('tw-risk-arrow').textContent = '▼';
+        tCurrentRisk = value;
+        buildTowerBoard();
+    }
+    document.addEventListener('click', function(e) {
+        const wrap = document.getElementById('tw-risk-wrap');
+        if(wrap && !wrap.contains(e.target)) {
+            const dd = document.getElementById('tw-risk-dropdown');
+            if(dd) { dd.classList.remove('open'); document.getElementById('tw-risk-arrow').textContent = '▼'; }
+        }
+    });
+    const tRiskConfig = {
+        easy:   { bombs:1, cols:4, mults:[1.28,1.70,2.27,3.03,4.04,5.39,7.19,9.58,12.77] },
+        medium: { bombs:1, cols:3, mults:[1.44,2.16,3.24,4.86,7.29,10.93,16.40,24.60,36.90] },
+        hard:   { bombs:1, cols:2, mults:[1.92,3.84,7.68,15.36,30.72,61.44,122.88,245.76,491.52] },
+        expert: { bombs:2, cols:3, mults:[2.88,8.64,25.92,77.76,233.28,699.84,2099.52,6298.56,18895.68] },
+        master: { bombs:3, cols:4, mults:[3.84,15.36,61.44,245.76,983.04,3932.16,15728.64,62914.56,251658.24] }
+    };
+    let tActive = false, tLevel = 0, tBet = 0, tCurrentRisk = 'medium';
+    const TOWER_ROWS = 9;
+    let tBombs = [];
+
+    function tGetCols() { return tRiskConfig[tCurrentRisk].cols; }
+
+    function tGetMults() { return tRiskConfig[tCurrentRisk].mults; }
+    function tGetBombs() { return tRiskConfig[tCurrentRisk].bombs; }
+
+    function buildTowerBoard() {
+        const board = document.getElementById('tower-board');
+        board.innerHTML = '';
+        const mults = tGetMults();
+        for(let i = TOWER_ROWS - 1; i >= 0; i--) {
+            const row = document.createElement('div');
+            row.className = 'tw-row';
+            row.id = `t-row-${i}`;
+            for(let j = 0; j < tGetCols(); j++) {
+                const tile = document.createElement('div');
+                tile.className = 'tw-tile tw-inactive';
+                tile.id = `t-tile-${i}-${j}`;
+                // Badge inside the first tile of each row
+                // mults[i] where i=0 is floor 1 (bottom, lowest mult), i=8 is top (highest mult)
+                // Visual order: i=8 renders first (top of board), i=0 renders last (bottom)
+                // So badge should show mults[i] — floor i reached = mult mults[i]
+                if(j === 0) {
+                    const badge = document.createElement('span');
+                    badge.className = 'tw-tile-badge';
+                    badge.id = `t-badge-${i}`;
+                    badge.textContent = 'x' + mults[i].toFixed(2);
+                    tile.appendChild(badge);
+                }
+                row.appendChild(tile);
+            }
+            board.appendChild(row);
+        }
+    }
+
     function startTower() {
         tBet = clampBet(document.getElementById('t-bet').value);
         document.getElementById('t-bet').value = tBet;
         if(tBet > userData.chips || tBet < MIN_BET) return;
-        userData.chips -= tBet; addProfit('tower', -tBet); updateUI(); tActive = true; tLevel = 0;
-        document.getElementById('t-start').disabled = true; document.getElementById('t-cash').classList.add('hidden');
-        const board = document.getElementById('tower-board'); board.innerHTML = '';
-        for(let i=0; i<8; i++) {
-            const floor = document.createElement('div'); floor.style.display='flex'; floor.style.gap='5px'; floor.id=`floor-${i}`;
-            for(let j=0; j<3; j++) {
-                const tile = document.createElement('div'); tile.className='tile'; tile.style.opacity = (i===0)?'1':'0.3';
-                tile.onclick = () => {
-                    if(!tActive || i !== tLevel) return;
-                    if(j === Math.floor(Math.random()*3)) { tile.innerHTML='💥'; tile.classList.add('bomb'); play('boom'); tActive=false; document.getElementById('t-start').disabled=false; addHistory("Tower", tBet, 0, -tBet); }
-                    else { tile.innerHTML='💎'; tile.classList.add('gem'); play('star'); tLevel++; if(tLevel===8) cashoutTower(); else { document.getElementById('t-cash').classList.remove('hidden'); Array.from(document.getElementById(`floor-${tLevel}`).children).forEach(t=>t.style.opacity='1'); } }
-                };
-                floor.appendChild(tile);
-            }
-            board.appendChild(floor);
+        tCurrentRisk = document.getElementById('t-risk').value;
+        userData.chips -= tBet; addProfit('tower', -tBet); updateUI();
+        tActive = true; tLevel = 0;
+        document.getElementById('t-start').disabled = true;
+        document.getElementById('t-risk').disabled = true;
+        document.getElementById('t-bet').disabled = true;
+        document.getElementById('t-cash').classList.add('hidden');
+        document.getElementById('t-mult-disp').textContent = '1.00×';
+        document.getElementById('t-profit-disp').value = '0.00 ⭐';
+        document.getElementById('tower-status').textContent = 'Choose a tile!';
+
+        buildTowerBoard();
+
+        tBombs = [];
+        const bombCount = tGetBombs();
+        for(let i = 0; i < TOWER_ROWS; i++) {
+            let bombs = new Set();
+            while(bombs.size < bombCount) bombs.add(Math.floor(Math.random() * tGetCols()));
+            tBombs.push(bombs);
+        }
+        tActivateRow(0);
+    }
+
+    function tActivateRow(rowIdx) {
+        for(let j = 0; j < tGetCols(); j++) {
+            const tile = document.getElementById(`t-tile-${rowIdx}-${j}`);
+            if(!tile) return;
+            tile.className = 'tw-tile tw-active';
+            tile.onclick = () => tClickTile(rowIdx, j);
         }
     }
-    function cashoutTower() { if(!tActive) return; let m = tMults[tLevel-1]; let win = Math.floor(tBet*m); userData.chips += win; play('win'); showWinOverlay(m, win); addHistory("Tower", tBet, m, win); addProfit('tower', win); tActive=false; updateUI(); document.getElementById('t-start').disabled=false; document.getElementById('t-cash').classList.add('hidden'); }
+
+    function tClickTile(rowIdx, colIdx) {
+        if(!tActive || rowIdx !== tLevel) return;
+        const tile = document.getElementById(`t-tile-${rowIdx}-${colIdx}`);
+        const mults = tGetMults();
+
+        if(tBombs[rowIdx].has(colIdx)) {
+            tile.innerHTML = '💥';
+            tile.className = 'tw-tile tw-bomb';
+            tile.onclick = null;
+            for(let j = 0; j < tGetCols(); j++) {
+                if(j !== colIdx) {
+                    const t2 = document.getElementById(`t-tile-${rowIdx}-${j}`);
+                    if(tBombs[rowIdx].has(j)) { t2.innerHTML = '💥'; t2.className = 'tw-tile tw-bomb'; }
+                    else { t2.className = 'tw-tile tw-safe'; }
+                    t2.onclick = null;
+                }
+            }
+            play('boom'); tActive = false;
+            document.getElementById('tower-status').textContent = '💥 Boom! You lost!';
+            document.getElementById('t-mult-disp').textContent = '0×';
+            document.getElementById('t-profit-disp').value = `-${tBet} ⭐`;
+            document.getElementById('t-start').disabled = false;
+            document.getElementById('t-risk').disabled = false;
+            document.getElementById('t-bet').disabled = false;
+            document.getElementById('t-cash').classList.add('hidden');
+            addHistory("Tower", tBet, 0, -tBet);
+        } else {
+            tile.innerHTML = '💎';
+            tile.className = 'tw-tile tw-gem';
+            tile.onclick = null;
+            for(let j = 0; j < tGetCols(); j++) {
+                if(j !== colIdx) {
+                    const t2 = document.getElementById(`t-tile-${rowIdx}-${j}`);
+                    t2.className = 'tw-tile tw-safe';
+                    t2.onclick = null;
+                }
+            }
+            play('star'); tLevel++;
+            const m = mults[rowIdx];
+            const potentialWin = Math.floor(tBet * m);
+            document.getElementById('t-mult-disp').textContent = m.toFixed(2) + '×';
+            document.getElementById('t-profit-disp').value = `+${potentialWin} ⭐`;
+            if(tLevel === TOWER_ROWS) {
+                cashoutTower();
+            } else {
+                document.getElementById('tower-status').textContent = `Floor ${tLevel}/${TOWER_ROWS} — keep climbing!`;
+                document.getElementById('t-cash').classList.remove('hidden');
+                tActivateRow(tLevel);
+            }
+        }
+    }
+
+    function cashoutTower() {
+        if(!tActive) return;
+        const m = tGetMults()[tLevel - 1];
+        const win = Math.floor(tBet * m);
+        userData.chips += win; play('win');
+        showWinOverlay(m, win);
+        addHistory("Tower", tBet, m, win);
+        addProfit('tower', win);
+        tActive = false; updateUI();
+        document.getElementById('t-start').disabled = false;
+        document.getElementById('t-risk').disabled = false;
+        document.getElementById('t-bet').disabled = false;
+        document.getElementById('t-cash').classList.add('hidden');
+        document.getElementById('tower-status').textContent = `✅ Cashed out at ${m.toFixed(2)}×!`;
+    }
 
     // BLACKJACK & BACCARAT (Simplified helper)
     let deck = [];
@@ -1722,13 +1934,23 @@
     };
     const RJ_RARITY_COLORS = { rare:'#3498db', epic:'#9b59b6', legendary:'#f1c40f', mythic:'#e91e8c' };
 
-    function rjRollBee() {
+    function rjRollBee(isPlayer) {
         const r = Math.random() * 100;
         let rarity;
-        if(r < 0.05) rarity = 'mythic';
-        else if(r < 3.05) rarity = 'legendary';
-        else if(r < 10.05) rarity = 'epic';
-        else rarity = 'rare';
+        // Player has slightly reduced luck — bot gets better rare chances
+        if(isPlayer) {
+            // Player: rare threshold raised (harder to get good bee)
+            if(r < 0.05) rarity = 'mythic';
+            else if(r < 3.05) rarity = 'legendary';
+            else if(r < 10.05) rarity = 'epic';
+            else rarity = 'rare';
+        } else {
+            // Bot: slightly better luck
+            if(r < 0.10) rarity = 'mythic';
+            else if(r < 4.10) rarity = 'legendary';
+            else if(r < 13.10) rarity = 'epic';
+            else rarity = 'rare';
+        }
         const pool = RJ_BEES[rarity];
         const bee = pool[Math.floor(Math.random() * pool.length)];
         return { ...bee, rarity };
@@ -1767,8 +1989,8 @@
 
         setTimeout(() => {
             pCard.classList.remove('spinning'); bCard.classList.remove('spinning');
-            const playerBee = rjRollBee();
-            const botBee = rjRollBee();
+            const playerBee = rjRollBee(true);
+            const botBee = rjRollBee(false);
 
             // Show player bee
             document.getElementById('rj-p-icon').textContent = playerBee.icon;
@@ -1788,13 +2010,14 @@
             resultEl.style.display = 'block';
 
             if(playerBee.coins > botBee.coins) {
-                const win = Math.floor(playerBee.coins * 1.5);
+                const mult = playerBee.coins * 0.01;
+                const win = Math.floor(bet * mult);
                 userData.chips += win; play('win');
-                showWinOverlay(1.5, win);
-                addHistory("Royal Jelly", bet, 1.5, win);
+                showWinOverlay(mult, win);
+                addHistory("Royal Jelly", bet, mult, win);
                 addProfit('royaljelly', win);
                 resultEl.className = 'rj-result win';
-                resultEl.innerHTML = `🌹 YOUR BEE WINS! +${win} ⭐ <span style="color:#aaa;font-size:13px;">(${playerBee.coins} × 1.5)</span><br><small>${playerBee.name} (${playerBee.coins}) beats ${botBee.name} (${botBee.coins})</small>`;
+                resultEl.innerHTML = `🌹 YOUR BEE WINS! +${win} ⭐ <span style="color:#aaa;font-size:13px;">(bet × ${playerBee.coins} × 0.01 = ${mult.toFixed(2)}×)</span><br><small>${playerBee.name} (${playerBee.coins}) beats ${botBee.name} (${botBee.coins})</small>`;
             } else if(playerBee.coins === botBee.coins) {
                 userData.chips += bet; addProfit('royaljelly', bet);
                 resultEl.className = 'rj-result';
