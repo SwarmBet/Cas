@@ -1087,10 +1087,11 @@
     }
 
     const sfx = {
-        star: "https://cdn.discordapp.com/attachments/1090308530348757122/1473461724018376704/sigmaman1432.mp3",
-        win: "https://cdn.discordapp.com/attachments/1090308530348757122/1473821791133630738/roblox-old-winning-sound-effect.mp3",
-        boom: "https://raw.githubusercontent.com/theking9x/Roblox-Sounds/main/UIPresentation.mp3",
-        rSpin: "https://cdn.discordapp.com/attachments/1027983822702248026/1473788416624951418/Lucky_wheel_spin_sound_effect.mp3",
+        star:          "https://cdn.discordapp.com/attachments/1090308530348757122/1473461724018376704/sigmaman1432.mp3",
+        win:           "https://cdn.discordapp.com/attachments/1090308530348757122/1473821791133630738/roblox-old-winning-sound-effect.mp3",
+        boom:          "https://www.myinstants.com/media/sounds/vine-boom.mp3",
+        rSpin:         "https://cdn.discordapp.com/attachments/1027983822702248026/1473788416624951418/Lucky_wheel_spin_sound_effect.mp3",
+        card:          "https://cdn.discordapp.com/attachments/1090308530348757122/1473815893040562176/2026-02-18_23-55-17_mp3cut.net_1.mp3",
         discord_login: "https://www.myinstants.com/media/sounds/discord-notification.mp3",
         admin_give:    "https://www.myinstants.com/media/sounds/cash-register-sound-effect.mp3",
         admin_reset:   "https://www.myinstants.com/media/sounds/vine-boom.mp3",
@@ -1098,7 +1099,12 @@
     };
 
     function initAudio() { audioReady = true; }
-    function play(name) { if(!audioReady) return; const a = new Audio(sfx[name]); a.volume = 0.4; a.play().catch(()=>{}); }
+    function play(name) {
+        if(!audioReady || !sfx[name]) return;
+        const a = new Audio(sfx[name]);
+        a.volume = name === 'win' ? 0.2 : name === 'card' ? 0.5 : 0.4;
+        a.play().catch(()=>{});
+    }
 
     // --- AUTH & CORE ---
     async function auth(type) {
@@ -1676,6 +1682,7 @@
         for(let i=deck.length-1; i>0; i--) { const j = Math.floor(Math.random()*(i+1)); [deck[i], deck[j]] = [deck[j], deck[i]]; }
     }
     function renderCard(card, target) {
+        play('card');
         const div = document.createElement('div'); div.className = `card-ui ${['♥','♦'].includes(card.s)?'red':''}`;
         div.innerHTML = `<div>${card.v}</div><div style="font-size:12px">${card.s}</div>`; document.getElementById(target).appendChild(div);
     }
@@ -2010,14 +2017,14 @@
             resultEl.style.display = 'block';
 
             if(playerBee.coins > botBee.coins) {
-                const mult = playerBee.coins * 0.01;
+                const mult = playerBee.coins * 0.1;
                 const win = Math.floor(bet * mult);
                 userData.chips += win; play('win');
                 showWinOverlay(mult, win);
                 addHistory("Royal Jelly", bet, mult, win);
                 addProfit('royaljelly', win);
                 resultEl.className = 'rj-result win';
-                resultEl.innerHTML = `🌹 YOUR BEE WINS! +${win} ⭐ <span style="color:#aaa;font-size:13px;">(bet × ${playerBee.coins} × 0.01 = ${mult.toFixed(2)}×)</span><br><small>${playerBee.name} (${playerBee.coins}) beats ${botBee.name} (${botBee.coins})</small>`;
+                resultEl.innerHTML = `🌹 YOUR BEE WINS! +${win} ⭐ <span style="color:#aaa;font-size:13px;">(bet × ${playerBee.coins} coins × 0.1 = ${mult.toFixed(2)}×)</span><br><small>${playerBee.name} (${playerBee.coins}) beats ${botBee.name} (${botBee.coins})</small>`;
             } else if(playerBee.coins === botBee.coins) {
                 userData.chips += bet; addProfit('royaljelly', bet);
                 resultEl.className = 'rj-result';
