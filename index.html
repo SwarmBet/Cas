@@ -1283,6 +1283,7 @@
         const admins = ["discord_595767263374737409", "discord_863482425417662475"];
         if(admins.includes(currentUser)) document.getElementById('link-admin').classList.remove('hidden');
         buildRoulette(); updateUI();
+        document.getElementById('pf-float-btn').classList.remove('hidden');
         // Start anticheat after a brief delay (let updateUI settle)
         setTimeout(() => acInit(userData.chips), 1500);
         // Tower risk change → rebuild board preview
@@ -2989,7 +2990,7 @@
 </div>
 
 <!-- Floating Provably Fair Button -->
-<div class="pf-float-btn" onclick="pfOpen()">
+<div class="pf-float-btn hidden" id="pf-float-btn" onclick="pfOpen()">
     <span class="pf-float-dot"></span>
     <span class="pf-float-shield">⬡</span>
     <span class="pf-float-label">Provably Fair</span>
