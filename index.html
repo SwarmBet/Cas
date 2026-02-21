@@ -255,6 +255,48 @@
         .pf-footer-code { font-size:10px; color:#374151; }
         .nav-item.pf-nav { color:#22c55e !important; }
         .nav-item.pf-nav:hover { border-color:#22c55e !important; }
+
+        /* ── Floating PF Button ── */
+        .pf-float-btn {
+            position: fixed;
+            bottom: 18px;
+            right: 18px;
+            z-index: 4000;
+            background: #0d0f12;
+            border: 1px solid #22c55e;
+            border-radius: 10px;
+            padding: 7px 13px;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            cursor: pointer;
+            box-shadow: 0 0 16px rgba(34,197,94,0.18);
+            transition: all .2s;
+            text-decoration: none;
+        }
+        .pf-float-btn:hover {
+            background: #111827;
+            box-shadow: 0 0 28px rgba(34,197,94,0.35);
+            transform: translateY(-1px);
+        }
+        .pf-float-dot {
+            width: 7px; height: 7px;
+            background: #22c55e;
+            border-radius: 50%;
+            animation: pfPulse 2s infinite;
+        }
+        @keyframes pfPulse {
+            0%,100% { opacity:1; transform:scale(1); }
+            50% { opacity:.5; transform:scale(1.3); }
+        }
+        .pf-float-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: #22c55e;
+            letter-spacing: 0.5px;
+            font-family: 'Courier New', monospace;
+        }
+        .pf-float-shield { font-size: 14px; }
     </style>
 </head>
 <body onclick="initAudio()">
@@ -2747,6 +2789,13 @@
             <iframe src="data:application/pdf;base64,JVBERi0xLjQKJZOMi54gUmVwb3J0TGFiIEdlbmVyYXRlZCBQREYgZG9jdW1lbnQgKG9wZW5zb3VyY2UpCjEgMCBvYmoKPDwKL0YxIDIgMCBSIC9GMiAzIDAgUgo+PgplbmRvYmoKMiAwIG9iago8PAovQmFzZUZvbnQgL0hlbHZldGljYSAvRW5jb2RpbmcgL1dpbkFuc2lFbmNvZGluZyAvTmFtZSAvRjEgL1N1YnR5cGUgL1R5cGUxIC9UeXBlIC9Gb250Cj4+CmVuZG9iagozIDAgb2JqCjw8Ci9CYXNlRm9udCAvSGVsdmV0aWNhLUJvbGQgL0VuY29kaW5nIC9XaW5BbnNpRW5jb2RpbmcgL05hbWUgL0YyIC9TdWJ0eXBlIC9UeXBlMSAvVHlwZSAvRm9udAo+PgplbmRvYmoKNCAwIG9iago8PAovQ29udGVudHMgOSAwIFIgL01lZGlhQm94IFsgMCAwIDU5NS4yNzU2IDg0MS44ODk4IF0gL1BhcmVudCA4IDAgUiAvUmVzb3VyY2VzIDw8Ci9Gb250IDEgMCBSIC9Qcm9jU2V0IFsgL1BERiAvVGV4dCAvSW1hZ2VCIC9JbWFnZUMgL0ltYWdlSSBdCj4+IC9Sb3RhdGUgMCAvVHJhbnMgPDwKCj4+IAogIC9UeXBlIC9QYWdlCj4+CmVuZG9iago1IDAgb2JqCjw8Ci9Db250ZW50cyAxMCAwIFIgL01lZGlhQm94IFsgMCAwIDU5NS4yNzU2IDg0MS44ODk4IF0gL1BhcmVudCA4IDAgUiAvUmVzb3VyY2VzIDw8Ci9Gb250IDEgMCBSIC9Qcm9jU2V0IFsgL1BERiAvVGV4dCAvSW1hZ2VCIC9JbWFnZUMgL0ltYWdlSSBdCj4+IC9Sb3RhdGUgMCAvVHJhbnMgPDwKCj4+IAogIC9UeXBlIC9QYWdlCj4+CmVuZG9iago2IDAgb2JqCjw8Ci9QYWdlTW9kZSAvVXNlTm9uZSAvUGFnZXMgOCAwIFIgL1R5cGUgL0NhdGFsb2cKPj4KZW5kb2JqCjcgMCBvYmoKPDwKL0F1dGhvciAoXChhbm9ueW1vdXNcKSkgL0NyZWF0aW9uRGF0ZSAoRDoyMDI2MDIyMTAyNTUyNyswMCcwMCcpIC9DcmVhdG9yIChcKHVuc3BlY2lmaWVkXCkpIC9LZXl3b3JkcyAoKSAvTW9kRGF0ZSAoRDoyMDI2MDIyMTAyNTUyNyswMCcwMCcpIC9Qcm9kdWNlciAoUmVwb3J0TGFiIFBERiBMaWJyYXJ5IC0gXChvcGVuc291cmNlXCkpIAogIC9TdWJqZWN0IChcKHVuc3BlY2lmaWVkXCkpIC9UaXRsZSAoXChhbm9ueW1vdXNcKSkgL1RyYXBwZWQgL0ZhbHNlCj4+CmVuZG9iago4IDAgb2JqCjw8Ci9Db3VudCAyIC9LaWRzIFsgNCAwIFIgNSAwIFIgXSAvVHlwZSAvUGFnZXMKPj4KZW5kb2JqCjkgMCBvYmoKPDwKL0ZpbHRlciBbIC9BU0NJSTg1RGVjb2RlIC9GbGF0ZURlY29kZSBdIC9MZW5ndGggMTg2MQo+PgpzdHJlYW0KR2F0bTs5OTdnYyZBSVY6KSFtcjghXzN1Ol1tU1UwZSJUOS8rQmMwQkpRdWxGW15oTWtMU1g7NWhmamc+VjAqR2lncVg1WGE7LGpSbzAkXjArTkQxP3MnKWwycEMkY2RCKktvPGA8b11jVjZHMVBEXGI6KERrXTRMazlXTUlCKE1NbklPcllmImdicD9JV21dclU4NWtOLXJVbkgscV8lVjxcSkJHJTFMazcxQWpBWWRRKV5NamJDU21wU0xOSGlJXm4jT0tnYztBcEZIJj4jXSpSOGdjZFddWjItcyspWldfbnNsUCokMTk4c3BiTjtARWBkaWBVcERWP1ZcIyxQJ2ZjSl5qUzVYRy8yMi0nJ0kvQiVNaE9cRW5WJ00rLktkbGNCTzd0R2hfL2AzNFJCVW1tdEgpaE1hcG1eS05HKT9aIldVUEtaJyVPK1ZlLDFRcFI3SD1ZWU9XOlBwdT0/XEZZc086W282QSE/XEwkOl1kbDZXc2NFPjJaRThmMzZfUThaaD1yaFQ9TENpVDFAKyhgbjdIaTQhPywlLkxgZiw0OFNwUylLLkJfdEVdT29AXD9HT1dPJlZNNCU8NScsSkY/ZydIKDVqaFBVImtvXU1GLUdmL041Tls+IzVpdVJkNTYubDpAQkVMRWNpdVEyaSY5JCM/N2A0IyFeOUI3N19uREQwS1dFb2dRKyJiRTZvVkNxa1drdSZiVD5jSExDXXQpbmx0VkdAIigrR3ReOCEkWSxhWXAhY0BQLjpsK3EuOkIuRi9NJUVXSj9UKmhMNDk/QFk1SFxUIyxQVj9JNHNDXChFUzw4W2JOamhYOFg1MyNERmtkYzhyX0ZVW0txIjUqK3BeTCFJajk4WU5tJTFyKSlmSENiUiI4TCFxLilWPUtgPz9hQnA8PzohJkdrNF89aUcncXM1WCFCVGtDVCtLQkVPblBedXBRKjY2IzRqSDdLREpfWTI+dGZfJzViYSNIOllEQkJpVyg4MXU2KXBvWDVLaUNAaCRLSldxVCJqJSpDcGIiNmY0dXMuZmhQXyIrSmE7VVxXXUwtWVhRWCVEUyZDaV1iLyk1Q3FHRWA0O1UjNS84dVEnXUNjQU1CK1dbW1g8YFBtUEktVDUyLT5mQ1FpWSdcXkNvYFtoSDgrKnJYUUxOTTxhK2FIZS9zSltzU21UKEVxW1VnJGtoU1VjVCwmTEhAZ19naSwlRFdlRDonSlJBJl0tTUJDRkMqYUBjVmowWV0lJGE0XE9rUjY9VEdZKyxQT1JjSihOLWRiMGozLFswLjlER2onTSxcQnVXXi1FNV5jOjQ1UChybF9XVHUzNS1bLmVgOC1kOlYjSi42XGhGNzVVNipMUE4vPWFtOGJYWThTL2Q7K2U5P0xGMXJNUFQ3QEhoUENpUk5fPlErY1QhZjteZWI4dSszV2k3LjVwSj9RWlAhYExHbi5DbFInXTE+bWhxKmUsSClTTDdaMiFWVUdnJSNXUThLVjRFYTNKPiNuVkQuPC1iPE4+dEIrb0dnLS40Wl9yJl51Ly5WPFwnJF4qMz9OXiolPkM7MTBvRlptKD8zbkRxQFQrcF1Jby5HPyc+bG00O0dsU2FSPTFLWWJnM0ZmQUdeS1xhOFUuOyJXRSYjS0ZaXy1MXiNbdDxvVkliJVIuR19iMCstUyV1M0Y+XE5TTnNQXnRhKihBRlZCUCVHZz1XMD4+Sks8ZkAtbUA7RWJlTi9bSW1ibztYdG9aWC0pXy1wQzVrWzwibmcsaGA/QyNuLWwkXCxTXzVPUVFRZk0kbEpIL0RTNUg3UThNSmJvS1s+dUNGI0RyUUxRN1ZDNVU8Q0Q3IkNJbjtSLmFRLyVPZDsxYl1XXDo+dSFSOXJcOGciPjBMSCxDQlZuO10jWHMiXEhPNyE/OCtrLHJGNGxzXCdLKCZCUm1tI2FjSDxQSCh1Qig/QTtdUkU4TG5Ba3FxJVE6N1ZdYjtGbVdSLU42OWZOQ1A3WFBNXS1YNVBoUXAuMjk9b3FJIVdwKzdSSlJvV2VQPUUiNUxoXV9cSz5qLFpfQUkuVkdoNEFIWE07LDwkMlA3bicjYGhgZVo5cFRdTW9mMC4ycWk0XCE0ZUdgNCokalUjLT87QVFLamFUKzNkQ1NDaDpwWjQ5XVAiaCxLNUE4Y246ViEjSkQycllVMkJkSygxayI5SSxKN0YyaUJIRnVyI2VhIzNIL2Zgak8yTVc/blo1OW81bkwoJjhZakVDTEs5N0UlXytHOVJsbTlKbzlLTSIjXC5gN2FYRFFyPTtmcUBjO0VjT1guRTgxLjNzIyIuNG1OZVY5PzlsUDUmY3EwNXM7Y1BrLitDYGxcMjZAP2JMKyl1MUM4KjlCZCs/YW9ePiw8T0RfPldxZ2NpXkIpJlc0LDdVPzNKUzVCTydvImxHUFohIlw7QmwlLytIJVYhSCs4X2BbKzlmV1ImPi1TOzxjLDU8ZkxFOllgJzxNNCt+PmVuZHN0cmVhbQplbmRvYmoKMTAgMCBvYmoKPDwKL0ZpbHRlciBbIC9BU0NJSTg1RGVjb2RlIC9GbGF0ZURlY29kZSBdIC9MZW5ndGggNDI1Cj4+CnN0cmVhbQpHYXRtdTpKXGhtJkI0LDonXnF0RzozWC5ZbUZFTT1CVCtaQ0hLNS41NVlfOGQ+OUo8P0xQY1dVb2pqUSNdOkc/c2hnOG9fM091bz5RLCMoQDMrQipdW0slNyVhSVtAOyJXbWFvWCY5MTNgRypQWFhgTjNoPVUla2pELFgoZ1lxX2JXRV9dZFdPMlc1JCVDI0lwPGhBJDYnWC42M0BqZVRQUEVnbXBdV2VKLjgkUmZxYUI8J2FVaUdsSiw1PFFGT1s6JW9PYkZyKWJwJ2tUbilTZm1qLXNDWjksSjdUOWJiXkhraC8yTDdGUloiPXNxO3MyPGteNjxmJldbK1RkTFs6SiIvakFZNV5fNmUka3NSMnI3ZDh1LyElRUFhYThwbzxwWzJwSkMkPGBqOi9Ga3VtMEZdSWM3Y2FCLjMoK0FMa211Xl0rXSVIaj4+cEZcZDJTZFFgOk9eWi8lTzFSUSVeX29oWi82JDw9dV1eTSh1c0daLj5QWFQ3LUlgcWg3QzkvX3ROU0NqdVpjL2guZWFAXUZIJUtkW3B0UmkvUyFRSGllJzRQYFl+PmVuZHN0cmVhbQplbmRvYmoKeHJlZgowIDExCjAwMDAwMDAwMDAgNjU1MzUgZiAKMDAwMDAwMDA2MSAwMDAwMCBuIAowMDAwMDAwMTAyIDAwMDAwIG4gCjAwMDAwMDAyMDkgMDAwMDAgbiAKMDAwMDAwMDMyMSAwMDAwMCBuIAowMDAwMDAwNTI0IDAwMDAwIG4gCjAwMDAwMDA3MjggMDAwMDAgbiAKMDAwMDAwMDc5NiAwMDAwMCBuIAowMDAwMDAxMDc2IDAwMDAwIG4gCjAwMDAwMDExNDEgMDAwMDAgbiAKMDAwMDAwMzA5MyAwMDAwMCBuIAp0cmFpbGVyCjw8Ci9JRCAKWzw2MGZlZjE4M2E0YThkN2QzYWNlOTA0NWVjMDhkNTUyYj48NjBmZWYxODNhNGE4ZDdkM2FjZTkwNDVlYzA4ZDU1MmI+XQolIFJlcG9ydExhYiBnZW5lcmF0ZWQgUERGIGRvY3VtZW50IC0tIGRpZ2VzdCAob3BlbnNvdXJjZSkKCi9JbmZvIDcgMCBSCi9Sb290IDYgMCBSCi9TaXplIDExCj4+CnN0YXJ0eHJlZgozNjA5CiUlRU9GCg==" style="flex:1; border:none; width:100%; background:#fff;" type="application/pdf"></iframe>
         </div>
     </div>
+<!-- Floating Provably Fair Button -->
+<div class="pf-float-btn" onclick="pfOpen()">
+    <span class="pf-float-dot"></span>
+    <span class="pf-float-shield">⬡</span>
+    <span class="pf-float-label">Provably Fair</span>
+</div>
+
 <!-- ══════════════ PROVABLY FAIR MODAL ══════════════ -->
 <div id="pf-overlay" class="pf-overlay" onclick="pfOverlayClick(event)">
   <div class="pf-modal">
